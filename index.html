@@ -86,6 +86,16 @@
             <p>Join the conversation and help shape the future of Karen Ward</p>
             <a href="/pages/forum.html" class="btn btn-large">Ask Maureen Directly</a>
         </div>
+        <div style="margin-top: 1.5rem; pointer-events: auto; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <a href="/pages/forum.html" class="btn">Join the Conversation</a>
+    <a href="/pages/get-involved.html" class="btn btn-outline">Volunteer</a>
+    <a href="/pdf/manifesto.html" target="_blank" class="btn" style="background: #27ae60;">📄 Download Manifesto PDF</a>
+</div>
+<div style="margin-top: 1.5rem; pointer-events: auto; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <a href="/pages/forum.html" class="btn">Join the Conversation</a>
+    <a href="/pages/get-involved.html" class="btn btn-outline">Volunteer</a>
+    <a href="/pdf/manifesto.html" target="_blank" class="btn" style="background: #27ae60;">📄 Download Manifesto PDF</a>
+</div>
     </section>
 
     <!-- Q&A Panel -->
@@ -139,26 +149,7 @@
         window.WS_URL = config.WS_URL;
         window.API_URL = config.API_URL;
     </script>
-    <script type="importmap">
-    {
-        "imports": {
-            "/config.js": "/config.js"
-        }
-    }
-</script>
-
-<script type="module">
-    import config from '/config.js';
-    
-    // Make config globally available
-    window.WS_URL = config.WS_URL;
-    window.API_URL = config.API_URL;
-    
-    console.log('Using WebSocket URL:', window.WS_URL);
-    
-    // Now your existing WebSocket code can use window.WS_URL
-    // Rest of your WebSocket code here...
-</script>
+    <script>
         <!-- // WebSocket connection for Q&A
         const WS_URL = window.WS_URL;
         let socket = null;
