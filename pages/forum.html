@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum | Maureen Ndungu for MCA</title>
+    <link rel="stylesheet" href="/css/campaign.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="logo">
+            <img src="/images/maureen/portrait.jpg" alt="Maureen Ndungu" class="logo-img">
+            <div>
+                <h2>Maureen Ndungu</h2>
+                <p>MCA Candidate - Karen Ward</p>
+            </div>
+        </div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About Maureen</a></li>
+            <li><a href="manifesto.html">Manifesto</a></li>
+            <li><a href="forum.html" class="active">Community Forum</a></li>
+            <li><a href="get-involved.html">Get Involved</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero" style="margin-top: 70px;">
+        <h1>Community Forum</h1>
+        <p class="tagline">Your Voice Matters - Connect Directly with Maureen</p>
+    </div>
+
+    <div class="container">
+        <div class="forum-container">
+            <div class="forum-header">
+                <h2>🗣️ Speak Directly to Maureen</h2>
+                <p>Ask questions, share ideas, and engage in community dialogue</p>
+                <img src="/images/maureen/portrait.jpg" alt="Maureen" style="width: 80px; height: 80px; border-radius: 50%; margin-top: 1rem; border: 3px solid white;">
+            </div>
+            
+            <div class="forum-stats">
+                <span id="user-count"><i class="fas fa-users"></i> Active: <span id="active-count">0</span></span>
+                <span><i class="fas fa-comments"></i> Questions: <span id="question-count">0</span></span>
+                <span><i class="fas fa-check-circle"></i> Answered: <span id="answered-count">0</span></span>
+            </div>
+            
+            <div id="qa-messages" class="qa-messages" style="height: 400px; overflow-y: auto; padding: 1rem;"></div>
+            
+            <div style="padding: 1rem; background: white; border-top: 1px solid #ddd;">
+                <form id="qa-form">
+                    <input type="text" id="qa-name" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea id="qa-question" placeholder="What would you like to ask Maureen about Karen Ward?" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                    <button type="submit" class="btn" style="margin-top: 10px;">Submit Question</button>
+                </form>
+                <p class="note" style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+                    <i class="fas fa-info-circle"></i> Questions will be reviewed and answered by Maureen's team. Maureen personally responds to community concerns.
+                </p>
+            </div>
+        </div>
+        
+        <div class="manifesto-section" style="margin-top: 2rem;">
+            <h2>💡 Featured Topics</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Youth Employment</h3>
+                        <p>Share your ideas on how we can create more opportunities for young people in Karen Ward.</p>
+                        <button onclick="askFeatured('youth')" class="btn" style="margin-top: 1rem;">Ask about this</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Road Infrastructure</h3>
+                        <p>Which roads in Karen need urgent attention? Tell Maureen about your concerns.</p>
+                        <button onclick="askFeatured('roads')" class="btn" style="margin-top: 1rem;">Report an issue</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Environment & Waste</h3>
+                        <p>Suggestions for improving waste management and protecting our green spaces.</p>
+                        <button onclick="askFeatured('environment')" class="btn" style="margin-top: 1rem;">Share ideas</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>&copy; 2026 Maureen Ndungu for MCA - Karen Ward. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/navigation.js"></script>
+    <script>
+        // WebSocket connection for forum
+        const WS_URL = 'ws://localhost:3001';
+        let socket = null;
+        
+        function connectWebSocket() {
+            socket = new WebSocket(WS_URL);
+            
+            socket.onopen = () => {
+                console.log('Connected to forum');
+                document.getElementById('active-count').textContent = 'Connected';
+            };
+            
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === 'history' || data.type === 'newQuestion') {
+                    loadQuestions();
+                }
+                if (data.type === 'userCount') {
+                    document.getElementById('active-count').textContent = data.count;
+                }
+            };
+            
+            socket.onclose = () => {
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+        
+        function loadQuestions() {
+            fetch('http://localhost:3001/api/questions')
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('qa-messages');
+                    document.getElementById('question-count').textContent = data.total;
+                    document.getElementById('answered-count').textContent = data.questions.filter(q => q.answered).length;
+                    
+                    container.innerHTML = data.questions.map(q => `
+                        <div class="question-item" style="background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid ${q.answered ? '#27ae60' : '#e67e22'}">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <strong style="color: #e67e22;">${escapeHtml(q.name)}</strong>
+                                <small>${new Date(q.timestamp).toLocaleString()}</small>
+                            </div>
+                            <div style="margin-bottom: 0.5rem;">${escapeHtml(q.question)}</div>
+                            ${q.answered ? `
+                                <div style="background: #e8f5e9; padding: 0.8rem; border-radius: 5px; margin-top: 0.5rem;">
+                                    <strong style="color: #27ae60;">👩‍💼 Maureen's Response:</strong>
+                                    <div>${escapeHtml(q.answer)}</div>
+                                </div>
+                            ` : '<div style="color: #999; font-size: 0.8rem;">⏳ Awaiting Maureen\'s response...</div>'}
+                            <div style="margin-top: 0.5rem;">
+                                <button onclick="voteQuestion(${q.id})" style="background: none; border: none; cursor: pointer;">👍 ${q.votes || 0}</button>
+                            </div>
+                        </div>
+                    `).join('');
+                });
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function voteQuestion(id) {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({ type: 'vote', questionId: id, voteType: 'up' }));
+            }
+        }
+        
+        function askFeatured(topic) {
+            const questions = {
+                youth: "What specific programs are you planning for youth employment in Karen Ward?",
+                roads: "Which roads in Karen Ward are your priority for repair and improvement?",
+                environment: "What is your plan for improving waste management and protecting our environment?"
+            };
+            document.getElementById('qa-question').value = questions[topic];
+            document.getElementById('qa-question').focus();
+        }
+        
+        document.getElementById('qa-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('qa-name').value || 'Karen Resident';
+            const question = document.getElementById('qa-question').value;
+            
+            if (question && socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({ type: 'question', name, question }));
+                document.getElementById('qa-question').value = '';
+                alert('Your question has been submitted! Maureen will review and respond.');
+            }
+        });
+        
+        connectWebSocket();
+        loadQuestions();
+        setInterval(loadQuestions, 5000);
+    </script>
+</body>
+</html>
