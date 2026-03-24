@@ -9,47 +9,64 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Add a simple root route to show the server is running
+app.get('/', (req, res) => {
+    res.json({
+        status: 'online',
+        message: 'Maureen Ndungu Campaign Q&A Server',
+        endpoints: {
+            questions: '/api/questions',
+            websocket: 'ws://' + req.get('host'),
+            admin: '/admin.html'
+        },
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Serve admin.html if it exists
+app.get('/admin.html', (req, res) => {
+    res.sendFile(__dirname + '/admin.html');
+});
+
 // Create HTTP server
 const server = http.createServer(app);
 
 // Create WebSocket server
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ 
+    server,
+    verifyClient: (info, cb) => {
+        // Allow all connections (CORS)
+        cb(true);
+    }
+});
 
 // Store connected clients and questions
 const clients = new Set();
-let questions = []; // Store all questions with metadata
+let questions = [];
 let nextQuestionId = 1;
-
-// Question moderation settings
-const MODERATION = {
-    enabled: true, // Set to false for auto-posting
-    bannedWords: ['spam', 'offensive', 'inappropriate'],
-    maxQuestionLength: 500,
-    minQuestionLength: 5
-};
 
 // Campaign Q&A Data
 const campaignInfo = {
-    candidate: "Your Candidate Name",
-    platform: "Building a brighter future for all families",
-    socialMedia: "@CandidateForProgress",
-    website: "www.candidate2026.com"
+    candidate: "Maureen Ndungu",
+    ward: "Karen Ward",
+    constituency: "Langata",
+    platform: "Building a brighter future for Karen Ward"
 };
 
 // Helper function to moderate questions
 function moderateQuestion(question, name) {
-    // Check length
-    if (question.length < MODERATION.minQuestionLength) {
+    if (question.length < 5) {
         return { approved: false, reason: "Question is too short. Please provide more details." };
     }
     
-    if (question.length > MODERATION.maxQuestionLength) {
+    if (question.length > 500) {
         return { approved: false, reason: "Question is too long. Please be more concise." };
     }
     
-    // Check for banned words
+    // Add your moderation rules here
+    const bannedWords = ['spam', 'offensive'];
     const lowerQuestion = question.toLowerCase();
-    for (const bannedWord of MODERATION.bannedWords) {
+    for (const bannedWord of bannedWords) {
         if (lowerQuestion.includes(bannedWord)) {
             return { approved: false, reason: "Your question contains inappropriate language." };
         }
@@ -74,7 +91,7 @@ function sendQuestionHistory(client) {
     if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify({
             type: 'history',
-            questions: questions.slice(-50) // Send last 50 questions
+            questions: questions.slice(-50)
         }));
     }
 }
@@ -87,7 +104,7 @@ wss.on('connection', (ws, req) => {
     // Send welcome message
     ws.send(JSON.stringify({
         type: 'welcome',
-        message: 'Welcome to the Campaign Q&A! Ask your questions and engage with the community.',
+        message: 'Welcome to Maureen\'s Campaign Q&A! Ask your questions about Karen Ward.',
         campaignInfo: campaignInfo,
         activeUsers: clients.size
     }));
@@ -105,7 +122,7 @@ wss.on('connection', (ws, req) => {
     ws.on('message', (message) => {
         try {
             const data = JSON.parse(message);
-            console.log('Received:', data);
+            console.log('Received:', data.type);
             
             switch(data.type) {
                 case 'question':
@@ -114,14 +131,6 @@ wss.on('connection', (ws, req) => {
                     
                 case 'vote':
                     handleVote(ws, data);
-                    break;
-                    
-                case 'like':
-                    handleLike(ws, data);
-                    break;
-                    
-                case 'report':
-                    handleReport(ws, data);
                     break;
                     
                 default:
@@ -144,14 +153,12 @@ wss.on('connection', (ws, req) => {
         console.log('Client disconnected');
         clients.delete(ws);
         
-        // Broadcast updated user count
         broadcast({
             type: 'userCount',
             count: clients.size
         });
     });
     
-    // Handle errors
     ws.on('error', (error) => {
         console.error('WebSocket error:', error);
         clients.delete(ws);
@@ -162,7 +169,6 @@ wss.on('connection', (ws, req) => {
 function handleNewQuestion(client, data) {
     const { name, question } = data;
     
-    // Validate input
     if (!question || question.trim() === '') {
         client.send(JSON.stringify({
             type: 'error',
@@ -171,11 +177,9 @@ function handleNewQuestion(client, data) {
         return;
     }
     
-    // Sanitize inputs
-    const sanitizedName = name ? name.trim().substring(0, 50) : 'Anonymous Supporter';
-    const sanitizedQuestion = question.trim().substring(0, MODERATION.maxQuestionLength);
+    const sanitizedName = name ? name.trim().substring(0, 50) : 'Karen Resident';
+    const sanitizedQuestion = question.trim().substring(0, 500);
     
-    // Moderate the question
     const moderation = moderateQuestion(sanitizedQuestion, sanitizedName);
     
     if (!moderation.approved) {
@@ -186,44 +190,36 @@ function handleNewQuestion(client, data) {
         return;
     }
     
-    // Create question object
     const questionObj = {
         id: nextQuestionId++,
         name: sanitizedName,
         question: sanitizedQuestion,
         timestamp: new Date().toISOString(),
         votes: 0,
-        liked: false,
-        reported: false,
         answered: false,
         answer: null
     };
     
-    // Add to questions array
     questions.unshift(questionObj);
     
-    // Keep only last 200 questions
     if (questions.length > 200) {
         questions = questions.slice(0, 200);
     }
     
-    // Broadcast to all clients
     broadcast({
         type: 'newQuestion',
         question: questionObj
     });
     
-    // Send confirmation to the sender
     client.send(JSON.stringify({
         type: 'questionSubmitted',
         id: questionObj.id,
-        message: 'Your question has been submitted and is now live!'
+        message: 'Your question has been submitted! Maureen will review and respond soon.'
     }));
     
     console.log(`New question from ${sanitizedName}: ${sanitizedQuestion.substring(0, 50)}...`);
 }
 
-// Handle voting on questions
 function handleVote(client, data) {
     const { questionId, voteType } = data;
     const question = questions.find(q => q.id === questionId);
@@ -235,7 +231,6 @@ function handleVote(client, data) {
             question.votes--;
         }
         
-        // Broadcast vote update
         broadcast({
             type: 'voteUpdate',
             questionId: questionId,
@@ -244,63 +239,12 @@ function handleVote(client, data) {
     }
 }
 
-// Handle likes
-function handleLike(client, data) {
-    const { questionId } = data;
-    const question = questions.find(q => q.id === questionId);
-    
-    if (question) {
-        question.liked = !question.liked;
-        
-        broadcast({
-            type: 'likeUpdate',
-            questionId: questionId,
-            liked: question.liked
-        });
-    }
-}
-
-// Handle report (for moderation)
-function handleReport(client, data) {
-    const { questionId, reason } = data;
-    const question = questions.find(q => q.id === questionId);
-    
-    if (question && !question.reported) {
-        question.reported = true;
-        
-        // In a real campaign, this would notify moderators
-        console.log(`Question ${questionId} reported: ${reason}`);
-        
-        client.send(JSON.stringify({
-            type: 'reportReceived',
-            message: 'Thank you for reporting. Our team will review this question.'
-        }));
-    }
-}
-
-// API endpoint to get questions (for admin/moderators)
+// API endpoint to get questions
 app.get('/api/questions', (req, res) => {
     res.json({
         total: questions.length,
         questions: questions.slice(0, 100)
     });
-});
-
-// API endpoint to delete question (moderation)
-app.delete('/api/questions/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = questions.findIndex(q => q.id === id);
-    
-    if (index !== -1) {
-        questions.splice(index, 1);
-        broadcast({
-            type: 'questionDeleted',
-            questionId: id
-        });
-        res.json({ success: true });
-    } else {
-        res.status(404).json({ error: 'Question not found' });
-    }
 });
 
 // API endpoint to answer a question
@@ -327,14 +271,32 @@ app.post('/api/questions/:id/answer', express.json(), (req, res) => {
     }
 });
 
+// API endpoint to delete question
+app.delete('/api/questions/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = questions.findIndex(q => q.id === id);
+    
+    if (index !== -1) {
+        questions.splice(index, 1);
+        broadcast({
+            type: 'questionDeleted',
+            questionId: id
+        });
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ error: 'Question not found' });
+    }
+});
+
 // Start server
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`
-    🚀 Campaign Q&A Server Started!
-    📡 WebSocket server running on ws://localhost:${PORT}
-    🌐 HTTP API available on http://localhost:${PORT}/api/questions
-    👥 Ready to accept connections
+    🚀 Maureen Ndungu Campaign Q&A Server Started!
+    📡 WebSocket server: wss://maureen-campaign-qa.onrender.com
+    🌐 API: https://maureen-campaign-qa.onrender.com/api/questions
+    📊 Admin: https://maureen-campaign-qa.onrender.com/admin.html
+    👥 Server running on port ${PORT}
     `);
 });
 
@@ -342,13 +304,11 @@ server.listen(PORT, () => {
 process.on('SIGINT', () => {
     console.log('\nShutting down server...');
     
-    // Notify all clients
     broadcast({
         type: 'serverShutdown',
         message: 'The Q&A session is ending. Thank you for participating!'
     });
     
-    // Close all connections
     clients.forEach(client => {
         client.close();
     });
