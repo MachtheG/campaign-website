@@ -1,14 +1,20 @@
-/* Maureen Ndungu for Karen Ward - Clean Campaign Branding */
+/* Maureen Ndung'u Campaign - Prestigious Design */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 :root {
-    --primary: #e67e22;
-    --primary-dark: #d35400;
-    --secondary: #2c3e50;
-    --accent: #27ae60;
-    --text-light: #ecf0f1;
-    --text-dark: #2c3e50;
-    --bg-light: #f9f9f9;
-    --shadow: 0 2px 10px rgba(0,0,0,0.1);
-    --white: #ffffff;
+    --primary: #c9a03d;
+    --primary-dark: #b88b2a;
+    --primary-light: #e2c28b;
+    --secondary: #1a2a3a;
+    --secondary-light: #2c3e50;
+    --accent: #8b6b3d;
+    --gold: #d4af37;
+    --text-dark: #2c2c2c;
+    --text-light: #6c6c6c;
+    --bg-light: #fefaf5;
+    --bg-white: #ffffff;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --shadow-hover: 0 20px 40px rgba(0,0,0,0.12);
 }
 
 * {
@@ -18,15 +24,51 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
     line-height: 1.6;
     color: var(--text-dark);
     background: var(--bg-light);
 }
 
-/* Navigation */
+h1, h2, h3, h4, .logo h2, .hero h1, .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+h2:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--primary);
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Navigation - Elegant */
 .main-nav {
-    background: var(--white);
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(10px);
     box-shadow: var(--shadow);
     position: fixed;
     top: 0;
@@ -46,22 +88,27 @@ body {
 }
 
 .logo-img {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .logo h2 {
     color: var(--primary);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
 .logo p {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--secondary);
     margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
 .nav-links {
@@ -72,194 +119,221 @@ body {
     padding: 0;
 }
 
-.nav-links li {
-    margin: 0;
-    padding: 0;
-}
-
 .nav-links a {
     text-decoration: none;
     color: var(--secondary);
     font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
     transition: color 0.3s;
+    position: relative;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover:after,
+.nav-links a.active:after {
+    width: 100%;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--primary);
 }
 
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--primary);
-}
-
-/* Hero Section */
+/* Hero Section - Prestigious */
 .hero {
-    background: linear-gradient(135deg, var(--secondary) 0%, var(--primary-dark) 100%);
-    color: var(--white);
-    padding: 100px 20px 80px;
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+    color: white;
+    padding: 120px 20px 80px;
     text-align: center;
     margin-top: 70px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="rgba(201,160,61,0.05)" d="M0,0 L1000,0 L1000,1000 L0,1000 Z M500,200 L700,500 L500,800 L300,500 Z"/></svg>') repeat;
+    opacity: 0.1;
 }
 
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-img {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    border: 4px solid var(--white);
+    border: 4px solid var(--primary);
     margin-bottom: 1.5rem;
     object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .hero h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 0.5rem;
+    letter-spacing: 1px;
 }
 
 .tagline {
     font-size: 1.2rem;
     opacity: 0.95;
     margin-bottom: 0.5rem;
+    font-weight: 300;
 }
 
 .hero-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
     opacity: 0.9;
+    font-weight: 300;
 }
 
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-/* Buttons */
-.btn {
+/* Buttons - Elegant */
+.prestige-btn, .btn {
     display: inline-block;
-    padding: 12px 28px;
+    padding: 14px 32px;
     background: var(--primary);
-    color: var(--white);
+    color: var(--secondary);
     text-decoration: none;
     border-radius: 50px;
     transition: all 0.3s;
     border: none;
     cursor: pointer;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.btn:hover {
+.prestige-btn:hover, .btn:hover {
     background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(201,160,61,0.3);
+}
+
+.prestige-btn-outline, .btn-outline {
+    display: inline-block;
+    padding: 12px 28px;
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.prestige-btn-outline:hover, .btn-outline:hover {
+    background: var(--primary);
+    color: var(--secondary);
     transform: translateY(-2px);
 }
 
-.btn-outline {
-    background: transparent;
-    border: 2px solid var(--white);
-    color: var(--white);
-}
-
-.btn-outline:hover {
-    background: var(--white);
-    color: var(--primary);
-    border-color: var(--white);
-}
-
-.btn-large {
-    padding: 14px 32px;
-    font-size: 1.1rem;
-}
-
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--secondary);
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.section-title:after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: var(--primary);
-    margin: 0.5rem auto 0;
-}
-
-/* Cards */
-.card-grid {
+/* Cards - Elegant */
+.prestige-grid, .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
 }
 
-.card {
-    background: var(--white);
-    border-radius: 12px;
+.prestige-card, .card {
+    background: var(--bg-white);
+    border-radius: 16px;
     padding: 2rem;
     text-align: center;
     box-shadow: var(--shadow);
-    transition: transform 0.3s;
+    transition: all 0.3s;
+    border: 1px solid rgba(201,160,61,0.1);
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.prestige-card:hover, .card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-light);
 }
 
-.card-icon {
+.prestige-icon, .card-icon {
     font-size: 2.5rem;
     color: var(--primary);
     margin-bottom: 1rem;
 }
 
-.card h3 {
+.prestige-card h3, .card h3 {
     color: var(--secondary);
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     font-size: 1.3rem;
 }
 
-.card p {
-    color: #666;
-    line-height: 1.5;
+.prestige-card p, .card p {
+    color: var(--text-light);
+    font-weight: 300;
+    line-height: 1.7;
 }
 
-/* CTA Section */
-.cta-section {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: var(--white);
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.cta-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.cta-section p {
-    font-size: 1.1rem;
+/* Elegant Sections */
+.elegant-section, .manifesto-section {
+    background: var(--bg-white);
+    padding: 2rem;
     margin-bottom: 2rem;
-    opacity: 0.95;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(201,160,61,0.1);
+}
+
+.elegant-card {
+    background: var(--bg-white);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary);
+}
+
+/* Lists */
+.prestige-list, .promise-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.prestige-list li, .promise-list li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(201,160,61,0.2);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 300;
+}
+
+.prestige-list li:before, .promise-list li:before {
+    content: "✦";
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 /* Q&A Panel */
@@ -273,30 +347,33 @@ body {
 
 .toggle-btn {
     background: var(--primary);
-    color: var(--white);
+    color: var(--secondary);
     border: none;
     padding: 12px 24px;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.9rem;
+    font-weight: 600;
     box-shadow: var(--shadow);
-    transition: transform 0.2s;
+    transition: all 0.3s;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .toggle-btn:hover {
     transform: scale(1.05);
+    background: var(--primary-dark);
 }
 
 .qa-window {
     position: absolute;
     bottom: 60px;
     left: 0;
-    width: 350px;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    width: 380px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-hover);
     overflow: hidden;
+    border: 1px solid rgba(201,160,61,0.2);
 }
 
 .qa-window.hidden {
@@ -305,60 +382,27 @@ body {
 
 .qa-window h3 {
     background: var(--secondary);
-    color: var(--white);
-    padding: 12px;
+    color: white;
+    padding: 1rem;
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .qa-messages {
     max-height: 400px;
     overflow-y: auto;
     padding: 1rem;
-    background: #f5f5f5;
+    background: #fefaf5;
 }
 
 .question-item {
-    background: var(--white);
+    background: white;
     padding: 1rem;
     margin-bottom: 1rem;
-    border-radius: 8px;
+    border-radius: 12px;
     border-left: 3px solid var(--primary);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-#qa-form {
-    padding: 1rem;
-    background: var(--white);
-    border-top: 1px solid #ddd;
-}
-
-#qa-name, #qa-question {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-family: inherit;
-}
-
-#qa-question {
-    resize: vertical;
-}
-
-#qa-form button {
-    width: 100%;
-    background: var(--primary);
-    color: var(--white);
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-#qa-form button:hover {
-    background: var(--primary-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 /* Chatbot */
@@ -371,34 +415,35 @@ body {
 }
 
 .chatbot-toggle {
-    background: var(--accent);
-    color: var(--white);
+    background: var(--primary);
+    color: var(--secondary);
     border: none;
     padding: 12px 24px;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.9rem;
+    font-weight: 600;
     box-shadow: var(--shadow);
-    transition: transform 0.2s;
+    transition: all 0.3s;
 }
 
 .chatbot-toggle:hover {
     transform: scale(1.05);
-    background: #219a52;
+    background: var(--primary-dark);
 }
 
 .chatbot-window {
     position: absolute;
     bottom: 60px;
     right: 0;
-    width: 350px;
-    height: 450px;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    width: 380px;
+    height: 480px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-hover);
     display: flex;
     flex-direction: column;
+    border: 1px solid rgba(201,160,61,0.2);
 }
 
 .chatbot-window.hidden {
@@ -407,86 +452,53 @@ body {
 
 .chatbot-header {
     background: var(--secondary);
-    color: var(--white);
-    padding: 12px;
+    color: white;
+    padding: 1rem;
     text-align: center;
-    border-radius: 12px 12px 0 0;
+    border-radius: 16px 16px 0 0;
 }
 
 .chatbot-header h3 {
     margin: 0;
     font-size: 1rem;
-}
-
-.chatbot-header p {
-    margin: 5px 0 0;
-    font-size: 0.8rem;
-    opacity: 0.9;
+    font-weight: 500;
 }
 
 .chat-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 15px;
-    background: #f8f9fa;
+    padding: 1rem;
+    background: #fefaf5;
 }
 
 .bot-message, .user-message {
     margin-bottom: 12px;
-    padding: 10px 12px;
+    padding: 10px 14px;
     border-radius: 12px;
     max-width: 85%;
     word-wrap: break-word;
+    font-weight: 300;
 }
 
 .bot-message {
-    background: #e9ecef;
+    background: #f0ebe2;
     color: var(--secondary);
-    border-left: 3px solid var(--accent);
+    border-left: 3px solid var(--primary);
     margin-right: auto;
 }
 
 .user-message {
-    background: var(--accent);
-    color: var(--white);
+    background: var(--primary);
+    color: var(--secondary);
     margin-left: auto;
-}
-
-#chat-form {
-    display: flex;
-    padding: 10px;
-    background: var(--white);
-    border-top: 1px solid #ddd;
-}
-
-#chat-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-family: inherit;
-}
-
-#chat-form button {
-    background: var(--accent);
-    color: var(--white);
-    border: none;
-    padding: 10px 20px;
-    margin-left: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-#chat-form button:hover {
-    background: #219a52;
 }
 
 /* Footer */
 footer {
     background: var(--secondary);
-    color: var(--white);
+    color: white;
     text-align: center;
-    padding: 2rem;
+    padding: 2.5rem;
     margin-top: 3rem;
 }
 
@@ -498,16 +510,17 @@ footer {
 }
 
 .social-links a {
-    color: var(--white);
+    color: white;
     font-size: 1.5rem;
-    transition: color 0.3s;
+    transition: all 0.3s;
 }
 
 .social-links a:hover {
     color: var(--primary);
+    transform: translateY(-3px);
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
@@ -525,42 +538,40 @@ footer {
         display: flex;
     }
     
-    .hero {
-        padding: 80px 20px 60px;
-    }
-    
     .hero h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     
-    .tagline {
-        font-size: 1rem;
+    h2 {
+        font-size: 1.6rem;
     }
     
     .container {
         padding: 40px 20px;
     }
     
-    .section-title {
-        font-size: 1.6rem;
-    }
-    
-    .card-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
     .qa-window, .chatbot-window {
         width: calc(100vw - 40px);
     }
-    
-    .qa-panel {
-        left: 10px;
-        bottom: 10px;
-    }
-    
-    .chatbot-panel {
-        right: 10px;
-        bottom: 10px;
-    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.section-title:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
 }
