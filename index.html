@@ -134,9 +134,13 @@
     <script src="/js/navigation.js"></script>
     <script src="/js/chatbot.js"></script>
     <script src="/js/main.js"></script>
-    <script>
+    <script type="module">
+        import config from '/config.js';
+        window.WS_URL = config.WS_URL;
+        window.API_URL = config.API_URL;
+    </script>
         // WebSocket connection for Q&A
-        const WS_URL = 'ws://localhost:3001';
+        const WS_URL = window.WS_URL;
         let socket = null;
         
         function connectWebSocket() {
