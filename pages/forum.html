@@ -99,100 +99,121 @@
     </footer>
 
     <script src="/js/navigation.js"></script>
-    <script>
+    <script type="importmap">
+    {
+        "imports": {
+            "/config.js": "/config.js"
+        }
+    }
+</script>
+
+<script type="module">
+    import config from '/config.js';
+    
+    // Make config globally available
+    window.WS_URL = config.WS_URL;
+    window.API_URL = config.API_URL;
+    
+    console.log('Using WebSocket URL:', window.WS_URL);
+    
+    // Now your existing WebSocket code can use window.WS_URL
+    // Rest of your WebSocket code here...
+</script>
+<script>
         // WebSocket connection for forum
-        const WS_URL = 'ws://localhost:3001';
-        let socket = null;
+    //     const WS_URL = 'ws://localhost:3001';
+    //     let socket = null;
         
-        function connectWebSocket() {
-            socket = new WebSocket(WS_URL);
+    //     function connectWebSocket() {
+    //         socket = new WebSocket(WS_URL);
             
-            socket.onopen = () => {
-                console.log('Connected to forum');
-                document.getElementById('active-count').textContent = 'Connected';
-            };
+    //         socket.onopen = () => {
+    //             console.log('Connected to forum');
+    //             document.getElementById('active-count').textContent = 'Connected';
+    //         };
             
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (data.type === 'history' || data.type === 'newQuestion') {
-                    loadQuestions();
-                }
-                if (data.type === 'userCount') {
-                    document.getElementById('active-count').textContent = data.count;
-                }
-            };
+    //         socket.onmessage = (event) => {
+    //             const data = JSON.parse(event.data);
+    //             if (data.type === 'history' || data.type === 'newQuestion') {
+    //                 loadQuestions();
+    //             }
+    //             if (data.type === 'userCount') {
+    //                 document.getElementById('active-count').textContent = data.count;
+    //             }
+    //         };
             
-            socket.onclose = () => {
-                setTimeout(connectWebSocket, 3000);
-            };
-        }
+    //         socket.onclose = () => {
+    //             setTimeout(connectWebSocket, 3000);
+    //         };
+    //     }
         
-        function loadQuestions() {
-            fetch('http://localhost:3001/api/questions')
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('qa-messages');
-                    document.getElementById('question-count').textContent = data.total;
-                    document.getElementById('answered-count').textContent = data.questions.filter(q => q.answered).length;
+    //     function loadQuestions() {
+    //         fetch('http://localhost:3001/api/questions')
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 const container = document.getElementById('qa-messages');
+    //                 document.getElementById('question-count').textContent = data.total;
+    //                 document.getElementById('answered-count').textContent = data.questions.filter(q => q.answered).length;
                     
-                    container.innerHTML = data.questions.map(q => `
-                        <div class="question-item" style="background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid ${q.answered ? '#27ae60' : '#e67e22'}">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <strong style="color: #e67e22;">${escapeHtml(q.name)}</strong>
-                                <small>${new Date(q.timestamp).toLocaleString()}</small>
-                            </div>
-                            <div style="margin-bottom: 0.5rem;">${escapeHtml(q.question)}</div>
-                            ${q.answered ? `
-                                <div style="background: #e8f5e9; padding: 0.8rem; border-radius: 5px; margin-top: 0.5rem;">
-                                    <strong style="color: #27ae60;">👩‍💼 Maureen's Response:</strong>
-                                    <div>${escapeHtml(q.answer)}</div>
-                                </div>
-                            ` : '<div style="color: #999; font-size: 0.8rem;">⏳ Awaiting Maureen\'s response...</div>'}
-                            <div style="margin-top: 0.5rem;">
-                                <button onclick="voteQuestion(${q.id})" style="background: none; border: none; cursor: pointer;">👍 ${q.votes || 0}</button>
-                            </div>
-                        </div>
-                    `).join('');
-                });
-        }
+    //                 container.innerHTML = data.questions.map(q => `
+    //                     <div class="question-item" style="background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid ${q.answered ? '#27ae60' : '#e67e22'}">
+    //                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+    //                             <strong style="color: #e67e22;">${escapeHtml(q.name)}</strong>
+    //                             <small>${new Date(q.timestamp).toLocaleString()}</small>
+    //                         </div>
+    //                         <div style="margin-bottom: 0.5rem;">${escapeHtml(q.question)}</div>
+    //                         ${q.answered ? `
+    //                             <div style="background: #e8f5e9; padding: 0.8rem; border-radius: 5px; margin-top: 0.5rem;">
+    //                                 <strong style="color: #27ae60;">👩‍💼 Maureen's Response:</strong>
+    //                                 <div>${escapeHtml(q.answer)}</div>
+    //                             </div>
+    //                         ` : '<div style="color: #999; font-size: 0.8rem;">⏳ Awaiting Maureen\'s response...</div>'}
+    //                         <div style="margin-top: 0.5rem;">
+    //                             <button onclick="voteQuestion(${q.id})" style="background: none; border: none; cursor: pointer;">👍 ${q.votes || 0}</button>
+    //                         </div>
+    //                     </div>
+    //                 `).join('');
+    //             });
+    //     }
         
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+    //     function escapeHtml(text) {
+    //         const div = document.createElement('div');
+    //         div.textContent = text;
+    //         return div.innerHTML;
+    //     }
         
-        function voteQuestion(id) {
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({ type: 'vote', questionId: id, voteType: 'up' }));
-            }
-        }
+    //     function voteQuestion(id) {
+    //         if (socket && socket.readyState === WebSocket.OPEN) {
+    //             socket.send(JSON.stringify({ type: 'vote', questionId: id, voteType: 'up' }));
+    //         }
+    //     }
         
-        function askFeatured(topic) {
-            const questions = {
-                youth: "What specific programs are you planning for youth employment in Karen Ward?",
-                roads: "Which roads in Karen Ward are your priority for repair and improvement?",
-                environment: "What is your plan for improving waste management and protecting our environment?"
-            };
-            document.getElementById('qa-question').value = questions[topic];
-            document.getElementById('qa-question').focus();
-        }
+    //     function askFeatured(topic) {
+    //         const questions = {
+    //             youth: "What specific programs are you planning for youth employment in Karen Ward?",
+    //             roads: "Which roads in Karen Ward are your priority for repair and improvement?",
+    //             environment: "What is your plan for improving waste management and protecting our environment?"
+    //         };
+    //         document.getElementById('qa-question').value = questions[topic];
+    //         document.getElementById('qa-question').focus();
+    //     }
         
-        document.getElementById('qa-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('qa-name').value || 'Karen Resident';
-            const question = document.getElementById('qa-question').value;
+    //     document.getElementById('qa-form').addEventListener('submit', (e) => {
+    //         e.preventDefault();
+    //         const name = document.getElementById('qa-name').value || 'Karen Resident';
+    //         const question = document.getElementById('qa-question').value;
             
-            if (question && socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({ type: 'question', name, question }));
-                document.getElementById('qa-question').value = '';
-                alert('Your question has been submitted! Maureen will review and respond.');
-            }
-        });
+    //         if (question && socket && socket.readyState === WebSocket.OPEN) {
+    //             socket.send(JSON.stringify({ type: 'question', name, question }));
+    //             document.getElementById('qa-question').value = '';
+    //             alert('Your question has been submitted! Maureen will review and respond.');
+    //         }
+    //     });
         
-        connectWebSocket();
-        loadQuestions();
-        setInterval(loadQuestions, 5000);
+    //     connectWebSocket();
+    //     loadQuestions();
+    //     setInterval(loadQuestions, 5000);
     </script>
+
 </body>
 </html>
