@@ -1,8 +1,9 @@
-// WebSocket Server for Campaign Q&A
+// WebSocket Server for Campaign Q&A with Persistent Storage
 const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 const path = require('path');
 
 // Create Express app
@@ -13,31 +14,46 @@ app.use(express.json());
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
-// Root route - serve a simple HTML page
-app.get('/', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Maureen's Campaign Q&A Server</title>
-            <style>
-                body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: linear-gradient(135deg, #2c3e50 0%, #e67e22 100%); color: white; }
-                .card { background: rgba(255,255,255,0.95); color: #333; padding: 20px; border-radius: 10px; margin-top: 20px; }
-                h1 { color: #e67e22; }
-                a { color: #e67e22; }
-            </style>
-        </head>
-        <body>
-            <div class="card">
-                <h1>🗳️ Maureen Ndungu Campaign Q&A Server</h1>
-                <p>✅ Server is running!</p>
-                <p>📊 API: <a href="/api/questions">/api/questions</a></p>
-                <p>🔧 Admin: <a href="/admin.html">/admin.html</a></p>
-            </div>
-        </body>
-        </html>
-    `);
-});
+// File to store questions persistently
+const DATA_FILE = path.join(__dirname, 'questions.json');
+
+// Load saved questions from file
+let questions = [];
+let nextQuestionId = 1;
+
+function loadQuestions() {
+    try {
+        if (fs.existsSync(DATA_FILE)) {
+            const data = fs.readFileSync(DATA_FILE, 'utf8');
+            const saved = JSON.parse(data);
+            questions = saved.questions || [];
+            nextQuestionId = saved.nextQuestionId || 1;
+            console.log(`✅ Loaded ${questions.length} saved questions from file`);
+        } else {
+            console.log('📝 No existing questions file. Starting fresh.');
+        }
+    } catch (error) {
+        console.error('Error loading questions:', error);
+        questions = [];
+    }
+}
+
+function saveQuestions() {
+    try {
+        const data = {
+            questions: questions,
+            nextQuestionId: nextQuestionId,
+            lastSaved: new Date().toISOString()
+        };
+        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+        console.log(`💾 Saved ${questions.length} questions to file`);
+    } catch (error) {
+        console.error('Error saving questions:', error);
+    }
+}
+
+// Load existing questions on startup
+loadQuestions();
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -50,10 +66,8 @@ const wss = new WebSocket.Server({
     }
 });
 
-// Store connected clients and questions
+// Store connected clients
 const clients = new Set();
-let questions = [];
-let nextQuestionId = 1;
 
 const campaignInfo = {
     candidate: "Maureen Ndungu",
@@ -77,14 +91,14 @@ function sendQuestionHistory(client) {
     if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify({
             type: 'history',
-            questions: questions.slice(-50)
+            questions: questions.slice(-100) // Send last 100 questions
         }));
     }
 }
 
 // Helper function to moderate questions
 function moderateQuestion(questionText, userName) {
-    if (!questionText || questionText.trim().length < 5) {
+    if (!questionText || questionText.trim().length < 3) {
         return { approved: false, reason: "Question is too short. Please provide more details." };
     }
     
@@ -93,7 +107,7 @@ function moderateQuestion(questionText, userName) {
     }
     
     // Check for banned words
-    const bannedWords = ['spam', 'offensive', 'inappropriate', 'hate'];
+    const bannedWords = ['spam', 'offensive', 'inappropriate', 'hate', 'scam'];
     const lowerQuestion = questionText.toLowerCase();
     for (const bannedWord of bannedWords) {
         if (lowerQuestion.includes(bannedWord)) {
@@ -112,7 +126,7 @@ wss.on('connection', (ws, req) => {
     // Send welcome message
     ws.send(JSON.stringify({
         type: 'welcome',
-        message: 'Welcome to Maureen\'s Campaign Q&A!',
+        message: 'Welcome to Maureen\'s Campaign Q&A! Questions are saved and visible to everyone.',
         campaignInfo: campaignInfo,
         activeUsers: clients.size
     }));
@@ -202,14 +216,19 @@ function handleNewQuestion(client, data) {
         timestamp: new Date().toISOString(),
         votes: 0,
         answered: false,
-        answer: null
+        answer: null,
+        answerTimestamp: null
     };
     
     questions.unshift(questionObj);
     
-    if (questions.length > 200) {
-        questions = questions.slice(0, 200);
+    // Keep last 500 questions (plenty for a campaign)
+    if (questions.length > 500) {
+        questions = questions.slice(0, 500);
     }
+    
+    // Save to file immediately
+    saveQuestions();
     
     broadcast({
         type: 'newQuestion',
@@ -219,10 +238,10 @@ function handleNewQuestion(client, data) {
     client.send(JSON.stringify({
         type: 'questionSubmitted',
         id: questionObj.id,
-        message: 'Your question has been submitted!'
+        message: 'Your question has been submitted and saved!'
     }));
     
-    console.log(`New question from ${sanitizedName}: ${sanitizedQuestion.substring(0, 50)}...`);
+    console.log(`New question #${questionObj.id} from ${sanitizedName}`);
 }
 
 function handleVote(client, data) {
@@ -236,6 +255,9 @@ function handleVote(client, data) {
             question.votes--;
         }
         
+        // Save votes to file
+        saveQuestions();
+        
         broadcast({
             type: 'voteUpdate',
             questionId: questionId,
@@ -244,12 +266,24 @@ function handleVote(client, data) {
     }
 }
 
-// API endpoint to get questions
+// API endpoint to get all questions
 app.get('/api/questions', (req, res) => {
     res.json({
         total: questions.length,
-        questions: questions.slice(0, 100)
+        questions: questions
     });
+});
+
+// API endpoint to get a specific question
+app.get('/api/questions/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const question = questions.find(q => q.id === id);
+    
+    if (question) {
+        res.json(question);
+    } else {
+        res.status(404).json({ error: 'Question not found' });
+    }
 });
 
 // API endpoint to answer a question
@@ -263,11 +297,16 @@ app.post('/api/questions/:id/answer', express.json(), (req, res) => {
         question.answer = answer;
         question.answerTimestamp = new Date().toISOString();
         
+        // Save to file
+        saveQuestions();
+        
         broadcast({
             type: 'questionAnswered',
             questionId: id,
             answer: answer,
-            answeredAt: question.answerTimestamp
+            answeredAt: question.answerTimestamp,
+            name: question.name,
+            question: question.question
         });
         
         res.json({ success: true });
@@ -283,14 +322,71 @@ app.delete('/api/questions/:id', (req, res) => {
     
     if (index !== -1) {
         questions.splice(index, 1);
+        saveQuestions();
+        
         broadcast({
             type: 'questionDeleted',
             questionId: id
         });
+        
         res.json({ success: true });
     } else {
         res.status(404).json({ error: 'Question not found' });
     }
+});
+
+// API endpoint to get statistics
+app.get('/api/stats', (req, res) => {
+    const answered = questions.filter(q => q.answered).length;
+    const pending = questions.filter(q => !q.answered).length;
+    
+    res.json({
+        total: questions.length,
+        answered: answered,
+        pending: pending,
+        lastUpdated: new Date().toISOString()
+    });
+});
+
+// Root route
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Maureen's Campaign Q&A Server</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: linear-gradient(135deg, #2c3e50 0%, #e67e22 100%); color: white; }
+                .card { background: rgba(255,255,255,0.95); color: #333; padding: 20px; border-radius: 10px; margin-top: 20px; }
+                h1 { color: #e67e22; }
+                a { color: #e67e22; }
+                .stats { display: flex; gap: 20px; margin: 20px 0; }
+                .stat { background: #f0f0f0; padding: 10px; border-radius: 5px; text-align: center; flex: 1; }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <h1>🗳️ Maureen Ndungu Campaign Q&A Server</h1>
+                <p>✅ Server is running with persistent storage!</p>
+                <div class="stats" id="stats">Loading stats...</div>
+                <p>📊 <a href="/api/questions">View All Questions (API)</a></p>
+                <p>🔧 <a href="/admin.html">Admin Panel</a></p>
+                <p>💬 Questions are saved to <code>questions.json</code> and persist across server restarts.</p>
+            </div>
+            <script>
+                fetch('/api/stats')
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('stats').innerHTML = \`
+                            <div class="stat">📝 Total: \${data.total}</div>
+                            <div class="stat">✅ Answered: \${data.answered}</div>
+                            <div class="stat">⏳ Pending: \${data.pending}</div>
+                        \`;
+                    });
+            </script>
+        </body>
+        </html>
+    `);
 });
 
 // Start server
@@ -302,13 +398,21 @@ server.listen(PORT, '0.0.0.0', () => {
     📡 WebSocket: ws://localhost:${PORT}
     📊 API: http://localhost:${PORT}/api/questions
     🔧 Admin: http://localhost:${PORT}/admin.html
+    💾 Questions are saved to: ${DATA_FILE}
     👥 Server running on port ${PORT}
     `);
 });
 
 process.on('SIGINT', () => {
     console.log('\nShutting down server...');
+    saveQuestions(); // Final save before shutdown
     broadcast({ type: 'serverShutdown', message: 'Server is shutting down' });
     clients.forEach(client => client.close());
     server.close(() => process.exit(0));
+});
+
+process.on('SIGTERM', () => {
+    console.log('\nSIGTERM received, saving data...');
+    saveQuestions();
+    process.exit(0);
 });

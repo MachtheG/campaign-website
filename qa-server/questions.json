@@ -1,0 +1,16 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "name": "Karen Resident",
+      "question": "Where are your offices?",
+      "timestamp": "2026-04-01T12:55:09.080Z",
+      "votes": 0,
+      "answered": true,
+      "answer": "Our offices are based in the Hub Karen.",
+      "answerTimestamp": "2026-04-01T12:55:36.043Z"
+    }
+  ],
+  "nextQuestionId": 2,
+  "lastSaved": "2026-04-01T12:55:36.043Z"
+}
