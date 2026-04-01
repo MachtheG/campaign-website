@@ -1,0 +1,14 @@
+
+> maureen-campaign-qa@1.0.0 start
+> node server.js
+
+
+    🚀 Maureen Ndungu Campaign Q&A Server Started!
+    🌐 URL: http://localhost:3001
+    📡 WebSocket: ws://localhost:3001
+    📊 API: http://localhost:3001/api/questions
+    🔧 Admin: http://localhost:3001/admin.html
+    👥 Server running on port 3001
+    
+New client connected. Total clients: 1
+New client connected. Total clients: 2

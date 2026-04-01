@@ -3,29 +3,40 @@ const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
-// Create Express app for serving static files (optional)
+// Create Express app
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Add a simple root route to show the server is running
-app.get('/', (req, res) => {
-    res.json({
-        status: 'online',
-        message: 'Maureen Ndungu Campaign Q&A Server',
-        endpoints: {
-            questions: '/api/questions',
-            websocket: 'ws://' + req.get('host'),
-            admin: '/admin.html'
-        },
-        timestamp: new Date().toISOString()
-    });
-});
+// Serve static files from the current directory
+app.use(express.static(__dirname));
 
-// Serve admin.html if it exists
-app.get('/admin.html', (req, res) => {
-    res.sendFile(__dirname + '/admin.html');
+// Root route - serve a simple HTML page
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Maureen's Campaign Q&A Server</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: linear-gradient(135deg, #2c3e50 0%, #e67e22 100%); color: white; }
+                .card { background: rgba(255,255,255,0.95); color: #333; padding: 20px; border-radius: 10px; margin-top: 20px; }
+                h1 { color: #e67e22; }
+                a { color: #e67e22; }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <h1>🗳️ Maureen Ndungu Campaign Q&A Server</h1>
+                <p>✅ Server is running!</p>
+                <p>📊 API: <a href="/api/questions">/api/questions</a></p>
+                <p>🔧 Admin: <a href="/admin.html">/admin.html</a></p>
+            </div>
+        </body>
+        </html>
+    `);
 });
 
 // Create HTTP server
@@ -35,7 +46,6 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ 
     server,
     verifyClient: (info, cb) => {
-        // Allow all connections (CORS)
         cb(true);
     }
 });
@@ -45,35 +55,11 @@ const clients = new Set();
 let questions = [];
 let nextQuestionId = 1;
 
-// Campaign Q&A Data
 const campaignInfo = {
     candidate: "Maureen Ndungu",
     ward: "Karen Ward",
-    constituency: "Langata",
-    platform: "Building a brighter future for Karen Ward"
+    constituency: "Langata"
 };
-
-// Helper function to moderate questions
-function moderateQuestion(question, name) {
-    if (question.length < 5) {
-        return { approved: false, reason: "Question is too short. Please provide more details." };
-    }
-    
-    if (question.length > 500) {
-        return { approved: false, reason: "Question is too long. Please be more concise." };
-    }
-    
-    // Add your moderation rules here
-    const bannedWords = ['spam', 'offensive'];
-    const lowerQuestion = question.toLowerCase();
-    for (const bannedWord of bannedWords) {
-        if (lowerQuestion.includes(bannedWord)) {
-            return { approved: false, reason: "Your question contains inappropriate language." };
-        }
-    }
-    
-    return { approved: true };
-}
 
 // Broadcast message to all connected clients
 function broadcast(data, excludeClient = null) {
@@ -96,6 +82,28 @@ function sendQuestionHistory(client) {
     }
 }
 
+// Helper function to moderate questions
+function moderateQuestion(questionText, userName) {
+    if (!questionText || questionText.trim().length < 5) {
+        return { approved: false, reason: "Question is too short. Please provide more details." };
+    }
+    
+    if (questionText.length > 2000) {
+        return { approved: false, reason: "Question is too long. Please be more concise (max 2000 characters)." };
+    }
+    
+    // Check for banned words
+    const bannedWords = ['spam', 'offensive', 'inappropriate', 'hate'];
+    const lowerQuestion = questionText.toLowerCase();
+    for (const bannedWord of bannedWords) {
+        if (lowerQuestion.includes(bannedWord)) {
+            return { approved: false, reason: "Your question contains inappropriate language." };
+        }
+    }
+    
+    return { approved: true };
+}
+
 // WebSocket connection handler
 wss.on('connection', (ws, req) => {
     console.log(`New client connected. Total clients: ${clients.size + 1}`);
@@ -104,7 +112,7 @@ wss.on('connection', (ws, req) => {
     // Send welcome message
     ws.send(JSON.stringify({
         type: 'welcome',
-        message: 'Welcome to Maureen\'s Campaign Q&A! Ask your questions about Karen Ward.',
+        message: 'Welcome to Maureen\'s Campaign Q&A!',
         campaignInfo: campaignInfo,
         activeUsers: clients.size
     }));
@@ -128,11 +136,9 @@ wss.on('connection', (ws, req) => {
                 case 'question':
                     handleNewQuestion(ws, data);
                     break;
-                    
                 case 'vote':
                     handleVote(ws, data);
                     break;
-                    
                 default:
                     ws.send(JSON.stringify({
                         type: 'error',
@@ -152,7 +158,6 @@ wss.on('connection', (ws, req) => {
     ws.on('close', () => {
         console.log('Client disconnected');
         clients.delete(ws);
-        
         broadcast({
             type: 'userCount',
             count: clients.size
@@ -178,7 +183,7 @@ function handleNewQuestion(client, data) {
     }
     
     const sanitizedName = name ? name.trim().substring(0, 50) : 'Karen Resident';
-    const sanitizedQuestion = question.trim().substring(0, 500);
+    const sanitizedQuestion = question.trim().substring(0, 2000);
     
     const moderation = moderateQuestion(sanitizedQuestion, sanitizedName);
     
@@ -214,7 +219,7 @@ function handleNewQuestion(client, data) {
     client.send(JSON.stringify({
         type: 'questionSubmitted',
         id: questionObj.id,
-        message: 'Your question has been submitted! Maureen will review and respond soon.'
+        message: 'Your question has been submitted!'
     }));
     
     console.log(`New question from ${sanitizedName}: ${sanitizedQuestion.substring(0, 50)}...`);
@@ -293,28 +298,17 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, '0.0.0.0', () => {
     console.log(`
     🚀 Maureen Ndungu Campaign Q&A Server Started!
-    📡 WebSocket server: wss://maureen-campaign-qa.onrender.com
-    🌐 API: https://maureen-campaign-qa.onrender.com/api/questions
-    📊 Admin: https://maureen-campaign-qa.onrender.com/admin.html
+    🌐 URL: http://localhost:${PORT}
+    📡 WebSocket: ws://localhost:${PORT}
+    📊 API: http://localhost:${PORT}/api/questions
+    🔧 Admin: http://localhost:${PORT}/admin.html
     👥 Server running on port ${PORT}
     `);
 });
 
-// Handle server shutdown gracefully
 process.on('SIGINT', () => {
     console.log('\nShutting down server...');
-    
-    broadcast({
-        type: 'serverShutdown',
-        message: 'The Q&A session is ending. Thank you for participating!'
-    });
-    
-    clients.forEach(client => {
-        client.close();
-    });
-    
-    server.close(() => {
-        console.log('Server closed');
-        process.exit(0);
-    });
+    broadcast({ type: 'serverShutdown', message: 'Server is shutting down' });
+    clients.forEach(client => client.close());
+    server.close(() => process.exit(0));
 });
