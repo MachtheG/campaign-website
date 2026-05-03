@@ -6,122 +6,184 @@
     <title>Get Involved | Maureen Ndungu for MCA</title>
     <link rel="stylesheet" href="/css/campaign.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .wave-hero{position:relative;overflow:hidden}
+        .wave-particles{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+        .wave-dot{position:absolute;width:6px;height:6px;background:var(--primary);border-radius:50%;opacity:0.3;animation:wavePulse 4s ease-in-out infinite}
+        @keyframes wavePulse{0%,100%{transform:scale(1);opacity:0.3}50%{transform:scale(2);opacity:0.6}}
+
+        .involve-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:2.5rem;text-align:center;transition:all 0.5s;position:relative;overflow:hidden}
+        .involve-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(201,160,61,0.05) 0%,transparent 70%);opacity:0;transition:opacity 0.5s}
+        .involve-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 60px rgba(201,160,61,0.2);border-color:var(--primary)}
+        .involve-card:hover::before{opacity:1}
+        .involve-icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(201,160,61,0.15),rgba(201,160,61,0.05));display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;transition:all 0.5s;border:2px solid var(--glass-border)}
+        .involve-card:hover .involve-icon{transform:rotateY(180deg);border-color:var(--primary);box-shadow:0 0 30px rgba(201,160,61,0.2)}
+        .involve-icon i{font-size:2rem;color:var(--primary);transition:all 0.5s}
+
+        .timeline-v{position:relative;padding:2rem 0}
+        .timeline-v::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--primary),var(--accent-light),var(--primary))}
+        .tl-item{position:relative;padding-left:50px;margin-bottom:2rem;animation:fadeSlide 0.6s ease forwards;opacity:0}
+        .tl-item.visible{opacity:1}
+        .tl-item::before{content:'';position:absolute;left:12px;top:8px;width:18px;height:18px;border-radius:50%;background:var(--primary);border:3px solid var(--bg);z-index:1;transition:all 0.3s}
+        .tl-item:hover::before{transform:scale(1.3);box-shadow:0 0 20px rgba(201,160,61,0.4)}
+        .tl-content{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.2rem;transition:all 0.3s}
+        .tl-item:hover .tl-content{border-color:var(--primary);box-shadow:var(--shadow-gold)}
+        .tl-date{color:var(--primary);font-weight:700;font-size:0.88rem;margin-bottom:0.3rem;font-family:'Outfit',sans-serif}
+        .tl-title{color:var(--text-dark);font-weight:600;margin-bottom:0.3rem}
+        .tl-desc{color:var(--text-light);font-size:0.9rem}
+        @keyframes fadeSlide{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+
+        .ripple-btn{position:relative;overflow:hidden}
+        .ripple-btn::after{content:'';position:absolute;width:100%;height:100%;top:0;left:0;background:radial-gradient(circle,rgba(255,255,255,0.3) 0%,transparent 70%);transform:scale(0);transition:transform 0.5s}
+        .ripple-btn:hover::after{transform:scale(2)}
+
+        .impact-counter{display:flex;justify-content:center;gap:3rem;padding:2rem;flex-wrap:wrap}
+        .impact-item{text-align:center}
+        .impact-num{font-size:3rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--primary);line-height:1}
+        .impact-label{color:var(--text-light);font-size:0.85rem;margin-top:0.3rem}
+
+        .social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+        .social-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.5rem;text-align:center;transition:all 0.4s;cursor:pointer}
+        .social-card:hover{transform:translateY(-6px);border-color:var(--primary)}
+        .social-card i{font-size:2.5rem;margin-bottom:0.8rem;display:block}
+        .social-card p{color:var(--text-light);font-size:0.88rem}
+
+        .signup-form{max-width:500px;margin:0 auto}
+        .form-group{margin-bottom:1rem;position:relative}
+        .form-group label{position:absolute;left:14px;top:12px;color:var(--text-muted);font-size:0.9rem;transition:all 0.3s;pointer-events:none}
+        .form-group input:focus+label,.form-group input:not(:placeholder-shown)+label{top:-8px;left:10px;font-size:0.75rem;color:var(--primary);background:var(--bg);padding:0 4px}
+        .success-check{display:none;text-align:center;padding:2rem}
+        .success-check i{font-size:4rem;color:var(--accent-light);animation:scaleIn 0.5s ease}
+        @keyframes scaleIn{from{transform:scale(0)}to{transform:scale(1)}}
+    </style>
 </head>
 <body>
     <nav class="main-nav">
-        <div class="logo">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndungu" class="logo-img">
-            <div>
-                <h2>Maureen Ndungu</h2>
-                <p>MCA Candidate - Karen Ward</p>
-            </div>
-        </div>
+        <div class="logo"><img src="/images/maureen/portrait.png" alt="Maureen" class="logo-img"><div><h2>Maureen Ndungu</h2><p>MCA Candidate - Karen Ward</p></div></div>
         <button class="menu-toggle" id="menuToggle">☰</button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="about.html">About Maureen</a></li>
-            <li><a href="manifesto.html">Manifesto</a></li>
-            <li><a href="forum.html">Community Forum</a></li>
-            <li><a href="get-involved.html" class="active">Get Involved</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="/index.html">Home</a></li><li><a href="/pages/about.html">About Maureen</a></li><li><a href="/pages/manifesto.html">Manifesto</a></li>
+            <li><a href="/pages/karen-facts.html">Facts About Karen</a></li><li><a href="/pages/articles.html">Articles & News</a></li>
+            <li><a href="/pages/forum.html">Community Forum</a></li><li><a href="/pages/get-involved.html" class="active">Get Involved</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
         </ul>
     </nav>
 
-    <div class="hero" style="margin-top: 70px;">
-        <h1>Join the Movement</h1>
-        <p class="tagline">Together, We Can Build a Better Karen Ward</p>
+    <div class="hero wave-hero" style="min-height:auto;padding:140px 20px 80px">
+        <div class="wave-particles" id="waveParticles"></div>
+        <div class="hero-content">
+            <h1>Join the Movement</h1>
+            <p class="tagline">Together, We Can Build a Better Karen Ward</p>
+            <p class="hero-text">Every hand that joins makes our community stronger</p>
+        </div>
+    </div>
+
+    <!-- Impact counter -->
+    <div class="container" style="padding-bottom:0">
+        <div class="impact-counter reveal">
+            <div class="impact-item"><div class="impact-num" data-target="150">0</div><div class="impact-label">Volunteers Joined</div></div>
+            <div class="impact-item"><div class="impact-num" data-target="12">0</div><div class="impact-label">Events Held</div></div>
+            <div class="impact-item"><div class="impact-num" data-target="5000">0</div><div class="impact-label">Residents Reached</div></div>
+            <div class="impact-item"><div class="impact-num" data-target="8">0</div><div class="impact-label">Community Partners</div></div>
+        </div>
     </div>
 
     <div class="container">
+        <h2 class="section-title reveal">How You Can Help</h2>
         <div class="prestige-grid">
-            <div class="prestige-card">
-                <div class="card-content">
-                    <i class="fas fa-hand-peace" style="font-size: 3rem; color: #e67e22;"></i>
-                    <h3>Volunteer</h3>
-                    <p>Join our team of dedicated volunteers. Whether you have hours or days to give, your contribution matters.</p>
-                    <ul class="promise-list" style="margin-top: 1rem;">
-                        <li>Door-to-door canvassing</li>
-                        <li>Phone banking</li>
-                        <li>Event coordination</li>
-                        <li>Social media support</li>
-                    </ul>
-                    <button class="prestige-btn" onclick="alert('Contact us: volunteer@maureen4karen.com')">Sign Up to Volunteer</button>
-                </div>
+            <div class="involve-card reveal reveal-delay-1">
+                <div class="involve-icon"><i class="fas fa-hand-peace"></i></div>
+                <h3>Volunteer</h3>
+                <p style="color:var(--text-light);margin-bottom:1rem">Join our dedicated team. Every hour makes a difference.</p>
+                <ul class="prestige-list" style="text-align:left;margin-bottom:1.5rem">
+                    <li>Door-to-door canvassing</li><li>Phone banking</li><li>Event coordination</li><li>Social media support</li>
+                </ul>
+                <a href="#signup" class="prestige-btn ripple-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
             </div>
-            
-            <div class="prestige-card">
-                <div class="card-content">
-                    <i class="fas fa-heart" style="font-size: 3rem; color: #e67e22;"></i>
-                    <h3>Donate</h3>
-                    <p>Your contribution helps us reach more voters and build a stronger campaign.</p>
-                    <div style="margin: 1rem 0;">
-                        <button class="prestige-btn" onclick="alert('Donation options coming soon. M-Pesa Paybill: 123456 Account: MAUREEN')">Donate via M-Pesa</button>
-                    </div>
-                    <p><small>Even KES 100 makes a difference!</small></p>
+            <div class="involve-card reveal reveal-delay-2">
+                <div class="involve-icon"><i class="fas fa-heart"></i></div>
+                <h3>Contribute</h3>
+                <p style="color:var(--text-light);margin-bottom:1rem">Your support helps us reach more voters and build a stronger campaign.</p>
+                <div style="background:rgba(34,196,122,0.08);border:1px solid rgba(34,196,122,0.2);border-radius:var(--radius);padding:1rem;margin-bottom:1rem">
+                    <p style="color:var(--accent-light);font-weight:700;margin-bottom:0.3rem">M-Pesa Paybill: 123456</p>
+                    <p style="color:var(--text-muted);font-size:0.85rem">Account: YOUR NAME</p>
                 </div>
+                <span class="badge badge-gold"><i class="fas fa-lock"></i> 100% Anonymous</span>
             </div>
-            
-            <div class="prestige-card">
-                <div class="card-content">
-                    <i class="fas fa-calendar-alt" style="font-size: 3rem; color: #e67e22;"></i>
-                    <h3>Attend Events</h3>
-                    <p>Join us at community events and town halls to meet Maureen in person.</p>
-                    <div style="margin: 1rem 0;">
-                        <strong>Upcoming Events:</strong>
-                        <ul class="promise-list">
-                            <li>📅 March 30: Community Baraza - Karen Shopping Centre</li>
-                            <li>📅 April 5: Youth Forum - Karen Community Hall</li>
-                            <li>📅 April 12: Women's Empowerment Workshop</li>
-                        </ul>
-                    </div>
+            <div class="involve-card reveal reveal-delay-3">
+                <div class="involve-icon"><i class="fas fa-calendar-alt"></i></div>
+                <h3>Attend Events</h3>
+                <p style="color:var(--text-light);margin-bottom:1rem">Meet Maureen and your fellow community members in person.</p>
+                <div class="timeline-v" style="text-align:left">
+                    <div class="tl-item visible"><div class="tl-content"><div class="tl-date">May 10</div><div class="tl-title">Community Baraza</div><div class="tl-desc">Karen Shopping Centre</div></div></div>
+                    <div class="tl-item visible"><div class="tl-content"><div class="tl-date">May 17</div><div class="tl-title">Youth Forum</div><div class="tl-desc">Karen Community Hall</div></div></div>
+                    <div class="tl-item visible"><div class="tl-content"><div class="tl-date">May 24</div><div class="tl-title">Women's Workshop</div><div class="tl-desc">Karen Grounds</div></div></div>
                 </div>
             </div>
         </div>
-        
-        <div class="manifesto-section">
-            <h2>📢 Spread the Word</h2>
-            <div class="prestige-grid">
-                <div class="prestige-card">
-                    <div class="card-content">
-                        <i class="fab fa-facebook" style="font-size: 2rem;"></i>
-                        <p>Follow and share Maureen's campaign on Facebook</p>
-                        <button class="btn-outline btn" style="margin-top: 1rem;">Follow</button>
-                    </div>
-                </div>
-                <div class="prestige-card">
-                    <div class="card-content">
-                        <i class="fab fa-twitter" style="font-size: 2rem;"></i>
-                        <p>Retweet campaign updates and engage with the community</p>
-                        <button class="btn-outline btn" style="margin-top: 1rem;">Follow</button>
-                    </div>
-                </div>
-                <div class="prestige-card">
-                    <div class="card-content">
-                        <i class="fab fa-whatsapp" style="font-size: 2rem;"></i>
-                        <p>Share campaign messages in your neighborhood groups</p>
-                        <button class="btn-outline btn" style="margin-top: 1rem;">Share</button>
-                    </div>
-                </div>
+
+        <!-- Volunteer Signup -->
+        <div class="elegant-section reveal" id="signup" style="margin-top:2rem">
+            <h2 style="text-align:center">✍️ Volunteer Sign Up</h2>
+            <div class="signup-form" id="signupForm" style="margin-top:1.5rem">
+                <div class="form-group"><input type="text" id="volName" placeholder=" " required><label>Full Name</label></div>
+                <div class="form-group"><input type="tel" id="volPhone" placeholder=" " required><label>Phone Number</label></div>
+                <div class="form-group"><input type="email" id="volEmail" placeholder=" "><label>Email (optional)</label></div>
+                <div class="form-group"><select id="volArea" style="padding:12px 14px"><option value="">Select your area of interest</option><option>Door-to-door outreach</option><option>Phone banking</option><option>Event coordination</option><option>Social media</option><option>Transportation</option></select></div>
+                <button class="prestige-btn ripple-btn" style="width:100%" onclick="submitVolunteer()"><i class="fas fa-check"></i> Join the Team</button>
+            </div>
+            <div class="success-check" id="signupSuccess">
+                <i class="fas fa-check-circle"></i>
+                <h3 style="color:var(--accent-light);margin-top:1rem">Welcome to the Team!</h3>
+                <p style="color:var(--text-light);margin-top:0.5rem">We'll be in touch soon. Asante sana! 🙏</p>
             </div>
         </div>
-        
-        <div class="manifesto-section">
+
+        <!-- Social Share -->
+        <div class="elegant-section reveal" style="margin-top:2rem">
+            <h2 style="text-align:center">📢 Spread the Word</h2>
+            <div class="social-grid" style="margin-top:1.5rem">
+                <div class="social-card" onclick="window.open('#')"><i class="fab fa-facebook" style="color:#1877F2"></i><p>Follow on Facebook</p></div>
+                <div class="social-card" onclick="window.open('#')"><i class="fab fa-twitter" style="color:#1DA1F2"></i><p>Follow on Twitter</p></div>
+                <div class="social-card" onclick="window.open('#')"><i class="fab fa-whatsapp" style="color:#25D366"></i><p>Share on WhatsApp</p></div>
+                <div class="social-card" onclick="window.open('#')"><i class="fab fa-instagram" style="color:#E4405F"></i><p>Follow on Instagram</p></div>
+            </div>
+        </div>
+
+        <!-- Partner -->
+        <div class="elegant-section reveal" style="margin-top:2rem;text-align:center">
             <h2>🤝 Partner with Us</h2>
-            <p>Are you part of a community organization, business, or faith group? Let's work together for Karen's development.</p>
-            <button class="prestige-btn" onclick="alert('Email partnership@maureen4karen.com for collaboration opportunities')">Become a Partner</button>
+            <p style="color:var(--text-light);margin:1rem 0;max-width:600px;margin-left:auto;margin-right:auto">Are you part of a community organization, business, or faith group? Let's work together for Karen's development.</p>
+            <a href="mailto:partnership@maureen4karen.com" class="prestige-btn"><i class="fas fa-envelope"></i> Become a Partner</a>
         </div>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a>
-        </div>
+        <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a></div>
         <p>&copy; 2026 Maureen Ndungu for MCA - Karen Ward. All rights reserved.</p>
     </footer>
 
-    <script src="/js/navigation.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+    // Wave particles
+    const wp=document.getElementById('waveParticles');
+    if(wp){for(let i=0;i<25;i++){const d=document.createElement('div');d.className='wave-dot';d.style.left=Math.random()*100+'%';d.style.top=Math.random()*100+'%';d.style.animationDelay=Math.random()*4+'s';d.style.animationDuration=(3+Math.random()*3)+'s';wp.appendChild(d);}}
+
+    // Impact counters
+    const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.impact-num').forEach(el=>{animateCounter(el,parseInt(el.dataset.target),2000);});cObs.unobserve(e.target);}});},{threshold:0.5});
+    document.querySelectorAll('.impact-counter').forEach(el=>cObs.observe(el));
+
+    // Timeline reveal
+    const tlObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.3});
+    document.querySelectorAll('.tl-item').forEach(el=>tlObs.observe(el));
+
+    function submitVolunteer(){
+        const name=document.getElementById('volName').value;
+        const phone=document.getElementById('volPhone').value;
+        if(!name||!phone){showNotification('Please fill in name and phone','error');return;}
+        document.getElementById('signupForm').style.display='none';
+        document.getElementById('signupSuccess').style.display='block';
+        showNotification('Welcome to the team! 🎉','success');
+    }
+    </script>
 </body>
 </html>

@@ -6,214 +6,154 @@
     <title>Community Forum | Maureen Ndungu for MCA</title>
     <link rel="stylesheet" href="/css/campaign.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .forum-container{background:var(--bg-card);border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--glass-border)}
+        .forum-header{background:linear-gradient(135deg,var(--secondary-light),#1a6b4a);padding:3rem;text-align:center}
+        .forum-header h2{color:var(--primary);margin-bottom:0.5rem}
+        .forum-header h2::after{left:50%;transform:translateX(-50%)}
+        .forum-header p{color:rgba(255,255,255,0.8)}
+        .forum-avatar{width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);margin-top:1rem;object-fit:cover}
+        .forum-stats{display:flex;justify-content:center;gap:2rem;padding:1rem 2rem;background:var(--bg);border-bottom:1px solid var(--glass-border);flex-wrap:wrap}
+        .forum-stats span{color:var(--text-light);font-size:0.88rem;display:flex;align-items:center;gap:0.4rem}
+        .forum-stats .count{color:var(--primary);font-weight:700}
+        #qa-messages{min-height:300px;max-height:500px;overflow-y:auto;padding:1.5rem;background:var(--bg);scrollbar-width:thin;scrollbar-color:var(--primary) transparent}
+        #qa-messages::-webkit-scrollbar{width:4px}
+        #qa-messages::-webkit-scrollbar-thumb{background:var(--primary);border-radius:2px}
+        .q-item{background:var(--glass);border:1px solid var(--glass-border);padding:1.2rem;margin-bottom:1rem;border-radius:var(--radius);border-left:3px solid var(--primary);transition:all 0.3s;animation:msgFade 0.3s ease}
+        .q-item.answered{border-left-color:var(--accent-light)}
+        .q-item:hover{border-color:var(--primary)}
+        .q-header{display:flex;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem}
+        .q-name{color:var(--primary);font-weight:600;font-size:0.9rem}
+        .q-time{color:var(--text-muted);font-size:0.78rem}
+        .q-text{color:var(--text-light);line-height:1.6;margin-bottom:0.5rem}
+        .q-answer{background:rgba(34,196,122,0.08);border:1px solid rgba(34,196,122,0.2);padding:0.8rem;border-radius:var(--radius-sm);margin-top:0.5rem}
+        .q-answer strong{color:var(--accent-light);display:block;margin-bottom:0.3rem}
+        .q-answer div{color:var(--text-light);font-size:0.9rem}
+        .q-actions{display:flex;gap:1rem;align-items:center;margin-top:0.5rem}
+        .q-vote{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.85rem;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;padding:0}
+        .q-vote:hover{color:var(--primary)}
+        .q-pending{color:var(--text-muted);font-size:0.8rem;font-style:italic}
+        .form-section{padding:1.5rem;background:var(--bg-card);border-top:1px solid var(--glass-border)}
+        .form-section input,.form-section textarea{margin-bottom:0.8rem}
+        .pagination{display:flex;justify-content:center;gap:0.5rem;padding:1rem;background:var(--bg);border-top:1px solid var(--glass-border)}
+        .page-btn{background:var(--glass);border:1px solid var(--glass-border);color:var(--text-light);padding:6px 14px;border-radius:50px;cursor:pointer;font-size:0.85rem;transition:all 0.2s}
+        .page-btn:hover,.page-btn.active{background:var(--primary);color:var(--secondary);border-color:var(--primary)}
+        @keyframes msgFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    </style>
 </head>
 <body>
     <nav class="main-nav">
-        <div class="logo">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndungu" class="logo-img">
-            <div>
-                <h2>Maureen Ndungu</h2>
-                <p>MCA Candidate - Karen Ward</p>
-            </div>
-        </div>
+        <div class="logo"><img src="/images/maureen/portrait.png" alt="Maureen" class="logo-img"><div><h2>Maureen Ndungu</h2><p>MCA Candidate - Karen Ward</p></div></div>
         <button class="menu-toggle" id="menuToggle">☰</button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="about.html">About Maureen</a></li>
-            <li><a href="manifesto.html">Manifesto</a></li>
-            <li><a href="forum.html" class="active">Community Forum</a></li>
-            <li><a href="get-involved.html">Get Involved</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="/index.html">Home</a></li><li><a href="/pages/about.html">About Maureen</a></li><li><a href="/pages/manifesto.html">Manifesto</a></li>
+            <li><a href="/pages/karen-facts.html">Facts About Karen</a></li><li><a href="/pages/articles.html">Articles & News</a></li>
+            <li><a href="/pages/forum.html" class="active">Community Forum</a></li><li><a href="/pages/get-involved.html">Get Involved</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
         </ul>
     </nav>
 
-    <div class="hero" style="margin-top: 70px;">
-        <h1>Community Forum</h1>
-        <p class="tagline">Your Voice Matters - Connect Directly with Maureen</p>
+    <div class="hero" style="min-height:auto;padding:140px 20px 80px">
+        <div class="hero-content"><h1>Community Forum</h1><p class="tagline">Your Voice Matters — Connect Directly with Maureen</p></div>
     </div>
 
     <div class="container">
-        <div class="forum-container">
+        <div class="forum-container reveal">
             <div class="forum-header">
                 <h2>🗣️ Speak Directly to Maureen</h2>
                 <p>Ask questions, share ideas, and engage in community dialogue</p>
-                <img src="/images/maureen/portrait.png" alt="Maureen" style="width: 80px; height: 80px; border-radius: 50%; margin-top: 1rem; border: 3px solid white;">
+                <img src="/images/maureen/portrait.png" alt="Maureen" class="forum-avatar">
             </div>
-            
             <div class="forum-stats">
-                <span id="user-count"><i class="fas fa-users"></i> Active: <span id="active-count">0</span></span>
-                <span><i class="fas fa-comments"></i> Questions: <span id="question-count">0</span></span>
-                <span><i class="fas fa-check-circle"></i> Answered: <span id="answered-count">0</span></span>
+                <span><i class="fas fa-users"></i> Active: <span class="count" id="active-count">0</span></span>
+                <span><i class="fas fa-comments"></i> Questions: <span class="count" id="question-count">0</span></span>
+                <span><i class="fas fa-check-circle"></i> Answered: <span class="count" id="answered-count">0</span></span>
             </div>
-            
-            <div id="qa-messages" class="qa-messages" style="height: 400px; overflow-y: auto; padding: 1rem;"></div>
-            
-            <div style="padding: 1rem; background: white; border-top: 1px solid #ddd;">
+            <div id="qa-messages"></div>
+            <div id="pagination" class="pagination"></div>
+            <div class="form-section">
                 <form id="qa-form">
-                    <input type="text" id="qa-name" placeholder="Your Name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                    <textarea id="qa-question" placeholder="What would you like to ask Maureen about Karen Ward?" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
-                    <button type="submit" class="prestige-btn" style="margin-top: 10px;">Submit Question</button>
+                    <input type="text" id="qa-name" placeholder="Your Name (leave blank for anonymous)" maxlength="50">
+                    <textarea id="qa-question" placeholder="What would you like to ask Maureen about Karen Ward?" rows="3"></textarea>
+                    <small style="display:block;margin-bottom:8px;color:var(--text-muted);font-size:0.75rem"><i class="fas fa-lock"></i> Anonymous submissions show as "Karen Resident"</small>
+                    <button type="submit" class="prestige-btn" style="width:100%"><i class="fas fa-paper-plane"></i> Submit Question</button>
                 </form>
-                <p class="note" style="font-size: 0.8rem; color: #666; margin-top: 10px;">
-                    <i class="fas fa-info-circle"></i> Questions will be reviewed and answered by Maureen's team. Maureen personally responds to community concerns.
-                </p>
             </div>
         </div>
-        
-        <div class="manifesto-section" style="margin-top: 2rem;">
+
+        <div class="elegant-section reveal" style="margin-top:2rem">
             <h2>💡 Featured Topics</h2>
-            <div class="prestige-grid">
-                <div class="prestige-card">
-                    <div class="card-content">
-                        <h3>Youth Employment</h3>
-                        <p>Share your ideas on how we can create more opportunities for young people in Karen Ward.</p>
-                        <button onclick="askFeatured('youth')" class="prestige-btn" style="margin-top: 1rem;">Ask about this</button>
-                    </div>
-                </div>
-                <div class="prestige-card">
-                    <div class="card-content">
-                        <h3>Road Infrastructure</h3>
-                        <p>Which roads in Karen need urgent attention? Tell Maureen about your concerns.</p>
-                        <button onclick="askFeatured('roads')" class="prestige-btn" style="margin-top: 1rem;">Report an issue</button>
-                    </div>
-                </div>
-                <div class="prestige-card">
-                    <div class="card-content">
-                        <h3>Environment & Waste</h3>
-                        <p>Suggestions for improving waste management and protecting our green spaces.</p>
-                        <button onclick="askFeatured('environment')" class="prestige-btn" style="margin-top: 1rem;">Share ideas</button>
-                    </div>
-                </div>
+            <div class="prestige-grid" style="margin-top:1.5rem">
+                <div class="prestige-card" style="cursor:pointer" onclick="askFeatured('youth')"><i class="fas fa-users prestige-icon"></i><h3>Youth Employment</h3><p>Share ideas for youth opportunities</p></div>
+                <div class="prestige-card" style="cursor:pointer" onclick="askFeatured('roads')"><i class="fas fa-road prestige-icon"></i><h3>Road Infrastructure</h3><p>Report road issues</p></div>
+                <div class="prestige-card" style="cursor:pointer" onclick="askFeatured('environment')"><i class="fas fa-leaf prestige-icon"></i><h3>Environment & Waste</h3><p>Share green ideas</p></div>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a>
-        </div>
+        <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a></div>
         <p>&copy; 2026 Maureen Ndungu for MCA - Karen Ward. All rights reserved.</p>
     </footer>
 
-    <script src="/js/navigation.js"></script>
-    <script type="importmap">
-    {
-        "imports": {
-            "/config.js": "/config.js"
-        }
+    <script src="/js/main.js"></script>
+    <script>
+    const API_URL='http://localhost:3001/api',WS_URL='ws://localhost:3001';
+    let socket=null,currentPage=1,perPage=10,allQuestions=[];
+
+    function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+    function timeAgo(ts){const s=Math.floor((Date.now()-new Date(ts))/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+
+    function connectWebSocket(){
+        socket=new WebSocket(WS_URL);
+        socket.onopen=()=>{document.getElementById('active-count').textContent='Online';};
+        socket.onmessage=(e)=>{const d=JSON.parse(e.data);if(['history','newQuestion','questionDeleted','questionAnswered','voteUpdate'].includes(d.type))loadQuestions();if(d.type==='userCount')document.getElementById('active-count').textContent=d.count;};
+        socket.onclose=()=>setTimeout(connectWebSocket,3000);
     }
-</script>
 
-<script type="module">
-    import config from '/config.js';
-    
-    // Make config globally available
-    window.WS_URL = config.WS_URL;
-    window.API_URL = config.API_URL;
-    
-    console.log('Using WebSocket URL:', window.WS_URL);
-    
-    // Now your existing WebSocket code can use window.WS_URL
-    // Rest of your WebSocket code here...
-</script>
-<script>
-        // WebSocket connection for forum
-    //     const WS_URL = 'ws://localhost:3001';
-    //     let socket = null;
-        
-    //     function connectWebSocket() {
-    //         socket = new WebSocket(WS_URL);
-            
-    //         socket.onopen = () => {
-    //             console.log('Connected to forum');
-    //             document.getElementById('active-count').textContent = 'Connected';
-    //         };
-            
-    //         socket.onmessage = (event) => {
-    //             const data = JSON.parse(event.data);
-    //             if (data.type === 'history' || data.type === 'newQuestion') {
-    //                 loadQuestions();
-    //             }
-    //             if (data.type === 'userCount') {
-    //                 document.getElementById('active-count').textContent = data.count;
-    //             }
-    //         };
-            
-    //         socket.onclose = () => {
-    //             setTimeout(connectWebSocket, 3000);
-    //         };
-    //     }
-        
-    //     function loadQuestions() {
-    //         fetch('http://localhost:3001/api/questions')
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 const container = document.getElementById('qa-messages');
-    //                 document.getElementById('question-count').textContent = data.total;
-    //                 document.getElementById('answered-count').textContent = data.questions.filter(q => q.answered).length;
-                    
-    //                 container.innerHTML = data.questions.map(q => `
-    //                     <div class="question-item" style="background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid ${q.answered ? '#27ae60' : '#e67e22'}">
-    //                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-    //                             <strong style="color: #e67e22;">${escapeHtml(q.name)}</strong>
-    //                             <small>${new Date(q.timestamp).toLocaleString()}</small>
-    //                         </div>
-    //                         <div style="margin-bottom: 0.5rem;">${escapeHtml(q.question)}</div>
-    //                         ${q.answered ? `
-    //                             <div style="background: #e8f5e9; padding: 0.8rem; border-radius: 5px; margin-top: 0.5rem;">
-    //                                 <strong style="color: #27ae60;">👩‍💼 Maureen's Response:</strong>
-    //                                 <div>${escapeHtml(q.answer)}</div>
-    //                             </div>
-    //                         ` : '<div style="color: #999; font-size: 0.8rem;">⏳ Awaiting Maureen\'s response...</div>'}
-    //                         <div style="margin-top: 0.5rem;">
-    //                             <button onclick="voteQuestion(${q.id})" style="background: none; border: none; cursor: pointer;">👍 ${q.votes || 0}</button>
-    //                         </div>
-    //                     </div>
-    //                 `).join('');
-    //             });
-    //     }
-        
-    //     function escapeHtml(text) {
-    //         const div = document.createElement('div');
-    //         div.textContent = text;
-    //         return div.innerHTML;
-    //     }
-        
-    //     function voteQuestion(id) {
-    //         if (socket && socket.readyState === WebSocket.OPEN) {
-    //             socket.send(JSON.stringify({ type: 'vote', questionId: id, voteType: 'up' }));
-    //         }
-    //     }
-        
-    //     function askFeatured(topic) {
-    //         const questions = {
-    //             youth: "What specific programs are you planning for youth employment in Karen Ward?",
-    //             roads: "Which roads in Karen Ward are your priority for repair and improvement?",
-    //             environment: "What is your plan for improving waste management and protecting our environment?"
-    //         };
-    //         document.getElementById('qa-question').value = questions[topic];
-    //         document.getElementById('qa-question').focus();
-    //     }
-        
-    //     document.getElementById('qa-form').addEventListener('submit', (e) => {
-    //         e.preventDefault();
-    //         const name = document.getElementById('qa-name').value || 'Karen Resident';
-    //         const question = document.getElementById('qa-question').value;
-            
-    //         if (question && socket && socket.readyState === WebSocket.OPEN) {
-    //             socket.send(JSON.stringify({ type: 'question', name, question }));
-    //             document.getElementById('qa-question').value = '';
-    //             alert('Your question has been submitted! Maureen will review and respond.');
-    //         }
-    //     });
-        
-    //     connectWebSocket();
-    //     loadQuestions();
-    //     setInterval(loadQuestions, 5000);
+    async function loadQuestions(){
+        try{
+            const r=await fetch(API_URL+'/questions');const d=await r.json();
+            allQuestions=d.questions;
+            document.getElementById('question-count').textContent=d.total;
+            document.getElementById('answered-count').textContent=d.questions.filter(q=>q.answered).length;
+            renderPage();
+        }catch(e){document.getElementById('qa-messages').innerHTML='<div style="text-align:center;padding:2rem;color:var(--text-muted)">⚠️ Server offline</div>';}
+    }
+
+    function renderPage(){
+        const c=document.getElementById('qa-messages');
+        const totalPages=Math.ceil(allQuestions.length/perPage);
+        const start=(currentPage-1)*perPage;
+        const pageQ=allQuestions.slice(start,start+perPage);
+        if(!pageQ.length){c.innerHTML='<div style="text-align:center;padding:2rem;color:var(--text-muted)">✨ No questions yet. Be the first to ask!</div>';return;}
+        c.innerHTML=pageQ.map(q=>`
+            <div class="q-item ${q.answered?'answered':''}" id="q-${q.id}">
+                <div class="q-header"><span class="q-name">${esc(q.name)}</span><span class="q-time">${timeAgo(q.timestamp)}</span></div>
+                <div class="q-text">${esc(q.question)}</div>
+                ${q.answered?`<div class="q-answer"><strong>💬 Maureen's Response:</strong><div>${esc(q.answer)}</div><small style="color:var(--text-muted);margin-top:4px;display:block">${timeAgo(q.answerTimestamp)}</small></div>`:'<div class="q-pending">⏳ Awaiting Maureen\'s response...</div>'}
+                <div class="q-actions"><button class="q-vote" onclick="vote(${q.id})"><i class="fas fa-thumbs-up"></i> ${q.votes||0}</button></div>
+            </div>`).join('');
+        // Pagination
+        const pg=document.getElementById('pagination');
+        if(totalPages<=1){pg.innerHTML='';return;}
+        pg.innerHTML=Array.from({length:totalPages},(_,i)=>`<button class="page-btn ${i+1===currentPage?'active':''}" onclick="goPage(${i+1})">${i+1}</button>`).join('');
+    }
+    window.goPage=function(p){currentPage=p;renderPage();document.getElementById('qa-messages').scrollTop=0;};
+    window.vote=function(id){if(socket&&socket.readyState===WebSocket.OPEN)socket.send(JSON.stringify({type:'vote',questionId:id,voteType:'up'}));};
+    window.askFeatured=function(t){const q={youth:"What programs are planned for youth employment in Karen?",roads:"Which roads in Karen need urgent repair?",environment:"What is your plan for waste management and green spaces?"};document.getElementById('qa-question').value=q[t];document.getElementById('qa-question').focus();};
+
+    document.getElementById('qa-form').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const name=document.getElementById('qa-name').value||'Karen Resident';
+        const question=document.getElementById('qa-question').value.trim();
+        if(!question){showNotification('Please enter a question','error');return;}
+        if(!socket||socket.readyState!==WebSocket.OPEN){showNotification('Connecting to server...','warning');return;}
+        socket.send(JSON.stringify({type:'question',name,question}));
+        document.getElementById('qa-question').value='';document.getElementById('qa-name').value='';
+        showNotification('✓ Question submitted! Maureen will respond soon.','success');
+    });
+
+    connectWebSocket();loadQuestions();setInterval(loadQuestions,8000);
     </script>
-
 </body>
 </html>

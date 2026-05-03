@@ -5,326 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Articles & News | Karen Ward | Maureen Ndung'u</title>
     <link rel="stylesheet" href="/css/campaign.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Articles specific styles */
-        .featured-article {
-            background: linear-gradient(135deg, #f9f5e8, #fff);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            border: 1px solid rgba(201,160,61,0.2);
-        }
-        .featured-badge {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        .article-card {
-            background: var(--bg-white);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        .article-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .article-content {
-            padding: 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .article-category {
-            display: inline-block;
-            background: rgba(201,160,61,0.1);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            margin-bottom: 0.8rem;
-            align-self: flex-start;
-        }
-        .article-date {
-            font-size: 0.75rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        .article-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: var(--secondary);
-            line-height: 1.4;
-        }
-        .article-excerpt {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            flex: 1;
-        }
-        .read-more {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: auto;
-        }
-        .read-more:hover {
-            gap: 0.8rem;
-            color: var(--primary-dark);
-        }
-        .category-filter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 2rem 0;
-            justify-content: center;
-        }
-        .filter-btn {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--primary);
-            color: var(--secondary);
-        }
+        .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem;margin:2rem 0}
+        .article-card{background:var(--bg-card);border:1px solid var(--glass-border);border-radius:var(--radius-xl);overflow:hidden;transition:all 0.4s;display:flex;flex-direction:column}
+        .article-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-gold);border-color:var(--primary)}
+        .article-img{width:100%;height:200px;object-fit:cover;background:linear-gradient(135deg,var(--secondary-light),#1a6b4a);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+        .article-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+        .article-card:hover .article-img img{transform:scale(1.05)}
+        .article-img .img-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(135deg,var(--secondary-light),#1a6b4a)}
+        .article-img .img-placeholder i{font-size:3rem;color:rgba(255,255,255,0.3)}
+        .article-content{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+        .article-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;flex-wrap:wrap;gap:0.5rem}
+        .article-source{font-size:0.75rem;color:var(--accent-light);font-weight:600;display:flex;align-items:center;gap:0.3rem}
+        .article-date{font-size:0.75rem;color:var(--text-muted)}
+        .article-title{font-size:1.15rem;font-weight:600;color:var(--text-dark);line-height:1.4;margin-bottom:0.6rem}
+        .article-excerpt{color:var(--text-light);font-size:0.9rem;line-height:1.6;flex:1;margin-bottom:1rem}
+        .read-more{color:var(--primary);text-decoration:none;font-weight:600;font-size:0.88rem;display:inline-flex;align-items:center;gap:0.4rem;transition:gap 0.3s}
+        .read-more:hover{gap:0.8rem;color:var(--primary-light)}
+        .category-filter{display:flex;flex-wrap:wrap;gap:0.7rem;margin:2rem 0;justify-content:center}
+        .filter-btn{background:transparent;border:1px solid var(--glass-border);color:var(--text-light);padding:8px 18px;border-radius:50px;cursor:pointer;font-weight:500;transition:all 0.3s;font-family:'Outfit',sans-serif;font-size:0.85rem}
+        .filter-btn:hover,.filter-btn.active{background:var(--primary);color:var(--secondary);border-color:var(--primary)}
+        .featured-article{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:2.5rem;margin-bottom:2rem}
+        .featured-badge{display:inline-block;padding:4px 14px;border-radius:50px;font-size:0.75rem;font-weight:600;margin-bottom:1rem;background:rgba(201,160,61,0.15);color:var(--primary);border:1px solid rgba(201,160,61,0.3)}
+        .search-bar{position:relative;max-width:500px;margin:0 auto 2rem}
+        .search-bar input{width:100%;padding:12px 20px 12px 44px;border-radius:50px}
+        .search-bar i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-muted)}
+        .article-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:6000;display:none;align-items:center;justify-content:center;padding:20px}
+        .article-modal.active{display:flex}
+        .modal-content{background:var(--bg-card);border:1px solid var(--glass-border);border-radius:var(--radius-xl);max-width:600px;width:100%;max-height:80vh;overflow-y:auto;padding:2rem;position:relative;animation:slideUp 0.3s}
+        .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;transition:color 0.2s}
+        .modal-close:hover{color:var(--primary)}
+        @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @media(max-width:768px){.articles-grid{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
     <nav class="main-nav">
-        <div class="logo">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="logo-img" onerror="this.src='https://via.placeholder.com/50'">
-            <div>
-                <h2>Maureen Ndung'u</h2>
-                <p>MCA Candidate - Karen Ward</p>
-            </div>
-        </div>
+        <div class="logo"><img src="/images/maureen/portrait.png" alt="Maureen" class="logo-img"><div><h2>Maureen Ndung'u</h2><p>MCA Candidate - Karen Ward</p></div></div>
         <button class="menu-toggle" id="menuToggle">☰</button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/pages/about.html">About Maureen</a></li>
-            <li><a href="/pages/manifesto.html">Manifesto</a></li>
-            <li><a href="/pages/karen-facts.html">Facts About Karen</a></li>
-            <li><a href="/pages/articles.html" class="active">Articles & News</a></li>
-            <li><a href="/pages/forum.html">Community Forum</a></li>
-            <li><a href="/pages/get-involved.html">Get Involved</a></li>
-            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/index.html">Home</a></li><li><a href="/pages/about.html">About Maureen</a></li><li><a href="/pages/manifesto.html">Manifesto</a></li>
+            <li><a href="/pages/karen-facts.html">Facts About Karen</a></li><li><a href="/pages/articles.html" class="active">Articles & News</a></li>
+            <li><a href="/pages/forum.html">Community Forum</a></li><li><a href="/pages/get-involved.html">Get Involved</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
         </ul>
     </nav>
 
-    <div class="hero" style="margin-top: 70px;">
-        <div class="hero-content">
-            <h1>Articles & News</h1>
-            <p class="tagline">Stories, Updates, and Insights from Karen Ward</p>
-            <p class="hero-text">Stay informed about our community's development, events, and the issues that matter</p>
-        </div>
+    <div class="hero" style="min-height:auto;padding:140px 20px 80px">
+        <div class="hero-content"><h1>Articles & News</h1><p class="tagline">Stories, Updates, and Insights from Karen Ward</p></div>
     </div>
 
     <div class="container">
-        <!-- Category Filters -->
-        <div class="category-filter" id="categoryFilters">
+        <div class="search-bar reveal"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search articles..."></div>
+        <div class="category-filter reveal" id="categoryFilters">
             <button class="filter-btn active" data-category="all">All Articles</button>
-            <button class="filter-btn" data-category="community">Community News</button>
-            <button class="filter-btn" data-category="development">Development</button>
-            <button class="filter-btn" data-category="environment">Environment</button>
-            <button class="filter-btn" data-category="culture">Culture & Heritage</button>
+            <button class="filter-btn" data-category="community">🏘️ Community</button>
+            <button class="filter-btn" data-category="development">🏗️ Development</button>
+            <button class="filter-btn" data-category="environment">🌳 Environment</button>
+            <button class="filter-btn" data-category="culture">🎭 Culture</button>
         </div>
+        <div id="articlesGrid" class="articles-grid"></div>
+    </div>
 
-        <!-- Featured Article -->
-        <div class="featured-article" id="featuredArticle">
-            <div class="featured-badge">⭐ Featured Story</div>
-            <h2 style="margin-bottom: 0.5rem;">Karen Ward: A Community at the Heart of Nairobi's Green Belt</h2>
-            <p class="article-date" style="margin-bottom: 1rem;">📅 March 28, 2026 | By Maureen Ndung'u</p>
-            <p style="font-size: 1.1rem; line-height: 1.6;">As your next MCA, I'm committed to preserving what makes Karen special - our green spaces, our community spirit, and our shared vision for sustainable development. This ward is not just a place we live; it's a legacy we're building together.</p>
-        </div>
-
-        <!-- Articles Grid -->
-        <div id="articlesGrid" class="articles-grid">
-            <!-- Articles will be loaded here -->
+    <div class="article-modal" id="articleModal">
+        <div class="modal-content" id="modalContent">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
         </div>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a>
-        </div>
+        <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a></div>
         <p>&copy; 2026 Maureen Ndung'u for MCA - Karen Ward. All rights reserved.</p>
-        <p><small>Wanawake Tunaweza | Ubuntu: I am because we are</small></p>
     </footer>
 
-    <script src="/js/navigation.js"></script>
+    <script src="/js/main.js"></script>
     <script>
-        // Real articles about Karen Ward
-        const articles = [
-            {
-                id: 1,
-                title: "Karen's Green Spaces: A Treasure Worth Protecting",
-                category: "environment",
-                date: "March 25, 2026",
-                excerpt: "From the Ngong Forest to the tree-lined avenues, Karen's natural heritage is under threat. Community-led conservation efforts are gaining momentum as residents rally to protect their environment.",
-                fullArticle: "Karen is home to some of Nairobi's last remaining green corridors. The Ngong Forest, which borders the ward, provides critical habitat for wildlife and serves as a vital water catchment area. Local conservation groups have planted over 5,000 trees in the past year, and the community is advocating for stronger protection measures. As your MCA, I will champion policies that preserve our green spaces while promoting sustainable development."
-            },
-            {
-                id: 2,
-                title: "The Karen Market: More Than Just a Shopping Destination",
-                category: "community",
-                date: "March 20, 2026",
-                excerpt: "Every weekend, the Karen Market transforms into a vibrant hub of local commerce, bringing together farmers, artisans, and families in celebration of community.",
-                fullArticle: "The Karen Market has become an institution in our ward. Supporting over 200 local vendors, it's a place where residents connect, where fresh produce meets handmade crafts, and where the spirit of Karen comes alive. The market generates millions in economic activity annually and provides livelihoods for dozens of local families. Supporting such initiatives is key to building a self-sustaining local economy."
-            },
-            {
-                id: 3,
-                title: "Youth Empowerment: Building Tomorrow's Leaders Today",
-                category: "community",
-                date: "March 15, 2026",
-                excerpt: "With youth unemployment a pressing concern, new initiatives in Karen are creating pathways to employment and entrepreneurship for young residents.",
-                fullArticle: "Over 60% of Karen's residents are under 35 years old. Yet, youth unemployment remains a challenge. The recently launched Karen Youth Skills Hub has trained 150 young people in digital skills, hospitality, and entrepreneurship. More such programs are needed to harness the potential of our young people and create opportunities right here in our ward."
-            },
-            {
-                id: 4,
-                title: "The Karen Blixen Museum: Preserving Our Heritage",
-                category: "culture",
-                date: "March 10, 2026",
-                excerpt: "As one of Kenya's most visited cultural sites, the Karen Blixen Museum tells the story of our ward's rich history and attracts thousands of visitors annually.",
-                fullArticle: "Named after the Danish author who made this area her home, the Karen Blixen Museum is a testament to our ward's unique heritage. The museum attracts over 100,000 visitors annually, contributing significantly to local tourism and providing employment for community members. Protecting and promoting our cultural assets is essential for sustainable development and community pride."
-            },
-            {
-                id: 5,
-                title: "Infrastructure Update: Progress on Karen Road Improvements",
-                category: "development",
-                date: "March 5, 2026",
-                excerpt: "Long-awaited road repairs and drainage improvements are bringing relief to residents and businesses in Karen Ward.",
-                fullArticle: "After years of advocacy, significant road rehabilitation has begun on key arteries including Karen Road and Marula Lane. The project includes improved drainage systems, which will address the flooding that has plagued residents during rainy seasons. The county government has allocated KES 50 million for road maintenance in our ward, with completion expected by June 2026."
-            },
-            {
-                id: 6,
-                title: "Community Healthcare: Access for All",
-                category: "community",
-                date: "February 28, 2026",
-                excerpt: "Local clinics and health initiatives are working to ensure every Karen resident has access to quality healthcare services.",
-                fullArticle: "Healthcare access remains a priority for our community. The Karen Hospital continues to expand its services, while community health volunteers provide outreach to vulnerable populations. A new maternal health program has been launched, aiming to reduce maternal mortality and improve outcomes for mothers and infants. I am committed to advocating for increased healthcare resources for our ward."
-            },
-            {
-                id: 7,
-                title: "Wildlife Corridors: Connecting Nairobi National Park to Ngong Hills",
-                category: "environment",
-                date: "February 20, 2026",
-                excerpt: "Karen serves as a critical wildlife corridor, and conservation efforts are protecting this unique natural asset.",
-                fullArticle: "Karen sits at the intersection of critical wildlife migration routes connecting Nairobi National Park to the Ngong Hills. This corridor is essential for species like giraffes, leopards, and over 500 bird species. Community-led conservation programs, including wildlife monitoring and fence repairs, are helping to protect these magnificent animals while ensuring human-wildlife coexistence."
-            },
-            {
-                id: 8,
-                title: "Supporting Small Businesses: The Backbone of Karen's Economy",
-                category: "development",
-                date: "February 15, 2026",
-                excerpt: "From local cafes to artisan workshops, Karen's small businesses are the engine of our local economy.",
-                fullArticle: "Small and medium enterprises account for over 70% of employment in Karen Ward. From the Karen Shopping Centre to independent businesses along Marula Lane, these enterprises need our support. Initiatives include business training programs, market access support, and advocacy for policies that reduce the burden of licensing and taxation on small traders."
-            }
-        ];
+    const articles=[
+        {id:1,title:"Karen's Green Spaces: A Treasure Worth Protecting",category:"environment",date:"March 25, 2026",sourceName:"Nation Africa",sourceUrl:"https://nation.africa/kenya/counties/nairobi",excerpt:"From the Ngong Forest to tree-lined avenues, Karen's natural heritage faces new challenges. Community-led conservation efforts gain momentum.",snippet:"Karen is home to some of Nairobi's last remaining green corridors. The Ngong Forest borders the ward, providing critical wildlife habitat. Over 5,000 trees planted in the past year by local groups."},
+        {id:2,title:"The Karen Market: More Than a Shopping Destination",category:"community",date:"March 20, 2026",sourceName:"The Standard",sourceUrl:"https://www.standardmedia.co.ke/nairobi",excerpt:"Every weekend, Karen Market transforms into a vibrant hub of local commerce with 200+ vendors.",snippet:"Supporting over 200 local vendors, Karen Market generates millions in economic activity annually and provides livelihoods for dozens of local families."},
+        {id:3,title:"Youth Empowerment: Building Tomorrow's Leaders",category:"community",date:"March 15, 2026",sourceName:"Citizen Digital",sourceUrl:"https://www.citizen.digital/news",excerpt:"With youth unemployment a pressing concern, new initiatives create pathways to employment for young Karen residents.",snippet:"Over 60% of Karen's residents are under 35. The Karen Youth Skills Hub has trained 150 young people in digital skills, hospitality, and entrepreneurship."},
+        {id:4,title:"The Karen Blixen Museum: Preserving Our Heritage",category:"culture",date:"March 10, 2026",sourceName:"Daily Nation",sourceUrl:"https://nation.africa/kenya/life-and-style/lifestyle",excerpt:"One of Kenya's most visited cultural sites tells the story of Karen's rich history, attracting 100,000+ visitors annually.",snippet:"The museum is a testament to the ward's unique heritage, contributing significantly to local tourism and employment."},
+        {id:5,title:"Infrastructure Update: Karen Road Improvements",category:"development",date:"March 5, 2026",sourceName:"Business Daily",sourceUrl:"https://www.businessdailyafrica.com/bd/economy",excerpt:"Long-awaited road repairs and drainage improvements bring relief to Karen residents and businesses.",snippet:"KES 50 million allocated for road maintenance including Karen Road and Marula Lane, with improved drainage to address flooding."},
+        {id:6,title:"Community Healthcare: Access for All",category:"community",date:"Feb 28, 2026",sourceName:"The Star",sourceUrl:"https://www.the-star.co.ke/counties/nairobi",excerpt:"Local clinics and health initiatives work to ensure every Karen resident has access to quality healthcare.",snippet:"New maternal health program launched to reduce maternal mortality. Karen Hospital expands services while community health volunteers provide outreach."},
+        {id:7,title:"Wildlife Corridors: Connecting Park to Ngong Hills",category:"environment",date:"Feb 20, 2026",sourceName:"KWS News",sourceUrl:"https://www.kws.go.ke/content/nairobi-national-park",excerpt:"Karen serves as a critical wildlife corridor. Conservation efforts protect this unique natural asset.",snippet:"The corridor is essential for species like giraffes, leopards, and over 500 bird species. Community-led monitoring programs protect wildlife."},
+        {id:8,title:"Small Businesses: The Backbone of Karen's Economy",category:"development",date:"Feb 15, 2026",sourceName:"Business Daily",sourceUrl:"https://www.businessdailyafrica.com/bd/economy",excerpt:"From local cafes to artisan workshops, Karen's SMEs are the engine of the local economy.",snippet:"SMEs account for over 70% of employment in Karen Ward. Business training and market access initiatives are key to growth."}
+    ];
 
-        let currentCategory = 'all';
+    let currentCategory='all',searchTerm='';
 
-        function renderArticles(category = 'all') {
-            const grid = document.getElementById('articlesGrid');
-            const filtered = category === 'all' ? articles : articles.filter(a => a.category === category);
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 60px;">No articles in this category yet. Check back soon!</div>';
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(article => `
-                <div class="article-card">
-                    <div class="article-img">
-                        <i class="fas fa-newspaper" style="font-size: 3rem; color: white;"></i>
-                    </div>
-                    <div class="article-content">
-                        <span class="article-category">${getCategoryName(article.category)}</span>
-                        <div class="article-date">📅 ${article.date}</div>
-                        <h3 class="article-title">${escapeHtml(article.title)}</h3>
-                        <p class="article-excerpt">${escapeHtml(article.excerpt)}</p>
-                        <a href="#" class="read-more" onclick="showFullArticle(${article.id}); return false;">Read full article →</a>
+    function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+    function getCatName(c){return{community:'🏘️ Community',development:'🏗️ Development',environment:'🌳 Environment',culture:'🎭 Culture'}[c]||c;}
+
+    function renderArticles(){
+        const grid=document.getElementById('articlesGrid');
+        let filtered=currentCategory==='all'?articles:articles.filter(a=>a.category===currentCategory);
+        if(searchTerm)filtered=filtered.filter(a=>a.title.toLowerCase().includes(searchTerm)||a.excerpt.toLowerCase().includes(searchTerm));
+        if(!filtered.length){grid.innerHTML='<div style="text-align:center;grid-column:1/-1;padding:60px;color:var(--text-muted)">No articles found.</div>';return;}
+        grid.innerHTML=filtered.map(a=>`
+            <div class="article-card reveal">
+                <div class="article-img"><div class="img-placeholder"><i class="fas fa-newspaper"></i></div></div>
+                <div class="article-content">
+                    <div class="article-meta"><span class="badge badge-gold">${getCatName(a.category)}</span><span class="article-date">📅 ${a.date}</span></div>
+                    <div class="article-source"><i class="fas fa-external-link-alt"></i> ${esc(a.sourceName)}</div>
+                    <h3 class="article-title">${esc(a.title)}</h3>
+                    <p class="article-excerpt">${esc(a.excerpt)}</p>
+                    <div style="display:flex;gap:1rem;align-items:center;margin-top:auto">
+                        <a href="#" class="read-more" onclick="previewArticle(${a.id});return false">Preview <i class="fas fa-eye"></i></a>
+                        <a href="${a.sourceUrl}" target="_blank" rel="noopener" class="read-more" style="color:var(--accent-light)">Read Source <i class="fas fa-external-link-alt"></i></a>
                     </div>
                 </div>
-            `).join('');
-        }
-        
-        function getCategoryName(cat) {
-            const categories = {
-                community: '🏘️ Community News',
-                development: '🏗️ Development',
-                environment: '🌳 Environment',
-                culture: '🎭 Culture & Heritage'
-            };
-            return categories[cat] || cat;
-        }
-        
-        function showFullArticle(id) {
-            const article = articles.find(a => a.id === id);
-            if (article) {
-                alert(`📰 ${article.title}\n\n${article.fullArticle}\n\n— ${article.date}`);
-            }
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // Set up category filters
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentCategory = btn.dataset.category;
-                renderArticles(currentCategory);
-            });
-        });
-        
-        // Initialize
-        renderArticles('all');
+            </div>`).join('');
+        document.querySelectorAll('.reveal').forEach(el=>{const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.1});obs.observe(el);});
+    }
+
+    window.previewArticle=function(id){
+        const a=articles.find(x=>x.id===id);if(!a)return;
+        document.getElementById('modalBody').innerHTML=`
+            <span class="badge badge-gold" style="margin-bottom:1rem">${getCatName(a.category)}</span>
+            <h2 style="margin:0.5rem 0 0.3rem;font-size:1.4rem">${esc(a.title)}</h2>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">📅 ${a.date} · <span style="color:var(--accent-light)">${esc(a.sourceName)}</span></p>
+            <p style="color:var(--text-light);line-height:1.7;margin-bottom:1.5rem">${esc(a.snippet)}</p>
+            <a href="${a.sourceUrl}" target="_blank" rel="noopener" class="prestige-btn" style="display:inline-flex;align-items:center;gap:0.5rem"><i class="fas fa-external-link-alt"></i> Read Full Article at ${esc(a.sourceName)}</a>`;
+        document.getElementById('articleModal').classList.add('active');
+    };
+    window.closeModal=function(){document.getElementById('articleModal').classList.remove('active');};
+    document.getElementById('articleModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+    document.querySelectorAll('.filter-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentCategory=b.dataset.category;renderArticles();});});
+    document.getElementById('searchInput').addEventListener('input',function(){searchTerm=this.value.toLowerCase();renderArticles();});
+    renderArticles();
     </script>
 </body>
 </html>

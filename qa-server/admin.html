@@ -3,712 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Maureen's Campaign Q&A</title>
+    <title>Admin Panel - Campaign Q&A</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #e67e22 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            opacity: 0.9;
-        }
-        
-        /* Status Bar */
-        .status-bar {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .status-stats {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
-            background: #f8f9fa;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .stat.total { background: #e3f2fd; color: #1976d2; }
-        .stat.answered { background: #e8f5e9; color: #388e3c; }
-        .stat.pending { background: #fff3e0; color: #f57c00; }
-        
-        /* Filter Buttons */
-        .filter-group {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .filter-btn {
-            background: #e0e0e0;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-        
-        .filter-btn.active {
-            background: #e67e22;
-            color: white;
-        }
-        
-        /* Control Buttons */
-        .control-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .control-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        
-        .control-btn:hover {
-            background: #2980b9;
-        }
-        
-        .control-btn.danger {
-            background: #e74c3c;
-        }
-        
-        .control-btn.danger:hover {
-            background: #c0392b;
-        }
-        
-        /* Questions Grid */
-        .questions-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        /* Question Card */
-        .question-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .question-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .question-card.answered {
-            border-left: 4px solid #27ae60;
-        }
-        
-        .question-card.pending {
-            border-left: 4px solid #e67e22;
-        }
-        
-        /* Question Header */
-        .question-header {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .question-meta {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
-        .question-name {
-            font-weight: 600;
-            color: #e67e22;
-        }
-        
-        .question-id {
-            background: #e0e0e0;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-        }
-        
-        .question-status {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .status-answered {
-            background: #e8f5e9;
-            color: #27ae60;
-        }
-        
-        .status-pending {
-            background: #fff3e0;
-            color: #e67e22;
-        }
-        
-        /* Question Body */
-        .question-body {
-            padding: 20px;
-        }
-        
-        .question-text {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-        }
-        
-        .vote-count {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 15px;
-        }
-        
-        /* Answer Section */
-        .answer-section {
-            margin-top: 15px;
-        }
-        
-        .answer-label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-        
-        .answer-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            resize: vertical;
-            transition: border-color 0.3s;
-        }
-        
-        .answer-textarea:focus {
-            border-color: #e67e22;
-            outline: none;
-        }
-        
-        .answer-display {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 12px;
-            border-left: 4px solid #27ae60;
-            margin-top: 15px;
-        }
-        
-        .answer-display strong {
-            color: #27ae60;
-        }
-        
-        .answer-timestamp {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 8px;
-        }
-        
-        /* Button Group */
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: #e67e22;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #d35400;
-        }
-        
-        .btn-secondary {
-            background: #95a5a6;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #7f8c8d;
-        }
-        
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-        
-        .draft-indicator {
-            font-size: 0.75rem;
-            color: #e67e22;
-            margin-top: 5px;
-        }
-        
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 60px;
-            color: #999;
-        }
-        
-        /* No Questions */
-        .no-questions {
-            text-align: center;
-            padding: 60px;
-            background: white;
-            border-radius: 16px;
-            color: #999;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .status-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .question-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                text-align: center;
-            }
-        }
-        
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #e67e22;
-            border-radius: 4px;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#f0ece4;min-height:100vh}
+        .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+        .login-box{background:#111827;border:1px solid rgba(201,160,61,0.2);border-radius:16px;padding:2.5rem;max-width:400px;width:100%;text-align:center}
+        .login-box h1{color:#c9a03d;font-size:1.8rem;margin-bottom:0.5rem}
+        .login-box p{color:#a0a8b8;margin-bottom:1.5rem;font-size:0.9rem}
+        .login-box input{width:100%;padding:12px 16px;background:#0a0f1e;border:1px solid rgba(201,160,61,0.2);border-radius:8px;color:#f0ece4;font-size:1.1rem;text-align:center;letter-spacing:8px;margin-bottom:1rem}
+        .login-box input:focus{outline:none;border-color:#c9a03d}
+        .login-box button{width:100%;padding:12px;background:linear-gradient(135deg,#c9a03d,#a07828);color:#0a0f1e;border:none;border-radius:50px;font-weight:700;font-size:1rem;cursor:pointer}
+        .login-box .error{color:#ef4444;font-size:0.85rem;margin-top:0.5rem;display:none}
+        .admin-panel{display:none;max-width:900px;margin:0 auto;padding:20px}
+        .admin-header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;border-bottom:1px solid rgba(201,160,61,0.2);margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+        .admin-header h1{color:#c9a03d;font-size:1.5rem}
+        .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .tab{padding:8px 18px;border-radius:50px;border:1px solid rgba(201,160,61,0.2);background:transparent;color:#a0a8b8;cursor:pointer;font-size:0.85rem;transition:all 0.2s}
+        .tab.active,.tab:hover{background:#c9a03d;color:#0a0f1e;border-color:#c9a03d}
+        .q-card{background:#111827;border:1px solid rgba(201,160,61,0.1);border-radius:12px;padding:1.2rem;margin-bottom:1rem;border-left:3px solid #c9a03d}
+        .q-card.answered{border-left-color:#22c47a}
+        .q-card.flagged{border-left-color:#ef4444;background:rgba(239,68,68,0.05)}
+        .q-meta{display:flex;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem}
+        .q-name{color:#c9a03d;font-weight:600}
+        .q-time{color:#6b7280;font-size:0.8rem}
+        .q-text{color:#a0a8b8;margin-bottom:0.8rem;line-height:1.6}
+        .q-answer-box{background:rgba(34,196,122,0.08);border:1px solid rgba(34,196,122,0.2);padding:0.8rem;border-radius:8px;margin-bottom:0.8rem}
+        .q-answer-box strong{color:#22c47a}
+        .q-answer-box div{color:#a0a8b8;margin-top:0.3rem}
+        .q-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+        .q-actions button{padding:6px 14px;border-radius:50px;border:none;cursor:pointer;font-size:0.8rem;font-weight:600;transition:all 0.2s}
+        .btn-answer{background:#1a6b4a;color:white}
+        .btn-delete{background:#7f1d1d;color:white}
+        .btn-flag{background:#78350f;color:white}
+        .btn-logout{background:transparent;border:1px solid rgba(201,160,61,0.3);color:#c9a03d;padding:8px 18px;border-radius:50px;cursor:pointer;font-size:0.85rem}
+        textarea{width:100%;padding:10px;background:#0a0f1e;border:1px solid rgba(201,160,61,0.2);border-radius:8px;color:#f0ece4;font-family:inherit;resize:vertical;margin-bottom:0.5rem}
+        textarea:focus{outline:none;border-color:#c9a03d}
+        .badge{display:inline-block;padding:3px 10px;border-radius:50px;font-size:0.7rem;font-weight:600;margin-left:0.5rem}
+        .badge-green{background:rgba(34,196,122,0.15);color:#22c47a}
+        .badge-orange{background:rgba(251,146,60,0.15);color:#fb923c}
+        .badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
+        .stats-row{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .stat-box{flex:1;min-width:120px;background:#111827;border:1px solid rgba(201,160,61,0.1);border-radius:12px;padding:1rem;text-align:center}
+        .stat-box .num{font-size:2rem;font-weight:700;color:#c9a03d}
+        .stat-box .label{color:#6b7280;font-size:0.8rem;margin-top:0.3rem}
+        .empty{text-align:center;padding:3rem;color:#6b7280}
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🗳️ Maureen's Campaign - Q&A Admin Panel</h1>
-            <p>Manage questions, respond to residents, and moderate the community forum</p>
-        </div>
-        
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <div class="status-stats" id="stats">
-                <span class="stat total">📊 Loading...</span>
-            </div>
-            <div class="filter-group">
-                <button class="filter-btn active" data-filter="all">All Questions</button>
-                <button class="filter-btn" data-filter="pending">Pending</button>
-                <button class="filter-btn" data-filter="answered">Answered</button>
-            </div>
-            <div class="control-group">
-                <button class="control-btn" id="refreshBtn">🔄 Refresh</button>
-                <button class="control-btn" id="toggleAutoBtn">⏸️ Pause Auto</button>
-                <button class="control-btn danger" id="backupBtn">💾 Backup Now</button>
-            </div>
-        </div>
-        
-        <!-- Questions Grid -->
-        <div id="questionsGrid" class="questions-grid">
-            <div class="loading">Loading questions...</div>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>🔐 Admin Panel</h1>
+            <p>Enter your PIN to access the campaign management dashboard</p>
+            <input type="password" id="pinInput" placeholder="••••" maxlength="10" autofocus>
+            <button onclick="login()">Verify PIN</button>
+            <div class="error" id="loginError">Invalid PIN. Please try again.</div>
         </div>
     </div>
 
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h1>🗳️ Campaign Admin</h1>
+            <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+        <div class="stats-row" id="statsRow"></div>
+        <div class="tabs">
+            <button class="tab active" data-filter="all">All</button>
+            <button class="tab" data-filter="pending">⏳ Pending</button>
+            <button class="tab" data-filter="answered">✅ Answered</button>
+            <button class="tab" data-filter="flagged">🚩 Flagged</button>
+        </div>
+        <div id="questions"></div>
+    </div>
+
     <script>
-        const API_URL = window.location.origin + '/api';
-        let questions = [];
-        let currentFilter = 'all';
-        let autoRefresh = true;
-        let refreshInterval = null;
-        let draftAnswers = {};
-        
-        // Load saved drafts from localStorage
-        function loadDrafts() {
-            const saved = localStorage.getItem('maureen_admin_drafts');
-            if (saved) {
-                try {
-                    draftAnswers = JSON.parse(saved);
-                } catch(e) {}
-            }
-        }
-        
-        // Save drafts to localStorage
-        function saveDrafts() {
-            localStorage.setItem('maureen_admin_drafts', JSON.stringify(draftAnswers));
-        }
-        
-        // Save draft for a specific question
-        function saveDraft(questionId, value) {
-            draftAnswers[questionId] = value;
-            saveDrafts();
-            const indicator = document.getElementById(`draft-indicator-${questionId}`);
-            if (indicator) {
-                indicator.textContent = '💾 Draft saved';
-                setTimeout(() => {
-                    if (indicator && indicator.textContent === '💾 Draft saved') {
-                        indicator.textContent = '';
-                    }
-                }, 1500);
-            }
-        }
-        
-        // Clear draft for a question
-        function clearDraft(questionId) {
-            delete draftAnswers[questionId];
-            saveDrafts();
-            const textarea = document.getElementById(`answer-${questionId}`);
-            if (textarea) {
-                textarea.value = '';
-            }
-            const indicator = document.getElementById(`draft-indicator-${questionId}`);
-            if (indicator) {
-                indicator.textContent = '🗑️ Draft cleared';
-                setTimeout(() => {
-                    if (indicator) indicator.textContent = '';
-                }, 1500);
-            }
-        }
-        
-        // Load questions from API
-        async function loadQuestions() {
-            try {
-                const response = await fetch(API_URL + '/questions');
-                const data = await response.json();
-                questions = data.questions;
-                
-                // Update stats
-                const total = questions.length;
-                const answered = questions.filter(q => q.answered).length;
-                const pending = total - answered;
-                
-                document.getElementById('stats').innerHTML = `
-                    <span class="stat total">📊 Total: ${total}</span>
-                    <span class="stat answered">✅ Answered: ${answered}</span>
-                    <span class="stat pending">⏳ Pending: ${pending}</span>
-                `;
-                
-                // Render questions
-                renderQuestions();
-                
-            } catch (error) {
-                console.error('Error loading questions:', error);
-                document.getElementById('questionsGrid').innerHTML = `
-                    <div class="no-questions">
-                        ⚠️ Cannot connect to server.<br>
-                        Make sure the Q&A server is running.
+    const API=window.location.origin+'/api';
+    let token=localStorage.getItem('adminToken'),filter='all';
+
+    async function login(){
+        const pin=document.getElementById('pinInput').value;
+        try{
+            const r=await fetch(API+'/admin/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin})});
+            const d=await r.json();
+            if(d.success){token=d.token;localStorage.setItem('adminToken',token);showAdmin();}
+            else{document.getElementById('loginError').style.display='block';}
+        }catch(e){document.getElementById('loginError').textContent='Server error';document.getElementById('loginError').style.display='block';}
+    }
+    document.getElementById('pinInput').addEventListener('keypress',e=>{if(e.key==='Enter')login();});
+
+    function logout(){localStorage.removeItem('adminToken');token=null;document.getElementById('adminPanel').style.display='none';document.getElementById('loginScreen').style.display='flex';}
+
+    function showAdmin(){document.getElementById('loginScreen').style.display='none';document.getElementById('adminPanel').style.display='block';loadQuestions();}
+
+    function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+    async function loadQuestions(){
+        try{
+            const r=await fetch(API+'/questions');const d=await r.json();
+            const answered=d.questions.filter(q=>q.answered).length;
+            const flagged=d.questions.filter(q=>q.flagged).length;
+            document.getElementById('statsRow').innerHTML=`
+                <div class="stat-box"><div class="num">${d.total}</div><div class="label">Total</div></div>
+                <div class="stat-box"><div class="num">${d.total-answered}</div><div class="label">Pending</div></div>
+                <div class="stat-box"><div class="num">${answered}</div><div class="label">Answered</div></div>
+                <div class="stat-box"><div class="num">${flagged}</div><div class="label">Flagged</div></div>`;
+            let qs=d.questions;
+            if(filter==='pending')qs=qs.filter(q=>!q.answered);
+            if(filter==='answered')qs=qs.filter(q=>q.answered);
+            if(filter==='flagged')qs=qs.filter(q=>q.flagged);
+            const c=document.getElementById('questions');
+            if(!qs.length){c.innerHTML='<div class="empty">No questions in this category</div>';return;}
+            c.innerHTML=qs.map(q=>`
+                <div class="q-card ${q.answered?'answered':''} ${q.flagged?'flagged':''}">
+                    <div class="q-meta">
+                        <span><span class="q-name">${esc(q.name)}</span>
+                        ${q.answered?'<span class="badge badge-green">Answered</span>':'<span class="badge badge-orange">Pending</span>'}
+                        ${q.flagged?'<span class="badge badge-red">Flagged</span>':''}</span>
+                        <span class="q-time">${new Date(q.timestamp).toLocaleString()} · 👍 ${q.votes||0}</span>
                     </div>
-                `;
-            }
-        }
-        
-        // Render questions based on current filter
-        function renderQuestions() {
-            let filtered = questions;
-            
-            if (currentFilter === 'pending') {
-                filtered = questions.filter(q => !q.answered);
-            } else if (currentFilter === 'answered') {
-                filtered = questions.filter(q => q.answered);
-            }
-            
-            const grid = document.getElementById('questionsGrid');
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="no-questions">
-                        ✨ No ${currentFilter === 'pending' ? 'pending' : currentFilter === 'answered' ? 'answered' : ''} questions yet.<br>
-                        ${currentFilter === 'all' ? 'Be the first to ask a question!' : 'Check back later!'}
+                    <div class="q-text">${esc(q.question)}</div>
+                    ${q.answered?`<div class="q-answer-box"><strong>✅ Response:</strong><div>${esc(q.answer)}</div></div>`:`<textarea id="ans-${q.id}" rows="3" placeholder="Type Maureen's response..."></textarea>`}
+                    <div class="q-actions">
+                        ${!q.answered?`<button class="btn-answer" onclick="answer(${q.id})"><i class="fas fa-reply"></i> Answer</button>`:''}
+                        <button class="btn-flag" onclick="flagQ(${q.id})">${q.flagged?'Unflag':'🚩 Flag'}</button>
+                        <button class="btn-delete" onclick="deleteQ(${q.id})"><i class="fas fa-trash"></i> Delete</button>
                     </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(q => `
-                <div class="question-card ${q.answered ? 'answered' : 'pending'}" data-id="${q.id}">
-                    <div class="question-header">
-                        <div class="question-meta">
-                            <span class="question-name">👤 ${escapeHtml(q.name)}</span>
-                            <span>📅 ${formatDate(q.timestamp)}</span>
-                            <span class="question-id">ID: ${q.id}</span>
-                        </div>
-                        <div>
-                            <span class="question-status ${q.answered ? 'status-answered' : 'status-pending'}">
-                                ${q.answered ? '✅ Answered' : '⏳ Pending'}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="question-body">
-                        <div class="question-text">
-                            <strong>❓ Question:</strong><br>
-                            ${escapeHtml(q.question)}
-                        </div>
-                        <div class="vote-count">
-                            👍 ${q.votes || 0} votes
-                        </div>
-                        
-                        ${!q.answered ? `
-                            <div class="answer-section">
-                                <div class="answer-label">✍️ Maureen's Response:</div>
-                                <textarea 
-                                    id="answer-${q.id}" 
-                                    class="answer-textarea" 
-                                    rows="4"
-                                    placeholder="Type your response here. Residents will see this immediately after posting."
-                                    oninput="saveDraft(${q.id}, this.value)"
-                                >${escapeHtml(draftAnswers[q.id] || '')}</textarea>
-                                <div id="draft-indicator-${q.id}" class="draft-indicator"></div>
-                                <div class="button-group">
-                                    <button class="btn btn-primary" onclick="submitAnswer(${q.id})">✍️ Post Response</button>
-                                    ${draftAnswers[q.id] ? `<button class="btn btn-secondary" onclick="clearDraft(${q.id})">🗑️ Clear Draft</button>` : ''}
-                                </div>
-                            </div>
-                        ` : `
-                            <div class="answer-display">
-                                <strong>✅ Maureen's Response:</strong><br>
-                                ${escapeHtml(q.answer)}
-                                ${q.answerTimestamp ? `<div class="answer-timestamp">📅 Answered: ${formatDate(q.answerTimestamp)}</div>` : ''}
-                            </div>
-                        `}
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // Submit an answer
-        async function submitAnswer(questionId) {
-            const textarea = document.getElementById(`answer-${questionId}`);
-            const answer = textarea ? textarea.value.trim() : '';
-            
-            if (!answer) {
-                alert('Please enter a response before posting.');
-                return;
-            }
-            
-            const btn = event?.target;
-            if (btn) {
-                btn.disabled = true;
-                btn.textContent = '⏳ Posting...';
-            }
-            
-            try {
-                const response = await fetch(API_URL + `/questions/${questionId}/answer`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ answer: answer })
-                });
-                
-                if (response.ok) {
-                    alert('✓ Response posted successfully!');
-                    // Clear draft for this question
-                    delete draftAnswers[questionId];
-                    saveDrafts();
-                    // Reload questions
-                    await loadQuestions();
-                } else {
-                    alert('❌ Error posting response. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Error connecting to server.');
-            } finally {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.textContent = '✍️ Post Response';
-                }
-            }
-        }
-        
-        // Backup questions
-        async function backupQuestions() {
-            try {
-                const response = await fetch(API_URL + '/questions');
-                const data = await response.json();
-                
-                const backup = {
-                    timestamp: new Date().toISOString(),
-                    total: data.total,
-                    questions: data.questions
-                };
-                
-                const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `maureen_qa_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                alert('✓ Backup downloaded successfully!');
-            } catch (error) {
-                console.error('Backup error:', error);
-                alert('❌ Error creating backup.');
-            }
-        }
-        
-        // Format date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleString();
-        }
-        
-        // Escape HTML
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // Toggle auto-refresh
-        function toggleAutoRefresh() {
-            autoRefresh = !autoRefresh;
-            const btn = document.getElementById('toggleAutoBtn');
-            
-            if (autoRefresh) {
-                if (refreshInterval) clearInterval(refreshInterval);
-                refreshInterval = setInterval(loadQuestions, 30000);
-                btn.textContent = '⏸️ Pause Auto';
-                btn.style.background = '#3498db';
-            } else {
-                if (refreshInterval) {
-                    clearInterval(refreshInterval);
-                    refreshInterval = null;
-                }
-                btn.textContent = '▶️ Start Auto';
-                btn.style.background = '#27ae60';
-            }
-        }
-        
-        // Setup event listeners
-        function setupEventListeners() {
-            // Filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.filter;
-                    renderQuestions();
-                });
-            });
-            
-            // Refresh button
-            document.getElementById('refreshBtn').addEventListener('click', () => {
-                loadQuestions();
-            });
-            
-            // Toggle auto-refresh button
-            document.getElementById('toggleAutoBtn').addEventListener('click', toggleAutoRefresh);
-            
-            // Backup button
-            document.getElementById('backupBtn').addEventListener('click', backupQuestions);
-        }
-        
-        // Initialize
-        loadDrafts();
-        setupEventListeners();
+                </div>`).join('');
+        }catch(e){document.getElementById('questions').innerHTML='<div class="empty">⚠️ Cannot connect to server</div>';}
+    }
+
+    async function answer(id){
+        const a=document.getElementById('ans-'+id);if(!a||!a.value.trim())return;
+        await fetch(API+'/questions/'+id+'/answer',{method:'POST',headers:{'Content-Type':'application/json','x-admin-token':token},body:JSON.stringify({answer:a.value})});
         loadQuestions();
-        
-        // Auto-refresh every 30 seconds
-        refreshInterval = setInterval(() => {
-            if (autoRefresh) {
-                loadQuestions();
-            }
-        }, 30000);
-        
-        // Save drafts before page unload
-        window.addEventListener('beforeunload', () => {
-            saveDrafts();
-        });
-        
-        // Expose functions globally
-        window.submitAnswer = submitAnswer;
-        window.saveDraft = saveDraft;
-        window.clearDraft = clearDraft;
+    }
+    async function deleteQ(id){
+        if(!confirm('Delete this question permanently?'))return;
+        await fetch(API+'/questions/'+id,{method:'DELETE',headers:{'x-admin-token':token}});
+        loadQuestions();
+    }
+    async function flagQ(id){
+        await fetch(API+'/questions/'+id+'/flag',{method:'POST',headers:{'Content-Type':'application/json','x-admin-token':token}});
+        loadQuestions();
+    }
+
+    document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+        filter=t.dataset.filter;loadQuestions();
+    }));
+
+    if(token){showAdmin();}
+    setInterval(()=>{if(token)loadQuestions();},8000);
     </script>
 </body>
 </html>

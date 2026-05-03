@@ -5,127 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facts About Karen Ward | Maureen Ndung'u</title>
     <link rel="stylesheet" href="/css/campaign.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tour-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:5000;display:none;transition:opacity 0.4s}
+        .tour-overlay.active{display:block;animation:fadeIn 0.4s}
+        .tour-highlight{position:relative;z-index:5001;box-shadow:0 0 0 4px var(--primary),0 0 30px rgba(201,160,61,0.4)!important;border-radius:var(--radius)!important;transition:all 0.5s}
+        .tour-tooltip{position:fixed;z-index:5002;background:var(--bg-card);border:1px solid var(--primary);border-radius:var(--radius);padding:1.5rem;max-width:340px;box-shadow:var(--shadow-gold);animation:slideUp 0.4s}
+        .tour-tooltip h4{color:var(--primary);margin-bottom:0.5rem;font-size:1.1rem}
+        .tour-tooltip h4::after{display:none}
+        .tour-tooltip p{color:var(--text-light);font-size:0.9rem;line-height:1.6}
+        .tour-tooltip .tour-nav{display:flex;gap:0.8rem;margin-top:1rem;justify-content:flex-end}
+        .tour-tooltip .tour-btn{padding:8px 18px;border-radius:50px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.8rem}
+        .tour-tooltip .tour-next{background:var(--primary);color:var(--secondary)}
+        .tour-tooltip .tour-skip{background:transparent;color:var(--text-muted);border:1px solid var(--glass-border)}
+        .tour-progress{display:flex;gap:6px;margin-top:0.8rem}
+        .tour-dot{width:8px;height:8px;border-radius:50%;background:var(--glass-border)}
+        .tour-dot.active{background:var(--primary)}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+        .flip-card{perspective:1000px;height:280px}
+        .flip-inner{position:relative;width:100%;height:100%;transition:transform 0.7s;transform-style:preserve-3d}
+        .flip-card:hover .flip-inner{transform:rotateY(180deg)}
+        .flip-front,.flip-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius-xl);padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+        .flip-front{background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(12px)}
+        .flip-back{background:linear-gradient(135deg,var(--secondary-light),#1a6b4a);transform:rotateY(180deg);color:white}
+        .flip-back p{color:rgba(255,255,255,0.9);font-size:0.9rem;line-height:1.6}
+
+        .timeline{position:relative;padding:2rem 0;overflow-x:auto}
+        .timeline-track{display:flex;gap:0;min-width:max-content;padding:0 2rem}
+        .timeline-item{flex:0 0 220px;text-align:center;position:relative;padding-top:40px}
+        .timeline-item::before{content:'';position:absolute;top:16px;left:0;right:0;height:2px;background:var(--glass-border)}
+        .timeline-item::after{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:var(--primary);border:3px solid var(--bg);z-index:1}
+        .timeline-year{font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:700;color:var(--primary);margin-bottom:0.4rem}
+        .timeline-desc{color:var(--text-light);font-size:0.85rem;padding:0 0.5rem}
+
+        .stat-bar{margin:1rem 0}
+        .stat-bar-label{display:flex;justify-content:space-between;margin-bottom:0.4rem;font-size:0.85rem}
+        .stat-bar-label span:first-child{color:var(--text-light)}
+        .stat-bar-label span:last-child{color:var(--primary);font-weight:700}
+        .stat-bar-track{height:8px;background:var(--glass);border-radius:4px;overflow:hidden}
+        .stat-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent-light));border-radius:4px;width:0;transition:width 1.5s ease}
+    </style>
 </head>
 <body>
     <nav class="main-nav">
-        <div class="logo">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="logo-img" onerror="this.src='/images/maureen/portrait.png'">
-            <div>
-                <h2>Maureen Ndung'u</h2>
-                <p>MCA Candidate - Karen Ward</p>
-            </div>
-        </div>
+        <div class="logo"><img src="/images/maureen/portrait.png" alt="Maureen" class="logo-img"><div><h2>Maureen Ndung'u</h2><p>MCA Candidate - Karen Ward</p></div></div>
         <button class="menu-toggle" id="menuToggle">☰</button>
         <ul class="nav-links" id="navLinks">
             <li><a href="/index.html">Home</a></li>
             <li><a href="/pages/about.html">About Maureen</a></li>
             <li><a href="/pages/manifesto.html">Manifesto</a></li>
             <li><a href="/pages/karen-facts.html" class="active">Facts About Karen</a></li>
+            <li><a href="/pages/articles.html">Articles & News</a></li>
             <li><a href="/pages/forum.html">Community Forum</a></li>
             <li><a href="/pages/get-involved.html">Get Involved</a></li>
             <li><a href="/pages/gallery.html">Gallery</a></li>
         </ul>
     </nav>
 
-    <div class="hero" style="margin-top: 70px;">
+    <div class="hero" style="min-height:auto;padding:140px 20px 80px">
         <div class="hero-content">
             <h1>Facts About Karen Ward</h1>
             <p class="tagline">Discover the Largest Ward in Langata Constituency</p>
+            <button class="prestige-btn" id="startTour" style="margin-top:1.5rem"><i class="fas fa-route"></i> Take the Guided Tour</button>
         </div>
     </div>
 
     <div class="container">
-        <div class="elegant-card" style="margin-bottom: 2rem;">
+        <div class="elegant-card reveal" id="tour-location" style="margin-bottom:2rem">
             <h3>📍 Location & Geography</h3>
-            <p>Karen is generally recognized as the <strong>largest ward by area</strong> within the Langata Constituency.</p>
-            <ul class="prestige-list" style="margin-top: 1rem;">
-                <li><strong>Constituency Total Area:</strong> Approximately 232 km²</li>
-                <li><strong>Wards in Langata:</strong> South C, Nairobi West, Mugumoini, Highrise, and <strong>Karen</strong></li>
-                <li>Karen is known for its expansive green spaces, tree-lined roads, and suburban character</li>
+            <p style="color:var(--text-light);margin-top:0.8rem">Karen is the <strong style="color:var(--primary)">largest ward by area</strong> in Langata Constituency.</p>
+            <ul class="prestige-list" style="margin-top:1rem">
+                <li><strong>Constituency Area:</strong> Approximately 232 km²</li>
+                <li><strong>Wards in Langata:</strong> South C, Nairobi West, Mugumoini, Highrise, and Karen</li>
+                <li>Known for expansive green spaces, tree-lined roads, and suburban character</li>
             </ul>
         </div>
 
+        <!-- Animated stat bars -->
+        <div class="elegant-section reveal" id="tour-stats">
+            <h2>📊 Karen Ward Statistics</h2>
+            <div style="margin-top:1.5rem">
+                <div class="stat-bar"><div class="stat-bar-label"><span>Land Area (% of Langata)</span><span>45%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" data-width="45"></div></div></div>
+                <div class="stat-bar"><div class="stat-bar-label"><span>Green Space Coverage</span><span>68%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" data-width="68"></div></div></div>
+                <div class="stat-bar"><div class="stat-bar-label"><span>Youth Population</span><span>60%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" data-width="60"></div></div></div>
+                <div class="stat-bar"><div class="stat-bar-label"><span>Annual Tourism Visitors (vs Nairobi avg)</span><span>85%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" data-width="85"></div></div></div>
+                <div class="stat-bar"><div class="stat-bar-label"><span>Small Business Density</span><span>72%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" data-width="72"></div></div></div>
+            </div>
+        </div>
+
+        <!-- 3D Flip cards -->
+        <h2 class="section-title reveal" id="tour-facts">Discover Karen</h2>
         <div class="prestige-grid">
-            <div class="prestige-card">
-                <i class="fas fa-tree prestige-icon"></i>
-                <h3>🌳 Natural Beauty</h3>
-                <p>Karen is home to several forested areas, including parts of the Ngong Forest, providing residents with unique access to nature within the city.</p>
-            </div>
-            
-            <div class="prestige-card">
-                <i class="fas fa-landmark prestige-icon"></i>
-                <h3>🏛️ Historical Significance</h3>
-                <p>The ward is named after Karen Blixen, the Danish author of "Out of Africa," who lived in the area. The Karen Blixen Museum remains a key landmark.</p>
-            </div>
-            
-            <div class="prestige-card">
-                <i class="fas fa-store prestige-icon"></i>
-                <h3>🏪 Economic Hub</h3>
-                <p>Karen is home to numerous businesses including shopping centers, restaurants, hotels, and the popular Karen Market - a hub for local artisans and fresh produce.</p>
-            </div>
-            
-            <div class="prestige-card">
-                <i class="fas fa-school prestige-icon"></i>
-                <h3>📚 Education</h3>
-                <p>The ward hosts several prestigious educational institutions, including international schools, universities, and vocational training centers.</p>
-            </div>
-            
-            <div class="prestige-card">
-                <i class="fas fa-users prestige-icon"></i>
-                <h3>👥 Diverse Population</h3>
-                <p>Karen is home to a diverse mix of long-time residents, new families, young professionals, and students, creating a vibrant community atmosphere.</p>
-            </div>
-            
-            <div class="prestige-card">
-                <i class="fas fa-heartbeat prestige-icon"></i>
-                <h3>🏥 Healthcare</h3>
-                <p>The ward hosts several healthcare facilities, including hospitals, clinics, and specialized health centers serving residents and the wider Langata area.</p>
+            <div class="flip-card reveal reveal-delay-1"><div class="flip-inner"><div class="flip-front"><i class="fas fa-tree prestige-icon"></i><h3>🌳 Natural Beauty</h3><p style="color:var(--text-muted);font-size:0.85rem">Hover to explore →</p></div><div class="flip-back"><h3 style="color:var(--primary)">Natural Beauty</h3><p>Home to parts of Ngong Forest, providing unique access to nature within Nairobi. Indigenous trees and wildlife corridors connect to Nairobi National Park.</p></div></div></div>
+            <div class="flip-card reveal reveal-delay-2"><div class="flip-inner"><div class="flip-front"><i class="fas fa-landmark prestige-icon"></i><h3>🏛️ Historical</h3><p style="color:var(--text-muted);font-size:0.85rem">Hover to explore →</p></div><div class="flip-back"><h3 style="color:var(--primary)">Historical Significance</h3><p>Named after Karen Blixen, Danish author of "Out of Africa." The Karen Blixen Museum attracts 100,000+ visitors annually.</p></div></div></div>
+            <div class="flip-card reveal reveal-delay-3"><div class="flip-inner"><div class="flip-front"><i class="fas fa-store prestige-icon"></i><h3>🏪 Economic Hub</h3><p style="color:var(--text-muted);font-size:0.85rem">Hover to explore →</p></div><div class="flip-back"><h3 style="color:var(--primary)">Economic Hub</h3><p>Home to shopping centres, restaurants, hotels, and the famous Karen Market — a hub for 200+ local artisans and vendors.</p></div></div></div>
+            <div class="flip-card reveal reveal-delay-1"><div class="flip-inner"><div class="flip-front"><i class="fas fa-school prestige-icon"></i><h3>📚 Education</h3><p style="color:var(--text-muted);font-size:0.85rem">Hover to explore →</p></div><div class="flip-back"><h3 style="color:var(--primary)">Education</h3><p>Hosts prestigious international schools, universities, and vocational training centres serving diverse communities.</p></div></div></div>
+            <div class="flip-card reveal reveal-delay-2"><div class="flip-inner"><div class="flip-front"><i class="fas fa-users prestige-icon"></i><h3>👥 Diverse</h3><p style="color:var(--text-muted);font-size:0.85rem">Hover to explore →</p></div><div class="flip-back"><h3 style="color:var(--primary)">Diverse Population</h3><p>A vibrant mix of long-time residents, new families, young professionals, and students from across Kenya and beyond.</p></div></div></div>
+            <div class="flip-card reveal reveal-delay-3"><div class="flip-inner"><div class="flip-front"><i class="fas fa-heartbeat prestige-icon"></i><h3>🏥 Healthcare</h3><p style="color:var(--text-muted);font-size:0.85rem">Hover to explore →</p></div><div class="flip-back"><h3 style="color:var(--primary)">Healthcare</h3><p>Several hospitals, clinics, and specialized health centres serving residents and the wider Langata community.</p></div></div></div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="elegant-section reveal" id="tour-timeline" style="margin-top:2rem">
+            <h2>📜 Karen Ward Through Time</h2>
+            <div class="timeline" style="margin-top:1.5rem">
+                <div class="timeline-track">
+                    <div class="timeline-item"><div class="timeline-year">1914</div><div class="timeline-desc">Karen Blixen arrives and establishes her farm</div></div>
+                    <div class="timeline-item"><div class="timeline-year">1963</div><div class="timeline-desc">Kenya independence; Karen evolves as a residential area</div></div>
+                    <div class="timeline-item"><div class="timeline-year">1986</div><div class="timeline-desc">Karen Blixen Museum opens to the public</div></div>
+                    <div class="timeline-item"><div class="timeline-year">2000s</div><div class="timeline-desc">Rapid growth: shopping centres, schools, businesses</div></div>
+                    <div class="timeline-item"><div class="timeline-year">2010</div><div class="timeline-desc">Karen Market becomes a thriving community hub</div></div>
+                    <div class="timeline-item"><div class="timeline-year">2013</div><div class="timeline-desc">County devolution: Karen becomes a ward under Langata</div></div>
+                    <div class="timeline-item"><div class="timeline-year">2026</div><div class="timeline-desc">Maureen Ndung'u campaigns for positive change!</div></div>
+                </div>
             </div>
         </div>
 
-        <div class="elegant-section">
-            <h2>📊 Karen Ward at a Glance</h2>
-            <ul class="prestige-list">
-                <li><strong>Largest ward in Langata by land area</strong> - covering significant portions of the constituency</li>
-                <li><strong>Rich biodiversity</strong> - home to indigenous trees, wildlife corridors, and green spaces</li>
-                <li><strong>Cultural heritage</strong> - named after Karen Blixen with preserved colonial-era architecture</li>
-                <li><strong>Economic diversity</strong> - mix of residential, commercial, and agricultural land use</li>
-                <li><strong>Strategic location</strong> - gateway to Nairobi National Park and surrounding areas</li>
-            </ul>
-        </div>
-
-        <div class="elegant-section">
-            <h2>🌟 Community Highlights</h2>
-            <ul class="prestige-list">
-                <li><strong>Karen Market</strong> - A vibrant community hub for fresh produce, crafts, and local goods</li>
-                <li><strong>Ngong Forest</strong> - Recreational space for walking, biking, and nature appreciation</li>
-                <li><strong>Local Art Galleries</strong> - Showcasing Kenyan artists and cultural expression</li>
-                <li><strong>Sports Facilities</strong> - Including golf clubs, riding schools, and sports academies</li>
-                <li><strong>Community Organizations</strong> - Active resident associations and community groups</li>
-            </ul>
-        </div>
-
-        <div style="text-align: center; margin: 2rem 0;">
-            <a href="/pages/forum.html" class="prestige-btn">Share Your Ideas for Karen</a>
-            <a href="/pages/get-involved.html" class="prestige-btn-outline" style="margin-left: 1rem;">Get Involved</a>
+        <div style="text-align:center;margin:3rem 0" class="reveal">
+            <a href="/pages/forum.html" class="prestige-btn"><i class="fas fa-comments"></i> Share Your Ideas</a>
+            <a href="/pages/get-involved.html" class="prestige-btn-outline" style="margin-left:1rem"><i class="fas fa-hand-peace"></i> Get Involved</a>
         </div>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a>
-        </div>
+        <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a></div>
         <p>&copy; 2026 Maureen Ndung'u for MCA - Karen Ward. All rights reserved.</p>
         <p><small>Wanawake Tunaweza | Ubuntu: I am because we are</small></p>
     </footer>
 
-    <script src="/js/navigation.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+    // Animated stat bars
+    const barObs = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.stat-bar-fill').forEach(b=>{b.style.width=b.dataset.width+'%';});barObs.unobserve(e.target);}});},{threshold:0.3});
+    document.querySelectorAll('.elegant-section').forEach(s=>{if(s.querySelector('.stat-bar-fill'))barObs.observe(s);});
+
+    // Guided Tour
+    const tourSteps=[
+        {target:'#tour-location',title:'📍 Location',text:'Karen is the largest ward in Langata — covering roughly 45% of the total constituency area with stunning green spaces.'},
+        {target:'#tour-stats',title:'📊 Key Statistics',text:'These animated bars show how Karen compares across metrics. Notice the high green space coverage and youth population!'},
+        {target:'#tour-facts',title:'🔍 Interactive Facts',text:'Hover over (or tap on mobile) these cards to flip them and discover fascinating facts about Karen Ward.'},
+        {target:'#tour-timeline',title:'📜 History',text:'Scroll through Karen\'s history from 1914 to today. The ward has a rich heritage going back over a century!'}
+    ];
+    let tourIdx=0;
+    const overlay=document.createElement('div');overlay.className='tour-overlay';document.body.appendChild(overlay);
+
+    document.getElementById('startTour').addEventListener('click',()=>{tourIdx=0;showTourStep();});
+
+    function showTourStep(){
+        if(tourIdx>=tourSteps.length){endTour();return;}
+        const step=tourSteps[tourIdx];
+        const el=document.querySelector(step.target);
+        if(!el){tourIdx++;showTourStep();return;}
+        overlay.classList.add('active');
+        document.querySelectorAll('.tour-highlight').forEach(e=>e.classList.remove('tour-highlight'));
+        el.classList.add('tour-highlight');
+        el.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(()=>{
+            const old=document.querySelector('.tour-tooltip');if(old)old.remove();
+            const tip=document.createElement('div');tip.className='tour-tooltip';
+            const rect=el.getBoundingClientRect();
+            tip.style.top=Math.min(rect.bottom+12,window.innerHeight-200)+'px';
+            tip.style.left=Math.max(16,Math.min(rect.left,window.innerWidth-360))+'px';
+            const dots=tourSteps.map((_,i)=>`<div class="tour-dot ${i===tourIdx?'active':''}"></div>`).join('');
+            tip.innerHTML=`<h4>${step.title}</h4><p>${step.text}</p><div class="tour-progress">${dots}</div><div class="tour-nav"><button class="tour-btn tour-skip" onclick="endTour()">Skip</button><button class="tour-btn tour-next" onclick="nextTourStep()">${tourIdx===tourSteps.length-1?'Finish':'Next →'}</button></div>`;
+            document.body.appendChild(tip);
+        },400);
+    }
+    window.nextTourStep=()=>{tourIdx++;showTourStep();};
+    window.endTour=()=>{overlay.classList.remove('active');document.querySelectorAll('.tour-highlight').forEach(e=>e.classList.remove('tour-highlight'));const t=document.querySelector('.tour-tooltip');if(t)t.remove();};
+    </script>
 </body>
 </html>

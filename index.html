@@ -4,21 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maureen Ndung'u | MCA Karen Ward 2026</title>
+    <meta name="description" content="Maureen Nyaguthii Ndung'u for MCA Karen Ward 2026. Your Voice for Karen Ward, Langata Constituency.">
     <link rel="stylesheet" href="/css/campaign.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <style>
+        .campaign-swiper { width:100%; border-radius:var(--radius-xl); overflow:hidden; box-shadow:var(--shadow); margin-top:1rem; border:1px solid var(--glass-border); }
+        .swiper-slide { position:relative; }
+        .swiper-slide img { width:100%; height:500px; object-fit:cover; }
+        .slide-caption { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top,rgba(10,15,30,0.95),transparent); color:white; padding:50px 24px 24px; }
+        .slide-caption h3 { color:var(--primary); margin-bottom:0.4rem; font-size:1.6rem; }
+        .slide-caption h3::after { display:none; }
+        .swiper-button-next,.swiper-button-prev { color:var(--primary)!important; }
+        .swiper-pagination-bullet-active { background:var(--primary)!important; }
+        @media(max-width:768px) { .swiper-slide img { height:300px; } }
+
+        .contrib-section { text-align:center; padding:80px 24px; position:relative; overflow:hidden; }
+        .contrib-counter { font-size:clamp(3rem,8vw,5rem); font-family:'Outfit',sans-serif; font-weight:800; color:var(--primary); margin:1rem 0; text-shadow:0 0 40px rgba(201,160,61,0.3); }
+        .contrib-label { color:var(--text-light); font-size:1.1rem; }
+        .contrib-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-top:2.5rem; }
+        .contrib-card { background:var(--glass); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:var(--radius-xl); padding:2rem; text-align:center; transition:all 0.4s; }
+        .contrib-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-gold); }
+        .contrib-card i { font-size:2.5rem; margin-bottom:1rem; display:block; }
+        .contrib-card h3::after { display:none; }
+
+        .confetti { position:absolute; width:8px; height:8px; border-radius:2px; animation:confettiFall 3s ease-in forwards; pointer-events:none; }
+        @keyframes confettiFall { 0%{opacity:1;transform:translateY(0) rotate(0)} 100%{opacity:0;transform:translateY(400px) rotate(720deg)} }
+
+        .stats-bar { display:flex; justify-content:center; gap:3rem; padding:2rem; flex-wrap:wrap; }
+        .stat-item { text-align:center; }
+        .stat-number { font-size:2.5rem; font-family:'Outfit',sans-serif; font-weight:800; color:var(--primary); }
+        .stat-label { color:var(--text-light); font-size:0.85rem; margin-top:0.3rem; }
+
+        .cta-section { background:linear-gradient(135deg,var(--secondary-light),#1a6b4a); text-align:center; padding:80px 24px; position:relative; overflow:hidden; }
+        .cta-section h2 { color:white; margin-bottom:1rem; }
+        .cta-section h2::after { background:linear-gradient(90deg,transparent,var(--primary),transparent); left:50%; transform:translateX(-50%); }
+        .cta-section p { color:rgba(255,255,255,0.8); margin-bottom:2rem; font-size:1.1rem; }
+
+        .hero-particles { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+        .particle { position:absolute; width:4px; height:4px; background:var(--primary); border-radius:50%; opacity:0.4; animation:particleFloat 6s ease-in-out infinite; }
+        @keyframes particleFloat { 0%,100%{transform:translateY(0) translateX(0)} 25%{transform:translateY(-30px) translateX(15px)} 50%{transform:translateY(-15px) translateX(-10px)} 75%{transform:translateY(-40px) translateX(5px)} }
+
+        .articles-promo { background:var(--glass); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:var(--radius-xl); padding:3rem; text-align:center; margin:0 auto; }
+        .articles-promo i { font-size:3rem; color:var(--primary); margin-bottom:1rem; display:block; }
+        .articles-promo h2::after { left:50%; transform:translateX(-50%); }
+        .articles-promo p { color:var(--text-light); max-width:600px; margin:1rem auto; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="main-nav">
         <div class="logo">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="logo-img" onerror="this.src='https://via.placeholder.com/50'">
-            <div>
-                <h2>Maureen Ndung'u</h2>
-                <p>MCA Candidate - Karen Ward</p>
-            </div>
+            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="logo-img" onerror="this.style.background='var(--primary)'">
+            <div><h2>Maureen Ndung'u</h2><p>MCA Candidate - Karen Ward</p></div>
         </div>
         <button class="menu-toggle" id="menuToggle">☰</button>
         <ul class="nav-links" id="navLinks">
@@ -26,107 +63,139 @@
             <li><a href="/pages/about.html">About Maureen</a></li>
             <li><a href="/pages/manifesto.html">Manifesto</a></li>
             <li><a href="/pages/karen-facts.html">Facts About Karen</a></li>
-            <li><a href="/pages/articles.html">Articles </a></li>
+            <li><a href="/pages/articles.html">Articles & News</a></li>
             <li><a href="/pages/forum.html">Community Forum</a></li>
             <li><a href="/pages/get-involved.html">Get Involved</a></li>
             <li><a href="/pages/gallery.html">Gallery</a></li>
         </ul>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-particles" id="heroParticles"></div>
         <div class="hero-content">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="hero-img" onerror="this.src='https://via.placeholder.com/200'">
+            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="hero-img" onerror="this.style.background='var(--primary)'">
             <h1>Maureen Nyaguthii Ndung'u</h1>
             <p class="tagline">Your Voice for Karen Ward | Langata Constituency</p>
             <p class="hero-text">Wanawake Tunaweza | Ubuntu: "I am because we are"</p>
             <div class="hero-buttons">
-                <a href="/pages/forum.html" class="prestige-btn">Join the Conversation</a>
-                <a href="/pages/get-involved.html" class="prestige-btn-outline">Volunteer</a>
-                <a href="/pdf/manifesto.html" target="_blank" class="prestige-btn" style="background: #c9a03d;">📄 Download Manifesto PDF</a>
+                <a href="/pages/forum.html" class="prestige-btn"><i class="fas fa-comments"></i> Join the Conversation</a>
+                <a href="/pages/get-involved.html" class="prestige-btn-outline"><i class="fas fa-hand-peace"></i> Volunteer</a>
+                <a href="/pages/manifesto.html" class="prestige-btn" style="background:linear-gradient(135deg,#1a6b4a,#22c47a);box-shadow:0 4px 20px rgba(34,196,122,0.3)"><i class="fas fa-file-alt"></i> View Manifesto</a>
             </div>
         </div>
     </section>
 
-    <!-- Key Issues Section -->
-    <div class="container">
-        <h2 class="section-title">My Priorities for Karen Ward</h2>
-        <div class="prestige-grid">
-            <div class="prestige-card">
-                <i class="fas fa-users prestige-icon"></i>
-                <h3>Youth Empowerment</h3>
-                <p>Skills training, internships, and entrepreneurship opportunities for our young people.</p>
-            </div>
-            <div class="prestige-card">
-                <i class="fas fa-tree prestige-icon"></i>
-                <h3>Environment</h3>
-                <p>Protecting green spaces, waste management, and tree planting initiatives.</p>
-            </div>
-            <div class="prestige-card">
-                <i class="fas fa-road prestige-icon"></i>
-                <h3>Infrastructure</h3>
-                <p>Better roads, street lighting, drainage, and reliable water supply.</p>
-            </div>
-            <div class="prestige-card">
-                <i class="fas fa-heartbeat prestige-icon"></i>
-                <h3>Healthcare</h3>
-                <p>Supporting local clinics, maternal health, and health awareness programs.</p>
-            </div>
-            <div class="prestige-card">
-                <i class="fas fa-chart-line prestige-icon"></i>
-                <h3>Small Business</h3>
-                <p>Market access, business training, and support for local traders.</p>
-            </div>
-            <div class="prestige-card">
-                <i class="fas fa-hand-holding-heart prestige-icon"></i>
-                <h3>Social Welfare</h3>
-                <p>Support for vulnerable families, seniors, and persons with disabilities.</p>
-            </div>
+    <!-- Stats Bar -->
+    <div class="container" style="padding-top:40px;padding-bottom:0">
+        <div class="stats-bar reveal">
+            <div class="stat-item"><div class="stat-number" data-target="232">0</div><div class="stat-label">km² Ward Area</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="60">0</div><div class="stat-label">% Youth Population</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="5">0</div><div class="stat-label">Wards in Langata</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="6">0</div><div class="stat-label">Key Priority Areas</div></div>
         </div>
     </div>
 
-    <!-- Articles Business Directory News Promo -->
-    <!-- Articles & News Promo -->
-<div class="container" style="text-align: center; background: #f9f5e8; border-radius: 16px; margin: 2rem auto; padding: 3rem;">
-    <i class="fas fa-newspaper" style="font-size: 3rem; color: #c9a03d; margin-bottom: 1rem;"></i>
-    <h2>Stories from Karen Ward</h2>
-    <p style="max-width: 600px; margin: 1rem auto;">Stay informed about our community's development, environmental initiatives, and the issues that matter most to Karen residents.</p>
-    <a href="/pages/articles.html" class="prestige-btn" style="margin-top: 1rem;">Read Articles & News →</a>
-</div>
+    <!-- Campaign Trail Carousel -->
+    <section class="container" style="padding-top:40px;padding-bottom:20px">
+        <h2 class="section-title reveal">Campaign Trail</h2>
+        <div class="swiper campaign-swiper reveal">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/images/events/campaign_rally_event.png" alt="Rally Event"><div class="slide-caption"><h3>Karibu Town Hall</h3><p>Engaging directly with residents to hear your priorities.</p></div></div>
+                <div class="swiper-slide"><img src="/images/events/community_youth_empowerment.png" alt="Youth Empowerment"><div class="slide-caption"><h3>Youth Collaboration</h3><p>Empowering the next generation with modern skills.</p></div></div>
+                <div class="swiper-slide"><img src="/images/events/environmental_clean_up.png" alt="Environment Cleanup"><div class="slide-caption"><h3>Green Karen Initiative</h3><p>Protecting our beautiful environment through community action.</p></div></div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </section>
+
+    <!-- Key Issues -->
+    <div class="container">
+        <h2 class="section-title reveal">My Priorities for Karen Ward</h2>
+        <div class="prestige-grid">
+            <div class="prestige-card reveal reveal-delay-1"><i class="fas fa-users prestige-icon"></i><h3>Youth Empowerment</h3><p>Skills training, internships, and entrepreneurship for our young people.</p></div>
+            <div class="prestige-card reveal reveal-delay-2"><i class="fas fa-tree prestige-icon"></i><h3>Environment</h3><p>Protecting green spaces, waste management, and tree planting.</p></div>
+            <div class="prestige-card reveal reveal-delay-3"><i class="fas fa-road prestige-icon"></i><h3>Infrastructure</h3><p>Better roads, street lighting, drainage, and reliable water.</p></div>
+            <div class="prestige-card reveal reveal-delay-1"><i class="fas fa-heartbeat prestige-icon"></i><h3>Healthcare</h3><p>Supporting local clinics, maternal health, and awareness.</p></div>
+            <div class="prestige-card reveal reveal-delay-2"><i class="fas fa-chart-line prestige-icon"></i><h3>Small Business</h3><p>Market access, business training, and support for traders.</p></div>
+            <div class="prestige-card reveal reveal-delay-3"><i class="fas fa-hand-holding-heart prestige-icon"></i><h3>Social Welfare</h3><p>Support for vulnerable families, seniors, and PWDs.</p></div>
+        </div>
+    </div>
+
+    <!-- Articles Promo -->
+    <div class="container" style="padding-top:0">
+        <div class="articles-promo reveal">
+            <i class="fas fa-newspaper"></i>
+            <h2>Stories from Karen Ward</h2>
+            <p>Stay informed about community development, environmental initiatives, and the issues that matter most.</p>
+            <a href="/pages/articles.html" class="prestige-btn" style="margin-top:1rem">Read Articles & News →</a>
+        </div>
+    </div>
+
+    <!-- Anonymous Contribution Tally -->
+    <section class="contrib-section container reveal" id="contribute">
+        <span class="badge badge-gold" style="margin-bottom:1rem"><i class="fas fa-lock"></i> 100% Anonymous</span>
+        <h2 class="section-title">Support The Campaign</h2>
+        <p style="color:var(--text-light);max-width:700px;margin:1rem auto;font-size:1.05rem">Your contribution helps us reach every corner of Karen Ward. Every shilling counts. All contributions are fully anonymous — only the total count is tracked.</p>
+        <div class="contrib-counter" id="contribCounter">0</div>
+        <div class="contrib-label">Total Contributions Received</div>
+        <div class="contrib-cards" style="margin-top:2.5rem">
+            <div class="contrib-card">
+                <i class="fas fa-mobile-alt" style="color:#22c47a"></i>
+                <h3 style="color:#22c47a">M-PESA Paybill</h3>
+                <p style="font-size:1.3rem;color:var(--text-dark);margin:0.5rem 0">Business No: <strong style="font-size:1.5rem;color:var(--primary)">123456</strong></p>
+                <p style="color:var(--text-light)">Account: <strong>YOUR NAME</strong></p>
+            </div>
+            <div class="contrib-card">
+                <i class="fas fa-university" style="color:#60a5fa"></i>
+                <h3 style="color:#60a5fa">Bank Transfer</h3>
+                <p style="color:var(--text-light);margin:0.3rem 0">Bank: <strong style="color:var(--text-dark)">Equity Bank, Karen</strong></p>
+                <p style="color:var(--text-light)">Acc: <strong style="color:var(--text-dark)">Maureen For MCA</strong></p>
+                <p style="font-size:1.1rem;color:var(--text-dark)">No: <strong>0123456789012</strong></p>
+            </div>
+        </div>
+        <p style="margin-top:2rem;color:var(--text-muted);font-style:italic">Asante sana for your generous support! 🙏</p>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container" style="padding:0">
+            <h2>Your Voice Matters</h2>
+            <p>Join the conversation and help shape the future of Karen Ward</p>
+            <a href="/pages/forum.html" class="prestige-btn">Ask Maureen Directly <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
 
     <!-- Q&A Panel -->
     <div class="qa-panel">
         <button id="toggle-qa" class="toggle-btn">💬 Live Q&A</button>
         <div id="qa-window" class="qa-window hidden">
-            <h3>💬 Community Forum - Ask Maureen</h3>
-            <div id="qa-messages" class="qa-messages">
-                <div style="text-align: center; padding: 20px; color: #999;">Loading questions...</div>
-            </div>
-            <form id="qa-form">
+            <h3>💬 Community Forum — Ask Maureen</h3>
+            <div id="qa-messages" class="qa-messages"><div style="text-align:center;padding:20px;color:var(--text-muted)">Loading questions...</div></div>
+            <form id="qa-form" class="qa-form">
                 <input type="text" id="qa-name" placeholder="Your name (or leave blank for anonymous)" maxlength="50">
-               <textarea id="qa-question" placeholder="Ask Maureen about Karen Ward issues..." rows="3" maxlength="2000"></textarea>
-                <small style="display: block; margin-bottom: 8px; color: #666; font-size: 0.75rem;">
-    💡 You can ask anonymously - your name will show as "Karen Resident" (Max 2000 characters)
-</small>
-                <button type="submit">Submit Question</button>
+                <textarea id="qa-question" placeholder="Ask Maureen about Karen Ward issues..." rows="3"></textarea>
+                <small style="display:block;margin-bottom:8px;color:var(--text-muted);font-size:0.75rem">💡 Leave name blank to ask anonymously as "Karen Resident"</small>
+                <button type="submit" class="prestige-btn" style="width:100%">Submit Question</button>
             </form>
         </div>
     </div>
 
     <!-- Chatbot -->
     <div class="chatbot-panel">
-        <button id="toggle-chatbot" class="chatbot-toggle">🤖 Ask Campaign AI</button>
+        <button id="toggle-chatbot" class="chatbot-toggle">🤖 Campaign AI</button>
         <div id="chatbot-window" class="chatbot-window hidden">
             <div class="chatbot-header">
-                <h3>Maureen's Campaign Assistant</h3>
-                <p>Ask about the manifesto, events, or how to help!</p>
+                <img src="/images/maureen/portrait.png" alt="Maureen" class="chatbot-avatar" onerror="this.style.display='none'">
+                <div><h3>Campaign Assistant</h3><p>Ask about the manifesto, events, or how to help!</p></div>
             </div>
             <div id="chat-messages" class="chat-messages">
                 <div class="bot-message">👋 Habari! I'm Maureen's campaign assistant. What would you like to know about her vision for Karen Ward?</div>
             </div>
             <form id="chat-form">
                 <input type="text" id="chat-input" placeholder="Type your question..." autocomplete="off">
-                <button type="submit">Send</button>
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
     </div>
@@ -142,188 +211,57 @@
         <p><small>Wanawake Tunaweza | Ubuntu: I am because we are</small></p>
     </footer>
 
-    <script src="/js/navigation.js"></script>
+    <script src="/js/main.js"></script>
     <script src="/js/chatbot.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        // Q&A Panel Toggle Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('toggle-qa');
-            const qaWindow = document.getElementById('qa-window');
-            
-            if (toggleBtn && qaWindow) {
-                toggleBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    qaWindow.classList.toggle('hidden');
-                    
-                    // Add animation feedback
-                    toggleBtn.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        toggleBtn.style.transform = 'scale(1)';
-                    }, 100);
-                });
-            }
-            
-            // Chatbot Toggle
-            const chatToggle = document.getElementById('toggle-chatbot');
-            const chatWindow = document.getElementById('chatbot-window');
-            
-            if (chatToggle && chatWindow) {
-                chatToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    chatWindow.classList.toggle('hidden');
-                });
-            }
-            
-            // Q&A Form Submission
-            const qaForm = document.getElementById('qa-form');
-            if (qaForm) {
-                qaForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const nameInput = document.getElementById('qa-name');
-                    const questionInput = document.getElementById('qa-question');
-                    
-                    let name = nameInput.value.trim();
-                    const question = questionInput.value.trim();
-                    
-                    if (!name) {
-                        name = 'Karen Resident';
-                    }
-                    
-                    if (!question) {
-                        alert('Please enter a question');
-                        return;
-                    }
-                    
-                    if (window.submitQuestion) {
-                        window.submitQuestion(name, question);
-                        questionInput.value = '';
-                        nameInput.value = '';
-                        alert('✓ Question submitted! Maureen will respond soon.');
-                    } else {
-                        alert('Q&A is connecting. Please wait a moment and try again.');
-                    }
-                });
-            }
-        });
-        
-        // WebSocket Configuration
-        const WS_URL = 'ws://localhost:3001';
-        const API_URL = 'http://localhost:3001/api';
-        let socket = null;
-        let reconnectAttempts = 0;
-        
-        function connectWebSocket() {
-            try {
-                socket = new WebSocket(WS_URL);
-                
-                socket.onopen = () => {
-                    console.log('Connected to Q&A server');
-                    reconnectAttempts = 0;
-                    const toggleBtn = document.getElementById('toggle-qa');
-                    if (toggleBtn) {
-                        toggleBtn.style.background = '#c9a03d';
-                        toggleBtn.innerHTML = '💬 Live Q&A • Connected';
-                    }
-                };
-                
-                socket.onmessage = (event) => {
-                    try {
-                        const data = JSON.parse(event.data);
-                        if (data.type === 'history' || data.type === 'newQuestion') {
-                            loadQuestions();
-                        }
-                    } catch (error) {
-                        console.error('Error parsing message:', error);
-                    }
-                };
-                
-                socket.onerror = (error) => {
-                    console.error('WebSocket error:', error);
-                };
-                
-                socket.onclose = () => {
-                    console.log('Disconnected from Q&A server');
-                    const toggleBtn = document.getElementById('toggle-qa');
-                    if (toggleBtn) {
-                        toggleBtn.style.background = '#e67e22';
-                        toggleBtn.innerHTML = '💬 Live Q&A • Reconnecting...';
-                    }
-                    setTimeout(connectWebSocket, 3000);
-                };
-            } catch (error) {
-                console.error('Failed to create WebSocket:', error);
-            }
-        }
-        
-        async function loadQuestions() {
-            try {
-                const response = await fetch(API_URL + '/questions');
-                const data = await response.json();
-                
-                const container = document.getElementById('qa-messages');
-                if (container && data.questions) {
-                    if (data.questions.length === 0) {
-                        container.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No questions yet. Be the first to ask Maureen!</div>';
-                    } else {
-                        container.innerHTML = data.questions.slice(0, 20).map(q => `
-                            <div class="question-item" style="border-left-color: ${q.answered ? '#c9a03d' : '#e67e22'}; margin-bottom: 12px; padding: 12px; background: white; border-radius: 8px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <strong style="color: #c9a03d;">${escapeHtml(q.name)}</strong>
-                                    <small style="color: #999;">${new Date(q.timestamp).toLocaleString()}</small>
-                                </div>
-                                <div style="margin-bottom: 8px;">${escapeHtml(q.question)}</div>
-                                ${q.answered ? `
-                                    <div style="background: #f9f5e8; padding: 10px; border-radius: 6px; margin-top: 8px; border-left: 3px solid #c9a03d;">
-                                        <strong style="color: #c9a03d;">💬 Maureen's Response:</strong>
-                                        <div style="margin-top: 5px;">${escapeHtml(q.answer)}</div>
-                                    </div>
-                                ` : '<em style="color: #999; font-size: 0.8rem;">Awaiting Maureen\'s response...</em>'}
-                            </div>
-                        `).join('');
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading questions:', error);
-            }
-        }
-        
-        function submitQuestion(name, question) {
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'question',
-                    name: name,
-                    question: question
-                }));
-                return true;
-            } else {
-                console.error('WebSocket not connected. State:', socket ? socket.readyState : 'null');
-                return false;
-            }
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // Make functions available globally
-        window.submitQuestion = submitQuestion;
-        
-        // Initialize
-        connectWebSocket();
-        loadQuestions();
-        setInterval(loadQuestions, 10000);
-        
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Swiper
+        new Swiper('.campaign-swiper', { loop:true, autoplay:{delay:5000,disableOnInteraction:false}, pagination:{el:'.swiper-pagination',clickable:true}, navigation:{nextEl:'.swiper-button-next',prevEl:'.swiper-button-prev'} });
+
+        // Hero particles
+        const hp = document.getElementById('heroParticles');
+        if (hp) { for(let i=0;i<30;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.animationDelay=Math.random()*6+'s';p.style.animationDuration=(4+Math.random()*4)+'s';p.style.width=p.style.height=(2+Math.random()*4)+'px';hp.appendChild(p);} }
+
+        // Stat counters
+        const statsObs = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const t=parseInt(e.target.dataset.target);animateCounter(e.target,t,1500);statsObs.unobserve(e.target);}});},{threshold:0.5});
+        document.querySelectorAll('.stat-number').forEach(el=>statsObs.observe(el));
+
+        // Load contribution count
+        fetch('http://localhost:3001/api/contributions').then(r=>r.json()).then(d=>{
+            const el=document.getElementById('contribCounter');
+            if(el)animateCounter(el,d.count||0,2000);
+        }).catch(()=>{});
+    });
+
+    // Q&A System
+    const WS_URL='ws://localhost:3001', API_URL='http://localhost:3001/api';
+    let socket=null;
+    function connectWebSocket(){
+        try{socket=new WebSocket(WS_URL);
+        socket.onopen=()=>{const b=document.getElementById('toggle-qa');if(b){b.style.background='linear-gradient(135deg,#1a6b4a,#22c47a)';b.innerHTML='💬 Live Q&A • Online';}};
+        socket.onmessage=(e)=>{const d=JSON.parse(e.data);if(['history','newQuestion','questionDeleted','questionAnswered'].includes(d.type))loadQuestions();if(d.type==='questionSubmitted')showNotification(d.message,'success');if(d.type==='contributionUpdate'){const el=document.getElementById('contribCounter');if(el)animateCounter(el,d.count,1000);}};
+        socket.onerror=()=>{const b=document.getElementById('toggle-qa');if(b){b.style.background='linear-gradient(135deg,#7f1d1d,#ef4444)';b.innerHTML='💬 Q&A • Error';}};
+        socket.onclose=()=>{setTimeout(connectWebSocket,3000);};
+        }catch(e){}
+    }
+    async function loadQuestions(){
+        try{const r=await fetch(API_URL+'/questions');const d=await r.json();const c=document.getElementById('qa-messages');
+        if(!c)return;
+        if(d.total===0){c.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted)">✨ No questions yet. Be the first!</div>';return;}
+        c.innerHTML=d.questions.slice(0,20).map(q=>`<div class="question-item ${q.answered?'answered':''}"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong style="color:var(--primary)">${esc(q.name)}</strong><small style="color:var(--text-muted)">${timeAgo(q.timestamp)}</small></div><div style="margin-bottom:6px;color:var(--text-light)">${esc(q.question)}</div>${q.answered?`<div style="background:rgba(34,196,122,0.1);padding:10px;border-radius:8px;margin-top:8px;border-left:3px solid var(--accent-light)"><strong style="color:var(--accent-light)">💬 Maureen:</strong><div style="margin-top:4px;color:var(--text-light)">${esc(q.answer)}</div></div>`:'<em style="color:var(--text-muted);font-size:0.8rem">⏳ Awaiting response...</em>'}</div>`).join('');
+        }catch(e){const c=document.getElementById('qa-messages');if(c)c.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted)">⚠️ Server offline. Start: cd qa-server && npm start</div>';}
+    }
+    function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+    function timeAgo(ts){const s=Math.floor((Date.now()-new Date(ts))/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+
+    document.addEventListener('DOMContentLoaded',function(){
+        const tb=document.getElementById('toggle-qa'),qw=document.getElementById('qa-window');
+        if(tb&&qw)tb.addEventListener('click',()=>qw.classList.toggle('hidden'));
+        const qf=document.getElementById('qa-form');
+        if(qf)qf.addEventListener('submit',function(e){e.preventDefault();const n=document.getElementById('qa-name'),q=document.getElementById('qa-question');const name=n?n.value.trim():'';const question=q?q.value.trim():'';if(!question){showNotification('Please enter a question','error');return;}if(!socket||socket.readyState!==WebSocket.OPEN){showNotification('Connecting...','warning');return;}socket.send(JSON.stringify({type:'question',name:name||'Karen Resident',question}));if(q)q.value='';if(n)n.value='';});
+        connectWebSocket();loadQuestions();setInterval(()=>loadQuestions(),10000);
+    });
     </script>
 </body>
 </html>
