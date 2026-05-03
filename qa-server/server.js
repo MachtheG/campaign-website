@@ -9,29 +9,27 @@ const rateLimit = require('express-rate-limit');
 const crypto = require('crypto');
 
 const app = express();
-
-// Security headers
-app.use(helmet({ contentSecurityPolicy: false }));
-
-// CORS
-app.use(cors({ origin: ['http://localhost:3001', 'http://localhost:8080', 'http://127.0.0.1:3001'] }));
+app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
+app.use(cors());
 app.use(express.json({ limit: '10kb' }));
+
+// Serve the MAIN campaign website from parent directory
+const SITE_ROOT = path.join(__dirname, '..');
+app.use(express.static(SITE_ROOT));
+// Also serve admin from qa-server directory
 app.use(express.static(__dirname));
 
 // Rate limiting
-const questionLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 5, message: { error: 'Too many questions. Please wait an hour.' } });
-const adminLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, message: { error: 'Too many admin requests.' } });
-const generalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+const questionLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 20, message: { error: 'Too many requests. Please wait.' } });
+const adminLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 50, message: { error: 'Too many admin requests.' } });
+const generalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200 });
 app.use('/api', generalLimiter);
 
-// Admin PIN (SHA-256 of "2026")
+// Admin PIN
 const ADMIN_PIN_HASH = crypto.createHash('sha256').update('2026').digest('hex');
-
 function verifyAdmin(req, res, next) {
   const token = req.headers['x-admin-token'];
-  if (!token || token !== ADMIN_PIN_HASH) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+  if (!token || token !== ADMIN_PIN_HASH) return res.status(401).json({ error: 'Unauthorized' });
   next();
 }
 
@@ -45,7 +43,7 @@ function loadQuestions() {
       const saved = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
       questions = saved.questions || [];
       nextQuestionId = saved.nextQuestionId || 1;
-      console.log(`Loaded ${questions.length} questions`);
+      console.log(`✅ Loaded ${questions.length} questions`);
     }
   } catch (e) { console.error('Load error:', e); questions = []; }
 }
@@ -69,15 +67,15 @@ function broadcast(data, exclude = null) {
 
 function moderateQuestion(text) {
   if (!text || text.trim().length < 3) return { ok: false, reason: 'Question too short.' };
-  if (text.length > 2000) return { ok: false, reason: 'Question too long (max 2000 chars).' };
+  if (text.length > 2000) return { ok: false, reason: 'Max 2000 characters.' };
   const banned = ['spam','hate','scam','offensive'];
-  if (banned.some(w => text.toLowerCase().includes(w))) return { ok: false, reason: 'Question contains inappropriate language.' };
+  if (banned.some(w => text.toLowerCase().includes(w))) return { ok: false, reason: 'Contains inappropriate language.' };
   return { ok: true };
 }
 
 wss.on('connection', (ws) => {
   clients.add(ws);
-  ws.send(JSON.stringify({ type: 'welcome', message: "Welcome to Maureen's Community Forum!", activeUsers: clients.size }));
+  ws.send(JSON.stringify({ type: 'welcome', activeUsers: clients.size }));
   ws.send(JSON.stringify({ type: 'history', questions: questions.slice(-100) }));
   broadcast({ type: 'userCount', count: clients.size });
 
@@ -114,7 +112,7 @@ app.get('/api/questions/:id', (req, res) => {
 });
 app.get('/api/stats', (req, res) => res.json({ total: questions.length, answered: questions.filter(q => q.answered).length, pending: questions.filter(q => !q.answered).length }));
 
-// Contribution counter (anonymous)
+// Contributions
 let contributionCount = 0;
 const CONTRIB_FILE = path.join(__dirname, 'contributions.json');
 try { if (fs.existsSync(CONTRIB_FILE)) contributionCount = JSON.parse(fs.readFileSync(CONTRIB_FILE)).count || 0; } catch(e) {}
@@ -126,7 +124,7 @@ app.post('/api/contribute', questionLimiter, (req, res) => {
 });
 app.get('/api/contributions', (req, res) => res.json({ count: contributionCount }));
 
-// Admin PIN verify
+// Admin
 app.post('/api/admin/verify', adminLimiter, (req, res) => {
   const { pin } = req.body;
   if (!pin) return res.status(400).json({ error: 'PIN required' });
@@ -134,7 +132,6 @@ app.post('/api/admin/verify', adminLimiter, (req, res) => {
   hash === ADMIN_PIN_HASH ? res.json({ success: true, token: ADMIN_PIN_HASH }) : res.status(401).json({ error: 'Invalid PIN' });
 });
 
-// Admin routes
 app.post('/api/questions/:id/answer', adminLimiter, verifyAdmin, (req, res) => {
   const q = questions.find(x => x.id === parseInt(req.params.id));
   if (!q || !req.body.answer) return res.status(404).json({ error: 'Not found' });
@@ -147,8 +144,7 @@ app.post('/api/questions/:id/answer', adminLimiter, verifyAdmin, (req, res) => {
 app.delete('/api/questions/:id', adminLimiter, verifyAdmin, (req, res) => {
   const idx = questions.findIndex(x => x.id === parseInt(req.params.id));
   if (idx === -1) return res.status(404).json({ error: 'Not found' });
-  questions.splice(idx, 1);
-  saveQuestions();
+  questions.splice(idx, 1); saveQuestions();
   broadcast({ type: 'questionDeleted', questionId: parseInt(req.params.id) });
   res.json({ success: true });
 });
@@ -156,25 +152,31 @@ app.delete('/api/questions/:id', adminLimiter, verifyAdmin, (req, res) => {
 app.post('/api/questions/:id/flag', adminLimiter, verifyAdmin, (req, res) => {
   const q = questions.find(x => x.id === parseInt(req.params.id));
   if (!q) return res.status(404).json({ error: 'Not found' });
-  q.flagged = !q.flagged;
-  saveQuestions();
+  q.flagged = !q.flagged; saveQuestions();
   broadcast({ type: 'questionFlagged', questionId: q.id, flagged: q.flagged });
   res.json({ success: true, flagged: q.flagged });
 });
 
-app.delete('/api/questions/bulk', adminLimiter, verifyAdmin, (req, res) => {
-  const { ids } = req.body;
-  if (!Array.isArray(ids)) return res.status(400).json({ error: 'ids array required' });
-  ids.forEach(id => { const i = questions.findIndex(x => x.id === id); if (i !== -1) questions.splice(i, 1); });
-  saveQuestions();
-  broadcast({ type: 'bulkDeleted', ids });
-  res.json({ success: true });
+// Fallback to index.html for SPA routes
+app.get('*', (req, res) => {
+  const filePath = path.join(SITE_ROOT, req.path);
+  if (fs.existsSync(filePath)) return res.sendFile(filePath);
+  res.sendFile(path.join(SITE_ROOT, 'index.html'));
 });
 
-app.get('/', (req, res) => res.send('<h1>Campaign QA Server Running</h1><p><a href="/api/questions">API</a></p>'));
-
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, '0.0.0.0', () => console.log(`\n🚀 Server on port ${PORT}\n🔐 Admin PIN: 2026\n📡 WS: ws://localhost:${PORT}\n`));
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`
+  ╔══════════════════════════════════════════════╗
+  ║  🚀 Maureen's Campaign Website Running!      ║
+  ║                                              ║
+  ║  🌐 Website:  http://localhost:${PORT}          ║
+  ║  📡 WS:       ws://localhost:${PORT}            ║
+  ║  🔧 Admin:    http://localhost:${PORT}/admin.html║
+  ║  🔐 PIN:      2026                           ║
+  ╚══════════════════════════════════════════════╝
+  `);
+});
 
 process.on('SIGINT', () => { saveQuestions(); clients.forEach(c => c.close()); server.close(() => process.exit(0)); });
 process.on('SIGTERM', () => { saveQuestions(); process.exit(0); });

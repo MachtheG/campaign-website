@@ -3,173 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maureen Ndung'u - Manifesto for Karen Ward</title>
+    <title>Manifesto PDF — Maureen Ndung'u for MCA Karen Ward 2026</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            background: white;
-            padding: 40px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-        }
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 3px solid #e67e22;
-            margin-bottom: 30px;
-        }
-        h1 {
-            color: #e67e22;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        .slogan {
-            font-size: 1.3rem;
-            color: #2c3e50;
-            font-style: italic;
-            margin: 10px 0;
-        }
-        .ubuntu {
-            font-size: 1.1rem;
-            color: #666;
-            margin-top: 10px;
-        }
-        h2 {
-            color: #e67e22;
-            margin: 30px 0 15px 0;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #e67e22;
-        }
-        h3 {
-            color: #2c3e50;
-            margin: 20px 0 10px 0;
-        }
-        .quote {
-            font-style: italic;
-            text-align: center;
-            padding: 20px;
-            background: #f9f9f9;
-            border-left: 4px solid #e67e22;
-            margin: 20px 0;
-        }
-        .footer-quote {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            background: #f5f5f5;
-            font-style: italic;
-        }
-        .core-values {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .value-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 3px solid #e67e22;
-        }
-        @media print {
-            body {
-                padding: 20px;
-            }
-            .no-print {
-                display: none;
-            }
-        }
-        .download-btn {
-            display: inline-block;
-            background: #e67e22;
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 20px 0;
-            font-family: Arial, sans-serif;
-        }
-        .download-btn:hover {
-            background: #d35400;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;color:#1a1a1a;background:#fff;line-height:1.8;font-weight:300}
+        @media print{body{font-size:11pt}.no-print{display:none!important}.page-break{page-break-before:always}}
+
+        .print-bar{background:#0a0f1e;color:#c9a03d;padding:12px 24px;text-align:center;font-size:0.88rem;display:flex;justify-content:center;gap:1rem;align-items:center;flex-wrap:wrap}
+        .print-bar button{background:#c9a03d;color:#0a0f1e;border:none;padding:8px 20px;border-radius:50px;cursor:pointer;font-weight:700;font-size:0.85rem;transition:all 0.2s}
+        .print-bar button:hover{background:#e8c97a;transform:scale(1.05)}
+
+        .manifesto{max-width:800px;margin:0 auto;padding:60px 48px}
+
+        .header{text-align:center;padding-bottom:40px;border-bottom:3px double #c9a03d;margin-bottom:40px}
+        .header .seal{width:100px;height:100px;border-radius:50%;border:3px solid #c9a03d;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;overflow:hidden}
+        .header .seal img{width:100%;height:100%;object-fit:cover}
+        .header h1{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:800;color:#0a0f1e;letter-spacing:1px;margin-bottom:4px}
+        .header .subtitle{font-size:1.1rem;color:#c9a03d;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+        .header .tagline{font-size:0.95rem;color:#666;font-style:italic}
+        .gold-line{height:2px;background:linear-gradient(90deg,transparent,#c9a03d,transparent);margin:2rem 0}
+
+        .quote{text-align:center;padding:2rem;margin:2rem 0;border:1px solid #e8e0d0;border-radius:8px;background:#faf8f4}
+        .quote p{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+        .quote .author{margin-top:0.8rem;color:#c9a03d;font-weight:600;font-size:0.9rem;font-style:normal}
+
+        .section{margin-bottom:2.5rem}
+        .section h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#0a0f1e;margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:2px solid #c9a03d;display:inline-block}
+        .section h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:#0a0f1e;margin:1rem 0 0.5rem}
+        .section p{margin-bottom:0.8rem;color:#333}
+
+        .pillar{margin-bottom:2rem;padding:1.5rem 1.5rem 1.5rem 2rem;border-left:4px solid #c9a03d;background:#faf8f4;border-radius:0 8px 8px 0}
+        .pillar-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#c9a03d;color:white;font-weight:700;font-size:0.9rem;margin-right:0.5rem;vertical-align:middle}
+        .pillar h2{border-bottom:none;display:inline;font-size:1.3rem}
+
+        .values-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:1rem 0}
+        .value-item{text-align:center;padding:1rem;border:1px solid #e8e0d0;border-radius:8px;font-weight:500;font-size:0.88rem;color:#333}
+        .value-item .icon{font-size:1.3rem;margin-bottom:0.3rem;color:#c9a03d}
+
+        .closing{text-align:center;margin-top:3rem;padding-top:2rem;border-top:3px double #c9a03d}
+        .closing p{font-family:'Playfair Display',serif;font-size:1.2rem;color:#0a0f1e;margin-bottom:0.5rem}
+        .closing .name{font-size:1.5rem;font-weight:800;color:#c9a03d;margin-top:1rem}
+        .closing .motto{font-style:italic;color:#666;margin-top:0.3rem}
+
+        .footer-note{text-align:center;margin-top:3rem;padding-top:1rem;border-top:1px solid #e8e0d0;font-size:0.8rem;color:#999}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 20px;" class="no-print">
-            <button onclick="window.print()" class="download-btn">📄 Save as PDF / Print</button>
-        </div>
-        
+    <div class="print-bar no-print">
+        <span>📄 Maureen Ndung'u — Campaign Manifesto 2026</span>
+        <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+        <button onclick="window.close()">✕ Close</button>
+    </div>
+
+    <div class="manifesto">
         <div class="header">
+            <div class="seal"><img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" onerror="this.parentElement.textContent='MN'"></div>
             <h1>Maureen Ndung'u</h1>
-            <p style="font-size: 1.2rem;">MCA Candidate - Karen Ward, Langata Constituency</p>
-            <p class="slogan"><strong>Slogan: Wanawake Tunaweza</strong></p>
-            <p class="ubuntu">Ubuntu - An African philosophy: "I am because we are"</p>
+            <div class="subtitle">Manifesto for MCA — Karen Ward 2026</div>
+            <div class="tagline">Langata Constituency, Nairobi County</div>
         </div>
 
         <div class="quote">
-            "The future belongs to those who believe in the beauty of their dreams"<br>
-            — Eleanor Roosevelt
+            <p>"The future belongs to those who believe in the beauty of their dreams"</p>
+            <div class="author">— Eleanor Roosevelt</div>
         </div>
 
-        <h2>Introduction</h2>
-        <p>This manifesto outlines a people-centered vision for Karen Ward. The goal is to strengthen community bonds, create opportunities for residents, support local businesses, and ensure that development benefits everyone.</p>
-        <p>Karen Ward is one of the most vibrant and diverse communities in Nairobi. It is home to families, entrepreneurs, young professionals, students, and elders who contribute to the unique identity of the ward. Despite its strengths, many residents still face challenges relating to access to public services, economic opportunity, youth development, environmental sustainability, and inclusive participation in governance.</p>
-
-        <h2>Vision for Karen Ward</h2>
-        <p>A Karen Ward where every resident feels valued, heard, and empowered. A ward where communities are connected, businesses thrive, youth are supported, and public spaces are vibrant and safe.</p>
-
-        <h2>Core Values</h2>
-        <div class="core-values">
-            <div class="value-item">✓ Integrity and accountability in leadership</div>
-            <div class="value-item">✓ Inclusivity and respect for diversity</div>
-            <div class="value-item">✓ Community participation and civic engagement</div>
-            <div class="value-item">✓ Sustainable development and environmental responsibility</div>
-            <div class="value-item">✓ Investment in people and local opportunity</div>
+        <div class="section">
+            <h2>Introduction</h2>
+            <p>This manifesto outlines a people-centered vision for Karen Ward. The goal is to strengthen community bonds, create opportunities for residents, support local businesses, and ensure that development benefits everyone.</p>
+            <p>Karen Ward is one of the most vibrant and diverse communities in Nairobi. It is home to families, entrepreneurs, young professionals, students, and elders who contribute to the unique identity of the ward. Despite its strengths, many residents face challenges relating to public services, economic opportunity, youth development, environmental sustainability, and inclusive participation in governance.</p>
         </div>
 
-        <h2>1. Investing in People</h2>
-        <p>People are the foundation of every thriving community. Development must prioritize the wellbeing of residents. Initiatives will focus on access to healthcare information, youth programs, mentorship opportunities, and mental and physical wellbeing initiatives within the community.</p>
-        <p>Programs will include community wellness awareness campaigns, partnerships with local organizations to support youth education and mentorship, and community dialogue forums where residents can discuss issues affecting their daily lives.</p>
+        <div class="section">
+            <h2>Vision</h2>
+            <p>A Karen Ward where every resident feels <strong>valued, heard, and empowered</strong>. A ward where communities are connected, businesses thrive, youth are supported, and public spaces are vibrant and safe.</p>
+        </div>
 
-        <h2>2. Strong and Connected Communities</h2>
-        <p>Strong communities are built through trust and collaboration. Residents should feel connected to their neighbors and confident that their voices matter in decision-making.</p>
-        <p>Community engagement programs will include neighborhood forums, resident association collaboration, and volunteer initiatives that encourage residents to take active roles in improving their community.</p>
+        <div class="section">
+            <h2>Core Values</h2>
+            <div class="values-row">
+                <div class="value-item"><div class="icon">⚖️</div>Integrity & Accountability</div>
+                <div class="value-item"><div class="icon">🤝</div>Inclusivity & Diversity</div>
+                <div class="value-item"><div class="icon">👥</div>Community Participation</div>
+                <div class="value-item"><div class="icon">🌱</div>Sustainable Development</div>
+                <div class="value-item"><div class="icon">💡</div>Investment in People</div>
+            </div>
+        </div>
 
-        <h2>3. Public Spaces and Community Infrastructure</h2>
-        <p>Public spaces are essential for community interaction and wellbeing. Parks, libraries, playgrounds, and community centers allow residents to gather, learn, and relax.</p>
-        <p>Efforts will focus on improving accessibility, safety, cleanliness, and maintenance of existing public spaces while also advocating for new spaces where needed.</p>
+        <div class="gold-line"></div>
 
-        <h2>4. Youth Development and Education</h2>
-        <p>Youth represent the future of Karen Ward. Providing mentorship, skills development opportunities, and platforms for innovation will empower young people to build successful futures.</p>
-        <p>Youth forums, mentorship networks, entrepreneurship training sessions, and digital literacy programs will be supported to encourage innovation and leadership among young residents.</p>
+        <div class="pillar"><span class="pillar-num">1</span><h2>Investing in People</h2><p style="margin-top:0.8rem">People are the foundation of every thriving community. Development must prioritize the wellbeing of residents. Initiatives will focus on access to healthcare information, youth programs, mentorship opportunities, and mental and physical wellbeing initiatives.</p><p>Programs include community wellness awareness campaigns, partnerships with local organizations to support youth education and mentorship, and community dialogue forums.</p></div>
 
-        <h2>5. Supporting Local Businesses</h2>
-        <p>Local businesses are critical drivers of economic growth. Supporting entrepreneurs, small businesses, and local employment opportunities strengthens the ward economy.</p>
-        <p>Engagement sessions with business owners will identify challenges and opportunities while encouraging collaboration and partnerships.</p>
+        <div class="pillar"><span class="pillar-num">2</span><h2>Strong & Connected Communities</h2><p style="margin-top:0.8rem">Strong communities are built through trust and collaboration. Residents should feel connected to neighbors and confident that their voices matter in decision-making.</p><p>Programs include neighborhood forums, resident association collaboration, and volunteer initiatives encouraging active participation in community improvement.</p></div>
 
-        <h2>6. Environmental Sustainability</h2>
-        <p>A clean and healthy environment contributes to the wellbeing of residents. Environmental initiatives will include community clean-up drives, tree planting programs, and public awareness campaigns on sustainable waste management.</p>
+        <div class="pillar"><span class="pillar-num">3</span><h2>Public Spaces & Infrastructure</h2><p style="margin-top:0.8rem">Public spaces are essential for community interaction and wellbeing. Parks, libraries, playgrounds, and community centres allow residents to gather, learn, and relax.</p><p>Focus: improving accessibility, safety, cleanliness, and maintenance of existing public spaces while advocating for new spaces where needed.</p></div>
 
-        <h2>7. Unity and Diversity</h2>
-        <p>Karen Ward reflects the diversity of Kenya. A strong community respects different cultures, religions, and backgrounds while promoting unity and shared prosperity.</p>
+        <div class="pillar"><span class="pillar-num">4</span><h2>Youth Development & Education</h2><p style="margin-top:0.8rem">Youth represent the future of Karen Ward. Providing mentorship, skills development, and platforms for innovation will empower young people to build successful futures.</p><p>Youth forums, mentorship networks, entrepreneurship training, and digital literacy programs will be supported.</p></div>
 
-        <h2>8. Transparent Governance</h2>
-        <p>Leadership must be accountable and accessible. Residents should always have the opportunity to participate in discussions about ward development. Community consultations and regular communication will ensure transparency and trust.</p>
+        <div class="pillar"><span class="pillar-num">5</span><h2>Supporting Local Businesses</h2><p style="margin-top:0.8rem">Local businesses are critical drivers of economic growth. Supporting entrepreneurs, small businesses, and local employment opportunities strengthens the ward economy.</p><p>Engagement with business owners will identify challenges and opportunities while encouraging collaboration.</p></div>
 
-        <div class="footer-quote">
+        <div class="pillar"><span class="pillar-num">6</span><h2>Environmental Sustainability</h2><p style="margin-top:0.8rem">A clean and healthy environment contributes to the wellbeing of residents. Initiatives include community clean-up drives, tree planting programs, and public awareness campaigns on sustainable waste management.</p></div>
+
+        <div class="pillar"><span class="pillar-num">7</span><h2>Unity & Diversity</h2><p style="margin-top:0.8rem">Karen Ward reflects the diversity of Kenya. A strong community respects different cultures, religions, and backgrounds while promoting unity and shared prosperity.</p></div>
+
+        <div class="pillar"><span class="pillar-num">8</span><h2>Transparent Governance</h2><p style="margin-top:0.8rem">Leadership must be accountable and accessible. Residents should always have the opportunity to participate in discussions about ward development. Community consultations and regular communication will ensure transparency and trust.</p></div>
+
+        <div class="closing">
             <p>Together, we can build a Karen Ward that works for everyone.</p>
-            <p style="margin-top: 10px;"><strong>Maureen Ndung'u</strong><br>Your Voice for Karen Ward</p>
+            <div class="name">Maureen Nyaguthii Ndung'u</div>
+            <div>Your Voice for Karen Ward</div>
+            <div class="motto">Wanawake Tunaweza | Ubuntu: "I am because we are"</div>
+        </div>
+
+        <div class="footer-note">
+            <p>© 2026 Maureen Ndung'u for MCA — Karen Ward, Langata Constituency</p>
+            <p>This document may be printed or shared freely.</p>
         </div>
     </div>
 </body>

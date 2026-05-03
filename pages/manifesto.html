@@ -3,132 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manifesto | Maureen Ndung'u for MCA</title>
+    <title>Manifesto | Maureen Ndung'u for MCA Karen Ward 2026</title>
     <link rel="stylesheet" href="/css/campaign.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .manifesto-hero{background:linear-gradient(135deg,var(--secondary),var(--secondary-light));position:relative;overflow:hidden}
+        .manifesto-hero img.hero-bg-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.25) saturate(1.2);z-index:0}
+        .manifesto-hero .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:linear-gradient(135deg,rgba(10,15,30,0.8),rgba(26,107,74,0.3))}
+        .manifesto-hero .hero-content{z-index:2}
+
+        .quote-box{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:2rem 2.5rem;margin-bottom:3rem;position:relative}
+        .quote-box::before{content:'"';position:absolute;top:-10px;left:20px;font-size:5rem;color:var(--primary);opacity:0.2;font-family:Georgia,serif;line-height:1}
+        .quote-box p:first-child{font-style:italic;font-size:1.15rem;color:var(--text-dark);line-height:1.7}
+        .quote-box .author{margin-top:0.8rem;color:var(--primary);font-weight:600;font-size:0.9rem}
+
+        .pillar{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:2.5rem;margin-bottom:2rem;position:relative;overflow:hidden;transition:all 0.4s}
+        .pillar:hover{border-color:var(--primary);box-shadow:var(--shadow-gold)}
+        .pillar::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(to bottom,var(--primary),var(--accent-light));border-radius:2px}
+        .pillar-number{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--secondary);font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:1rem;box-shadow:0 4px 15px rgba(201,160,61,0.3)}
+        .pillar h2{margin-bottom:1rem;font-size:1.5rem}
+        .pillar h2::after{display:none}
+        .pillar p{color:var(--text-light);line-height:1.8;margin-bottom:0.8rem}
+        .pillar-icon{position:absolute;top:1.5rem;right:1.5rem;font-size:2.5rem;color:rgba(201,160,61,0.08)}
+
+        .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+        .value-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.2rem;text-align:center;transition:all 0.3s}
+        .value-card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:var(--shadow-gold)}
+        .value-card i{font-size:1.8rem;color:var(--primary);margin-bottom:0.6rem;display:block}
+        .value-card p{color:var(--text-light);font-size:0.88rem;font-weight:500}
+
+        .cta-manifesto{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius-xl);padding:3rem;text-align:center;margin-top:2rem;position:relative;overflow:hidden}
+        .cta-manifesto::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 60%)}
+        .cta-manifesto h2{color:var(--secondary)!important;margin-bottom:0.5rem}
+        .cta-manifesto h2::after{display:none}
+        .cta-manifesto p{color:rgba(10,15,30,0.7);margin-bottom:1.5rem;font-weight:500}
+        .cta-manifesto .prestige-btn{background:var(--secondary);color:var(--primary)}
+
+        .toc{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem}
+        .toc h3{color:var(--primary);margin-bottom:1rem}
+        .toc h3::after{display:none}
+        .toc-item{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 0;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-light);text-decoration:none;transition:color 0.2s;font-size:0.92rem}
+        .toc-item:hover{color:var(--primary)}
+        .toc-num{width:28px;height:28px;border-radius:50%;background:rgba(201,160,61,0.1);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0}
+    </style>
 </head>
 <body>
     <nav class="main-nav">
-        <div class="logo">
-            <img src="/images/maureen/portrait.png" alt="Maureen Ndung'u" class="logo-img">
-            <div>
-                <h2>Maureen Ndung'u</h2>
-                <p>MCA Candidate - Karen Ward</p>
-            </div>
-        </div>
+        <div class="logo"><img src="/images/maureen/portrait.png" alt="Maureen" class="logo-img"><div><h2>Maureen Ndung'u</h2><p>MCA Candidate - Karen Ward</p></div></div>
         <button class="menu-toggle" id="menuToggle">☰</button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/pages/about.html">About Maureen</a></li>
-            <li><a href="/pages/manifesto.html" class="active">Manifesto</a></li>
-            <li><a href="/pages/karen-facts.html">Facts About Karen</a></li>
-            <li><a href="/pages/forum.html">Community Forum</a></li>
-            <li><a href="/pages/get-involved.html">Get Involved</a></li>
-            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/index.html">Home</a></li><li><a href="/pages/about.html">About Maureen</a></li>
+            <li><a href="/pages/manifesto.html" class="active">Manifesto</a></li><li><a href="/pages/karen-facts.html">Facts About Karen</a></li>
+            <li><a href="/pages/articles.html">Articles & News</a></li><li><a href="/pages/forum.html">Community Forum</a></li>
+            <li><a href="/pages/get-involved.html">Get Involved</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
         </ul>
     </nav>
 
-    <div class="hero" style="margin-top: 70px;">
+    <div class="hero manifesto-hero" style="min-height:auto;padding:140px 20px 80px">
+        <img src="/images/karen_hero_bg.png" alt="" class="hero-bg-img" aria-hidden="true">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>My Manifesto for Karen Ward</h1>
+            <span class="badge badge-gold" style="margin-bottom:1rem;font-size:0.85rem"><i class="fas fa-scroll"></i> Official Manifesto 2026</span>
+            <h1>My Vision for Karen Ward</h1>
             <p class="tagline">Wanawake Tunaweza | Ubuntu: "I am because we are"</p>
-            <div style="margin-top: 1rem;">
-                <a href="/pdf/manifesto.html" target="_blank" class="prestige-btn" style="background: #27ae60;">📄 Download PDF Manifesto</a>
+            <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <a href="/pdf/manifesto.html" target="_blank" class="prestige-btn" style="background:linear-gradient(135deg,#1a6b4a,#22c47a);box-shadow:0 4px 20px rgba(34,196,122,0.3)"><i class="fas fa-file-pdf"></i> Download PDF</a>
+                <a href="#pillars" class="prestige-btn-outline" style="border-color:white;color:white"><i class="fas fa-arrow-down"></i> Read Below</a>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="quote-box" style="background: #f9f9f9; padding: 1.5rem; border-left: 4px solid #e67e22; margin-bottom: 2rem;">
-            <p style="font-style: italic; font-size: 1.1rem;">"The future belongs to those who believe in the beauty of their dreams"</p>
-            <p style="margin-top: 0.5rem;">— Eleanor Roosevelt</p>
+        <div class="quote-box reveal">
+            <p>"The future belongs to those who believe in the beauty of their dreams"</p>
+            <div class="author">— Eleanor Roosevelt</div>
         </div>
 
-        <div class="manifesto-section">
+        <!-- Table of Contents -->
+        <div class="toc reveal">
+            <h3><i class="fas fa-list"></i> In This Manifesto</h3>
+            <a href="#intro" class="toc-item"><span class="toc-num">•</span> Introduction & Vision</a>
+            <a href="#values" class="toc-item"><span class="toc-num">•</span> Core Values</a>
+            <a href="#p1" class="toc-item"><span class="toc-num">1</span> Investing in People</a>
+            <a href="#p2" class="toc-item"><span class="toc-num">2</span> Strong & Connected Communities</a>
+            <a href="#p3" class="toc-item"><span class="toc-num">3</span> Public Spaces & Infrastructure</a>
+            <a href="#p4" class="toc-item"><span class="toc-num">4</span> Youth Development & Education</a>
+            <a href="#p5" class="toc-item"><span class="toc-num">5</span> Supporting Local Businesses</a>
+            <a href="#p6" class="toc-item"><span class="toc-num">6</span> Environmental Sustainability</a>
+            <a href="#p7" class="toc-item"><span class="toc-num">7</span> Unity & Diversity</a>
+            <a href="#p8" class="toc-item"><span class="toc-num">8</span> Transparent Governance</a>
+        </div>
+
+        <!-- Introduction -->
+        <div class="pillar reveal" id="intro">
+            <i class="fas fa-book-open pillar-icon"></i>
             <h2>Introduction</h2>
             <p>This manifesto outlines a people-centered vision for Karen Ward. The goal is to strengthen community bonds, create opportunities for residents, support local businesses, and ensure that development benefits everyone.</p>
             <p>Karen Ward is one of the most vibrant and diverse communities in Nairobi. It is home to families, entrepreneurs, young professionals, students, and elders who contribute to the unique identity of the ward. Despite its strengths, many residents still face challenges relating to access to public services, economic opportunity, youth development, environmental sustainability, and inclusive participation in governance.</p>
         </div>
 
-        <div class="manifesto-section">
+        <div class="pillar reveal">
+            <i class="fas fa-eye pillar-icon"></i>
             <h2>Vision for Karen Ward</h2>
-            <p>A Karen Ward where every resident feels valued, heard, and empowered. A ward where communities are connected, businesses thrive, youth are supported, and public spaces are vibrant and safe.</p>
+            <p>A Karen Ward where every resident feels <strong style="color:var(--primary)">valued, heard, and empowered</strong>. A ward where communities are connected, businesses thrive, youth are supported, and public spaces are vibrant and safe.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>Core Values</h2>
-            <div class="prestige-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-                <div class="prestige-card"><div class="card-content">✓ Integrity and accountability in leadership</div></div>
-                <div class="prestige-card"><div class="card-content">✓ Inclusivity and respect for diversity</div></div>
-                <div class="prestige-card"><div class="card-content">✓ Community participation and civic engagement</div></div>
-                <div class="prestige-card"><div class="card-content">✓ Sustainable development and environmental responsibility</div></div>
-                <div class="prestige-card"><div class="card-content">✓ Investment in people and local opportunity</div></div>
+        <!-- Core Values -->
+        <div id="values" class="reveal">
+            <h2 class="section-title" style="margin-bottom:1.5rem">Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card"><i class="fas fa-balance-scale"></i><p>Integrity & Accountability</p></div>
+                <div class="value-card"><i class="fas fa-hands-helping"></i><p>Inclusivity & Diversity</p></div>
+                <div class="value-card"><i class="fas fa-users"></i><p>Community Participation</p></div>
+                <div class="value-card"><i class="fas fa-leaf"></i><p>Sustainable Development</p></div>
+                <div class="value-card"><i class="fas fa-seedling"></i><p>Investment in People</p></div>
             </div>
         </div>
 
-        <div class="manifesto-section">
-            <h2>1. Investing in People</h2>
-            <p>People are the foundation of every thriving community. Development must prioritize the wellbeing of residents. Initiatives will focus on access to healthcare information, youth programs, mentorship opportunities, and mental and physical wellbeing initiatives within the community.</p>
-            <p>Programs will include community wellness awareness campaigns, partnerships with local organizations to support youth education and mentorship, and community dialogue forums where residents can discuss issues affecting their daily lives.</p>
+        <!-- Pillars -->
+        <div id="pillars"></div>
+
+        <div class="pillar reveal" id="p1">
+            <div class="pillar-number">1</div><i class="fas fa-heart pillar-icon"></i>
+            <h2>Investing in People</h2>
+            <p>People are the foundation of every thriving community. Development must prioritize the wellbeing of residents. Initiatives will focus on access to healthcare information, youth programs, mentorship, and wellness initiatives.</p>
+            <p>Programs include community wellness campaigns, partnerships with local organizations for youth mentorship, and dialogue forums where residents discuss issues affecting daily life.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>2. Strong and Connected Communities</h2>
-            <p>Strong communities are built through trust and collaboration. Residents should feel connected to their neighbors and confident that their voices matter in decision-making.</p>
-            <p>Community engagement programs will include neighborhood forums, resident association collaboration, and volunteer initiatives that encourage residents to take active roles in improving their community.</p>
+        <div class="pillar reveal" id="p2">
+            <div class="pillar-number">2</div><i class="fas fa-link pillar-icon"></i>
+            <h2>Strong & Connected Communities</h2>
+            <p>Strong communities are built through trust and collaboration. Residents should feel connected to their neighbors and confident their voices matter in decision-making.</p>
+            <p>Community engagement programs include neighborhood forums, resident association collaboration, and volunteer initiatives encouraging active participation in improvement.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>3. Public Spaces and Community Infrastructure</h2>
-            <p>Public spaces are essential for community interaction and wellbeing. Parks, libraries, playgrounds, and community centers allow residents to gather, learn, and relax.</p>
-            <p>Efforts will focus on improving accessibility, safety, cleanliness, and maintenance of existing public spaces while also advocating for new spaces where needed.</p>
+        <div class="pillar reveal" id="p3">
+            <div class="pillar-number">3</div><i class="fas fa-building pillar-icon"></i>
+            <h2>Public Spaces & Infrastructure</h2>
+            <p>Public spaces are essential for community interaction. Parks, libraries, playgrounds, and community centres allow residents to gather, learn, and relax.</p>
+            <p>Focus areas: improving accessibility, safety, cleanliness, and maintenance of existing spaces while advocating for new spaces where needed.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>4. Youth Development and Education</h2>
-            <p>Youth represent the future of Karen Ward. Providing mentorship, skills development opportunities, and platforms for innovation will empower young people to build successful futures.</p>
-            <p>Youth forums, mentorship networks, entrepreneurship training sessions, and digital literacy programs will be supported to encourage innovation and leadership among young residents.</p>
+        <div class="pillar reveal" id="p4">
+            <div class="pillar-number">4</div><i class="fas fa-graduation-cap pillar-icon"></i>
+            <h2>Youth Development & Education</h2>
+            <p>Youth represent the future of Karen Ward. Providing mentorship, skills development, and platforms for innovation will empower young people to build successful futures.</p>
+            <p>Youth forums, mentorship networks, entrepreneurship training, and digital literacy programs will be supported to encourage innovation and leadership.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>5. Supporting Local Businesses</h2>
-            <p>Local businesses are critical drivers of economic growth. Supporting entrepreneurs, small businesses, and local employment opportunities strengthens the ward economy.</p>
-            <p>Engagement sessions with business owners will identify challenges and opportunities while encouraging collaboration and partnerships.</p>
+        <div class="pillar reveal" id="p5">
+            <div class="pillar-number">5</div><i class="fas fa-store pillar-icon"></i>
+            <h2>Supporting Local Businesses</h2>
+            <p>Local businesses are critical drivers of economic growth. Supporting entrepreneurs, small businesses, and local employment strengthens the ward economy.</p>
+            <p>Engagement with business owners will identify challenges and opportunities while encouraging collaboration and partnerships.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>6. Environmental Sustainability</h2>
-            <p>A clean and healthy environment contributes to the wellbeing of residents. Environmental initiatives will include community clean-up drives, tree planting programs, and public awareness campaigns on sustainable waste management.</p>
+        <div class="pillar reveal" id="p6">
+            <div class="pillar-number">6</div><i class="fas fa-tree pillar-icon"></i>
+            <h2>Environmental Sustainability</h2>
+            <p>A clean and healthy environment contributes to resident wellbeing. Initiatives include community clean-up drives, tree planting programs, and awareness campaigns on sustainable waste management.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>7. Unity and Diversity</h2>
-            <p>Karen Ward reflects the diversity of Kenya. A strong community respects different cultures, religions, and backgrounds while promoting unity and shared prosperity.</p>
+        <div class="pillar reveal" id="p7">
+            <div class="pillar-number">7</div><i class="fas fa-globe-africa pillar-icon"></i>
+            <h2>Unity & Diversity</h2>
+            <p>Karen Ward reflects Kenya's diversity. A strong community respects different cultures, religions, and backgrounds while promoting unity and shared prosperity.</p>
         </div>
 
-        <div class="manifesto-section">
-            <h2>8. Transparent Governance</h2>
-            <p>Leadership must be accountable and accessible. Residents should always have the opportunity to participate in discussions about ward development. Community consultations and regular communication will ensure transparency and trust.</p>
+        <div class="pillar reveal" id="p8">
+            <div class="pillar-number">8</div><i class="fas fa-eye pillar-icon"></i>
+            <h2>Transparent Governance</h2>
+            <p>Leadership must be accountable and accessible. Residents should always have the opportunity to participate in ward development discussions. Community consultations and regular communication will ensure transparency and trust.</p>
         </div>
 
-        <div class="manifesto-section" style="text-align: center; background: #e67e22; color: white;">
-            <p style="font-size: 1.2rem;">Together, we can build a Karen Ward that works for everyone.</p>
-            <p style="margin-top: 1rem;"><strong>Maureen Ndung'u</strong><br>Your Voice for Karen Ward</p>
-            <p style="margin-top: 0.5rem;">Wanawake Tunaweza</p>
+        <!-- Closing CTA -->
+        <div class="cta-manifesto reveal">
+            <h2>Together, We Build a Better Karen</h2>
+            <p>Maureen Ndung'u — Your Voice for Karen Ward</p>
+            <p style="color:rgba(10,15,30,0.6);font-style:italic;margin-bottom:1.5rem;font-size:0.95rem">Wanawake Tunaweza</p>
+            <a href="/pages/get-involved.html" class="prestige-btn"><i class="fas fa-hand-peace"></i> Join the Movement</a>
         </div>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a>
-        </div>
+        <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="https://www.linkedin.com/in/maureenndungu/"><i class="fab fa-linkedin"></i></a></div>
         <p>&copy; 2026 Maureen Ndung'u for MCA - Karen Ward. All rights reserved.</p>
         <p><small>Wanawake Tunaweza | Ubuntu: I am because we are</small></p>
     </footer>
 
-    <script src="/js/navigation.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
