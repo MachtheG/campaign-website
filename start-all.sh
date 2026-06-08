@@ -12,6 +12,11 @@ echo -e "${BLUE}   Maureen Ndung'u Campaign Website    ${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
 
+DETACH_MODE=0
+if [[ "$1" == "--detach" || "$1" == "-d" ]]; then
+    DETACH_MODE=1
+fi
+
 # Function to check if a port is in use
 check_port() {
     if ss -tulpn 2>/dev/null | grep -q ":$1 "; then
@@ -68,22 +73,39 @@ mkdir -p logs
 # Start WebSocket Server
 echo -e "${BLUE}🚀 Starting WebSocket Server...${NC}"
 cd ~/Desktop/campaign-website/qa-server
-npm start > ../logs/websocket.log 2>&1 &
-WS_PID=$!
-echo $WS_PID > ../logs/websocket.pid
-echo -e "${GREEN}✅ WebSocket server started (PID: $WS_PID)${NC}"
+if command -v pm2 >/dev/null 2>&1; then
+    pm2 start ecosystem.config.cjs --only campaign-qa --update-env >/dev/null 2>&1
+    WS_PID=$(pm2 pid campaign-qa | head -n1)
+    echo $WS_PID > ../logs/websocket.pid
+    echo -e "${GREEN}✅ WebSocket server started with PM2 (PID: $WS_PID)${NC}"
+else
+    npm start > ../logs/websocket.log 2>&1 &
+    WS_PID=$!
+    echo $WS_PID > ../logs/websocket.pid
+    echo -e "${YELLOW}⚠️  PM2 not found, started with npm (PID: $WS_PID)${NC}"
+fi
 echo -e "   Logs: ~/Desktop/campaign-website/logs/websocket.log"
 
 # Wait for WebSocket to initialize
 sleep 2
 
 # Check if WebSocket started successfully
-if ps -p $WS_PID > /dev/null; then
-    echo -e "${GREEN}✅ WebSocket server is running on port $WS_PORT${NC}"
+if command -v pm2 >/dev/null 2>&1; then
+    if [ "$(pm2 pid campaign-qa | head -n1)" != "0" ]; then
+        echo -e "${GREEN}✅ WebSocket server is running on port $WS_PORT (PM2 managed)${NC}"
+    else
+        echo -e "${RED}❌ WebSocket server failed to start under PM2. Check logs.${NC}"
+        cat ../logs/websocket.log
+        exit 1
+    fi
 else
-    echo -e "${RED}❌ WebSocket server failed to start. Check logs.${NC}"
-    cat ../logs/websocket.log
-    exit 1
+    if ps -p $WS_PID > /dev/null; then
+        echo -e "${GREEN}✅ WebSocket server is running on port $WS_PORT${NC}"
+    else
+        echo -e "${RED}❌ WebSocket server failed to start. Check logs.${NC}"
+        cat ../logs/websocket.log
+        exit 1
+    fi
 fi
 
 echo ""
@@ -128,6 +150,12 @@ echo -e "   WebSocket: ${BLUE}tail -f logs/websocket.log${NC}"
 echo ""
 echo -e "${RED}⚠️  To stop all servers, run: ${NC}./stop-all.sh"
 echo ""
+
+if [[ $DETACH_MODE -eq 1 ]]; then
+    echo -e "${GREEN}✅ Detached mode enabled. Startup complete; terminal released.${NC}"
+    echo -e "${YELLOW}Tip:${NC} Use ${BLUE}tail -f logs/websocket.log logs/website.log${NC} to stream logs."
+    exit 0
+fi
 
 # Keep script running and show live logs
 echo -e "${BLUE}📡 Live logs (press Ctrl+C to stop servers):${NC}"

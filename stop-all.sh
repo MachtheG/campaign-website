@@ -11,7 +11,11 @@ echo -e "${YELLOW}🛑 Stopping all servers...${NC}"
 # Stop WebSocket server
 if [ -f logs/websocket.pid ]; then
     WS_PID=$(cat logs/websocket.pid)
-    if ps -p $WS_PID > /dev/null 2>&1; then
+    if command -v pm2 >/dev/null 2>&1 && [ "$(pm2 pid campaign-qa | head -n1)" != "0" ]; then
+        pm2 stop campaign-qa >/dev/null 2>&1
+        pm2 delete campaign-qa >/dev/null 2>&1
+        echo -e "${GREEN}✅ WebSocket server stopped (PM2 process: campaign-qa)${NC}"
+    elif ps -p $WS_PID > /dev/null 2>&1; then
         kill $WS_PID
         echo -e "${GREEN}✅ WebSocket server stopped (PID: $WS_PID)${NC}"
     fi

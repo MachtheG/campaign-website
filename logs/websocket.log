@@ -2,42 +2,5 @@
 > maureen-campaign-qa@1.0.0 start
 > node server.js
 
-✅ Loaded 1 saved questions from file
-
-    🚀 Maureen Ndungu Campaign Q&A Server Started!
-    🌐 URL: http://localhost:3001
-    📡 WebSocket: ws://localhost:3001
-    📊 API: http://localhost:3001/api/questions
-    🔧 Admin: http://localhost:3001/admin.html
-    💾 Questions are saved to: /home/machtheg/Desktop/campaign-website/qa-server/questions.json
-    👥 Server running on port 3001
-    
-New client connected. Total clients: 1
-New client connected. Total clients: 2
-Client disconnected
-New client connected. Total clients: 2
-New client connected. Total clients: 3
-Client disconnected
-New client connected. Total clients: 3
-Client disconnected
-New client connected. Total clients: 3
-New client connected. Total clients: 4
-Client disconnected
-Client disconnected
-Client disconnected
-Client disconnected
-New client connected. Total clients: 1
-New client connected. Total clients: 2
-New client connected. Total clients: 3
-New client connected. Total clients: 4
-Client disconnected
-Client disconnected
-Client disconnected
-Client disconnected
-New client connected. Total clients: 1
-New client connected. Total clients: 2
-Client disconnected
-Client disconnected
-
-SIGTERM received, saving data...
-💾 Saved 1 questions to file
+Campaign Q&A server running on port 3001
+Health endpoint: http://localhost:3001/health
