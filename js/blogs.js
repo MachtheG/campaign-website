@@ -6,7 +6,7 @@
       category: "wellness",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-18",
-      imageUrl: "/assets/images/Nairobi sky.jpg",
+      imageUrl: "/assets/images/TrueHealth.png",
       excerpt: "Health is a snapshot, but wellness is an active journey. Real well-being starts when we move from simply being illness-free to intentionally thriving.",
       content: [
         { type: "p", text: "We often use the words health and wellness interchangeably, but they mean very different things. Health is often a neutral, static state: if your tests are normal and you are free from immediate illness, you are considered healthy." },
@@ -21,7 +21,7 @@
       category: "wellness",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-17",
-      imageUrl: "/assets/images/Green Karen.png",
+      imageUrl: "/assets/images/8pillars.png",
       excerpt: "Emotional, physical, occupational, interpersonal, spiritual, intellectual, environmental, and financial dimensions all work together to shape your wellness.",
       content: [
         { type: "p", text: "True wellness is not one target. It is a system of connected dimensions that influence each other over time." },
@@ -36,7 +36,7 @@
       category: "advocacy",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-16",
-      imageUrl: "/assets/images/Town Hall.png",
+      imageUrl: "/assets/images/voices.png",
       excerpt: "Mental health advocacy protects rights, fights stigma, and pushes for fair policy so people can access care without shame.",
       content: [
         { type: "p", text: "Mental health is part of our overall well-being. It shapes how we think, feel, and act in daily life, so caring for it is essential to a balanced and fulfilling life." },
@@ -51,7 +51,7 @@
       category: "connection",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-15",
-      imageUrl: "/assets/images/Youth Day.png",
+      imageUrl: "/assets/images/HumanC.png",
       excerpt: "Connection is the first of the 5 C's and one of the strongest protective factors for emotional resilience and mental well-being.",
       content: [
         { type: "p", text: "Human beings are wired for connection. In the 5 C's framework, Connection means meaningful relationships with family, friends, and colleagues." },
@@ -66,7 +66,7 @@
       category: "compassion",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-14",
-      imageUrl: "/images/events/campaign_rally_event.png",
+      imageUrl: "/assets/images/RadicalKindness.png",
       excerpt: "Compassion means replacing harsh self-criticism with understanding and extending that same grace to others.",
       content: [
         { type: "p", text: "When we fail or struggle, our inner critic often becomes loud and unforgiving. The second C, Compassion, offers a healthier response: kindness toward ourselves and others." },
@@ -81,7 +81,7 @@
       category: "coping",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-13",
-      imageUrl: "/images/events/environmental_clean_up.png",
+      imageUrl: "/assets/images/Storm.png",
       excerpt: "Healthy coping tools such as movement, mindfulness, and social support help us respond to stress with control and clarity.",
       content: [
         { type: "p", text: "Life includes uncertainty, pressure, and setbacks. Coping is the toolkit we use to navigate those moments without losing balance." },
@@ -96,7 +96,7 @@
       category: "community",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-12",
-      imageUrl: "/assets/images/Town Hall.png",
+      imageUrl: "/assets/images/Tribe.png",
       excerpt: "Community creates belonging, purpose, and support, reducing isolation and strengthening day-to-day mental resilience.",
       content: [
         { type: "p", text: "Community means belonging to a network that offers support, accountability, and shared purpose. It can be local or online, formal or informal." },
@@ -111,7 +111,7 @@
       category: "care",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-11",
-      imageUrl: "/images/events/community_youth_empowerment.png",
+      imageUrl: "/assets/images/proactive.png",
       excerpt: "Care means taking proactive ownership of mental well-being through self-care habits and professional support when needed.",
       content: [
         { type: "p", text: "Care, the final C, is about intentional action. Mental health does not improve by chance. It improves through consistent choices that protect mind and body." },
@@ -126,7 +126,7 @@
       category: "awareness",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-10",
-      imageUrl: "/assets/images/Town Hall.png",
+      imageUrl: "/assets/images/Youth Day.png",
       excerpt: "Mental health awareness dates are powerful reminders, but the real impact comes when awareness becomes a daily practice.",
       content: [
         { type: "p", text: "Global mental health dates unite communities and elevate urgent conversations." },
@@ -141,7 +141,7 @@
       category: "resilience",
       author: "Campaign Editorial Team",
       publishedAt: "2026-05-09",
-      imageUrl: "/assets/images/Youth Day.png",
+      imageUrl: "/assets/images/Green Karen.png",
       excerpt: "Mental health is not a final destination. The 5 C's help us stay steady through life changes, setbacks, and growth.",
       content: [
         { type: "p", text: "Mental resilience develops over time. Like physical fitness, it shifts with life seasons and requires ongoing practice." },
