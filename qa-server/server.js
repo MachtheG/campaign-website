@@ -11,8 +11,37 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 const app = express();
+app.disable('x-powered-by');
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
-app.use(cors());
+
+const DEFAULT_ALLOWED_ORIGINS = [
+  'https://votemaureen4karen.co.ke',
+  'https://www.votemaureen4karen.co.ke',
+  'https://maureen-campaign-qa.onrender.com',
+  'http://localhost:8000',
+  'http://127.0.0.1:8000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3001',
+  'https://api.votemaureen4karen.co.ke'
+].join(',');
+
+const ALLOW_ALL_ORIGINS = String(process.env.CORS_ALLOW_ALL || 'false') === 'true';
+const ALLOWED_ORIGINS = (process.env.CORS_ALLOWED_ORIGINS || DEFAULT_ALLOWED_ORIGINS)
+  .split(',')
+  .map((x) => x.trim())
+  .filter(Boolean);
+
+function isAllowedOrigin(origin) {
+  if (ALLOW_ALL_ORIGINS) return true;
+  if (!origin) return true;
+  return ALLOWED_ORIGINS.includes(origin);
+}
+
+app.use(cors({
+  origin: (origin, callback) => callback(null, isAllowedOrigin(origin)),
+  credentials: true,
+  optionsSuccessStatus: 204
+}));
 app.use(express.json({ limit: '20kb' }));
 
 const SITE_ROOT = path.join(__dirname, '..');
@@ -95,8 +124,8 @@ function appendFormSubmission(type, payload, delivered) {
 loadState();
 
 const defaultUsers = [
-  { username: 'admin', passwordHash: hash('admin2026!'), role: 'admin', displayName: 'System Admin' },
-  { username: 'candidate', passwordHash: hash('maureen2026!'), role: 'candidate', displayName: 'Maureen Candidate' }
+  { username: 'admin', passwordHash: hash('MachAdmin@1039'), role: 'admin', displayName: 'System Admin' },
+  { username: 'candidate', passwordHash: hash('MaureenChat@2027$'), role: 'candidate', displayName: 'Maureen Candidate' }
 ];
 
 const configuredUsers = (() => {
@@ -216,7 +245,14 @@ function broadcast(data, exclude = null) {
   });
 }
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, req) => {
+  const requestOrigin = req && req.headers ? req.headers.origin : null;
+
+  if (!isAllowedOrigin(requestOrigin)) {
+    ws.close(1008, 'Origin not allowed');
+    return;
+  }
+
   clients.add(ws);
   ws.send(JSON.stringify({ type: 'welcome', activeUsers: clients.size }));
   ws.send(JSON.stringify({ type: 'history', questions: publicQuestions().slice(-100) }));
@@ -362,7 +398,49 @@ app.post('/api/questions/:id/answer', adminLimiter, authenticate, authorizeRoles
   res.json({ success: true, question: q });
 });
 
-app.delete('/api/questions/:id', adminLimiter, authenticate, authorizeRoles('admin'), (req, res) => {
+app.patch('/api/questions/:id', adminLimiter, authenticate, authorizeRoles('candidate', 'admin'), (req, res) => {
+  const q = questions.find((x) => x.id === Number(req.params.id));
+  if (!q) return res.status(404).json({ error: 'Question not found' });
+
+  const updatedBy = req.user && req.user.sub ? req.user.sub : 'system';
+
+  if (Object.prototype.hasOwnProperty.call(req.body, 'question')) {
+    const nextQuestion = escText(req.body.question || '', 2000);
+    if (!nextQuestion || nextQuestion.length < 3) {
+      return res.status(400).json({ error: 'Edited question must be at least 3 characters.' });
+    }
+    q.question = nextQuestion;
+    q.questionEditedAt = now();
+    q.questionEditedBy = updatedBy;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(req.body, 'answer')) {
+    const nextAnswer = escText(req.body.answer || '', 5000);
+    if (!nextAnswer) {
+      return res.status(400).json({ error: 'Edited answer cannot be empty.' });
+    }
+    q.answer = nextAnswer;
+    q.answered = true;
+    q.answerTimestamp = now();
+    q.answerEditedAt = now();
+    q.answerEditedBy = updatedBy;
+    if (q.status === 'pending') q.status = 'approved';
+  }
+
+  if (Object.prototype.hasOwnProperty.call(req.body, 'status')) {
+    const status = String(req.body.status || '').toLowerCase();
+    if (!['approved', 'pending', 'flagged'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status' });
+    }
+    q.status = status;
+  }
+
+  saveState();
+  broadcast({ type: 'questionUpdated', question: q });
+  res.json({ success: true, question: q });
+});
+
+app.delete('/api/questions/:id', adminLimiter, authenticate, authorizeRoles('candidate', 'admin'), (req, res) => {
   const idx = questions.findIndex((x) => x.id === Number(req.params.id));
   if (idx === -1) return res.status(404).json({ error: 'Question not found' });
 

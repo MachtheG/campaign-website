@@ -63,8 +63,8 @@ Authentication endpoint:
 
 Default local credentials (change in production):
 
-- `admin` / `admin2026!`
-- `candidate` / `maureen2026!`
+- `admin` / `MachAdmin@1039`
+- `candidate` / `MaureenChat@2027$`
 
 Production override:
 
@@ -96,3 +96,37 @@ SMTP environment variables:
 - `FORM_FROM`
 
 If SMTP is not configured, submissions are still persisted to `qa-server/form-submissions.json` for manual follow-up.
+
+## KickHost + Render Production Setup
+
+Recommended architecture:
+
+- Frontend static files on KickHost: `https://votemaureen4karen.co.ke`
+- Backend realtime/API on Render (or equivalent Node host)
+
+### Frontend production endpoints
+
+Configured in `config.js`:
+
+- API: `https://api.votemaureen4karen.co.ke/api`
+- WebSocket: `wss://api.votemaureen4karen.co.ke`
+
+If your `api` subdomain is not live yet, temporarily switch `config.js` to your Render domain values.
+
+### Backend CORS and environment
+
+Use `qa-server/.env.example` as your template.
+
+Important variables:
+
+- `CORS_ALLOWED_ORIGINS=https://votemaureen4karen.co.ke,https://www.votemaureen4karen.co.ke`
+- `JWT_SECRET=<strong-random-secret>`
+- SMTP settings for volunteer/partner email routing
+
+### Quick production checks
+
+1. Homepage loads on `https://votemaureen4karen.co.ke`
+2. `https://api.votemaureen4karen.co.ke/health` returns status ok
+3. Forum questions load/submit from frontend
+4. Volunteer and partner forms submit successfully
+5. Admin panel opens and authenticates

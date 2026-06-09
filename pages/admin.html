@@ -19,10 +19,26 @@
         <div class="elegant-section" style="text-align:center">
             <h2>🔐 Admin Access</h2>
             <p style="color:var(--text-light);margin:1rem 0">The full admin panel runs on the QA server.</p>
-            <a href="http://localhost:3001/admin.html" class="prestige-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Open Admin Panel</a>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <a id="adminPanelLink" href="#" class="prestige-btn" target="_blank"><i class="fas fa-user-shield"></i> Open Admin Platform</a>
+                <a id="maureenPanelLink" href="#" class="prestige-btn-outline" target="_blank"><i class="fas fa-user"></i> Open Maureen Platform</a>
+            </div>
             <p style="color:var(--text-muted);margin-top:1rem;font-size:0.85rem">Make sure the QA server is running (port 3001). Sign in with your campaign role credentials.</p>
         </div>
     </div>
+    <script src="/config.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+    (function(){
+        const cfg = window.CAMPAIGN_CONFIG || { WS_URL: 'ws://localhost:3001' };
+        const baseUrl = cfg.WS_URL.replace(/^ws/, 'http') + '/admin.html';
+        const adminUrl = baseUrl + '?role=admin';
+        const maureenUrl = cfg.WS_URL.replace(/^ws/, 'http') + '/maureen.html';
+        const link = document.getElementById('adminPanelLink');
+        if (link) link.href = adminUrl;
+        const maureenLink = document.getElementById('maureenPanelLink');
+        if (maureenLink) maureenLink.href = maureenUrl;
+    })();
+    </script>
 </body>
 </html>

@@ -84,9 +84,19 @@
 
     <script>
     const API = window.location.origin + '/api';
+    const roleParam = new URLSearchParams(window.location.search).get('role');
+    const REQUIRED_ROLE = roleParam === 'candidate' ? 'candidate' : 'admin';
     let authToken = localStorage.getItem('campaignAuthToken') || '';
     let authRole = localStorage.getItem('campaignAuthRole') || '';
     let filter = 'all';
+    let questionsCache = [];
+
+    const dashboardTitle = document.querySelector('.admin-header h1');
+    if (dashboardTitle) {
+        dashboardTitle.innerHTML = REQUIRED_ROLE === 'candidate'
+            ? 'Maureen Moderation Portal <span class="role-chip" id="roleChip"></span>'
+            : 'Campaign Moderation Dashboard <span class="role-chip" id="roleChip"></span>';
+    }
 
     function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
 
@@ -106,6 +116,9 @@
             });
             const d = await r.json();
             if(!r.ok){throw new Error(d.error || 'Login failed');}
+            if(d.role !== REQUIRED_ROLE){
+                throw new Error('Unauthorized for this portal.');
+            }
             authToken = d.token;
             authRole = d.role;
             localStorage.setItem('campaignAuthToken', authToken);
@@ -137,6 +150,12 @@
     }
 
     function showAdmin(){
+        if(authRole !== REQUIRED_ROLE){
+            logout();
+            document.getElementById('loginError').textContent = 'Unauthorized for this portal.';
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
         document.getElementById('loginScreen').style.display='none';
         document.getElementById('adminPanel').style.display='block';
         document.getElementById('roleChip').textContent = authRole || 'viewer';
@@ -154,6 +173,7 @@
             const r = await fetch(API + '/moderation/questions', { headers: authHeaders() });
             if(r.status===401 || r.status===403){ logout(); return; }
             const d = await r.json();
+            questionsCache = d.questions;
             const answered = d.questions.filter(q=>q.answered).length;
             const pending = d.questions.filter(q=>q.status==='pending').length;
             const flagged = d.questions.filter(q=>q.status==='flagged').length;
@@ -174,7 +194,7 @@
             const c = document.getElementById('questions');
             if(!qs.length){c.innerHTML='<div class="empty">No questions in this view</div>';return;}
             c.innerHTML = qs.map(q=>{
-                const canDelete = authRole === 'admin';
+                const canDelete = authRole === 'admin' || authRole === 'candidate';
                 const canBan = authRole === 'admin';
                 return `
                 <div class="q-card ${q.answered?'answered':''} ${q.status||'pending'}">
@@ -186,6 +206,7 @@
                     ${q.answered?`<div class="q-answer-box"><strong>Response</strong><div>${esc(q.answer)}</div></div>`:`<textarea id="ans-${q.id}" rows="3" placeholder="Type response..."></textarea>`}
                     <div class="q-actions">
                         ${!q.answered?`<button class="btn-answer" onclick="answer(${q.id})">Answer</button>`:''}
+                        <button class="btn-answer" onclick="editQ(${q.id})">Edit</button>
                         <select class="status-select" onchange="setStatus(${q.id}, this.value)">
                             <option value="pending" ${(q.status||'pending')==='pending'?'selected':''}>Pending</option>
                             <option value="approved" ${(q.status||'pending')==='approved'?'selected':''}>Approved</option>
@@ -208,6 +229,34 @@
             method:'POST',
             headers:authHeaders(),
             body:JSON.stringify({ answer:a.value.trim() })
+        });
+        loadQuestions();
+    }
+
+    async function editQ(id){
+        const q = questionsCache.find(x=>x.id===id);
+        if(!q) return;
+
+        const nextQuestion = prompt('Edit question text:', q.question || '');
+        if(nextQuestion === null) return;
+
+        const existingAnswer = q.answer || '';
+        const nextAnswer = prompt('Edit answer text:', existingAnswer);
+        if(nextAnswer === null) return;
+
+        const payload = {
+            question: nextQuestion.trim(),
+            status: q.status || 'pending'
+        };
+
+        if(nextAnswer.trim()){
+            payload.answer = nextAnswer.trim();
+        }
+
+        await fetch(API + '/questions/' + id, {
+            method:'PATCH',
+            headers:authHeaders(),
+            body:JSON.stringify(payload)
         });
         loadQuestions();
     }

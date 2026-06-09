@@ -1,14 +1,14 @@
-// Configuration for Maureen's Campaign Website
-const config = {
-    // Production - Your Render server
-    WS_URL: 'wss://maureen-campaign-qa.onrender.com',
-    API_URL: 'https://maureen-campaign-qa.onrender.com/api'
-};
+// Runtime configuration for API/WebSocket endpoints.
+// Update PROD_API_URL and PROD_WS_URL before publishing if your backend host changes.
+(function () {
+    // Temporary production fallback while api subdomain DNS/custom-domain verification completes.
+    var PROD_API_URL = 'https://maureen-campaign-qa.onrender.com/api';
+    var PROD_WS_URL = 'wss://maureen-campaign-qa.onrender.com';
 
-// For local development
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    config.WS_URL = 'ws://localhost:3001';
-    config.API_URL = 'http://localhost:3001/api';
-}
+    var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
- export default config;
+    window.CAMPAIGN_CONFIG = {
+        API_URL: isLocal ? 'http://localhost:3001/api' : PROD_API_URL,
+        WS_URL: isLocal ? 'ws://localhost:3001' : PROD_WS_URL
+    };
+})();
