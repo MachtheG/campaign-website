@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Campaign Q&A</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#f0ece4;min-height:100vh}
+        .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+        .login-box{background:#111827;border:1px solid rgba(201,160,61,0.2);border-radius:16px;padding:2.5rem;max-width:440px;width:100%;text-align:center}
+        .login-box h1{color:#c9a03d;font-size:1.8rem;margin-bottom:0.5rem}
+        .login-box p{color:#a0a8b8;margin-bottom:1.2rem;font-size:0.9rem}
+        .login-box input{width:100%;padding:12px 14px;background:#0a0f1e;border:1px solid rgba(201,160,61,0.2);border-radius:8px;color:#f0ece4;font-size:0.95rem;margin-bottom:0.8rem}
+        .login-box input:focus{outline:none;border-color:#c9a03d}
+        .login-box button{width:100%;padding:12px;background:linear-gradient(135deg,#c9a03d,#a07828);color:#0a0f1e;border:none;border-radius:50px;font-weight:700;font-size:1rem;cursor:pointer}
+        .login-box .error{color:#ef4444;font-size:0.85rem;margin-top:0.5rem;display:none}
+        .login-box .server-note{color:#6b7280;font-size:0.78rem;margin-top:1rem;display:none}
+        .admin-panel{display:none;max-width:1040px;margin:0 auto;padding:20px}
+        .admin-header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;border-bottom:1px solid rgba(201,160,61,0.2);margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+        .admin-header h1{color:#c9a03d;font-size:1.5rem}
+        .role-chip{display:inline-block;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:700;background:rgba(201,160,61,0.18);color:#c9a03d;margin-left:0.5rem}
+        .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .tab{padding:8px 16px;border-radius:50px;border:1px solid rgba(201,160,61,0.2);background:transparent;color:#a0a8b8;cursor:pointer;font-size:0.82rem;transition:all 0.2s}
+        .tab.active,.tab:hover{background:#c9a03d;color:#0a0f1e;border-color:#c9a03d}
+        .q-card{background:#111827;border:1px solid rgba(201,160,61,0.1);border-radius:12px;padding:1.2rem;margin-bottom:1rem;border-left:3px solid #c9a03d}
+        .q-card.answered{border-left-color:#22c47a}
+        .q-card.pending{border-left-color:#f59e0b}
+        .q-card.flagged{border-left-color:#ef4444;background:rgba(239,68,68,0.05)}
+        .q-meta{display:flex;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem}
+        .q-name{color:#c9a03d;font-weight:600}
+        .q-time{color:#6b7280;font-size:0.8rem}
+        .q-text{color:#a0a8b8;margin-bottom:0.8rem;line-height:1.6}
+        .q-answer-box{background:rgba(34,196,122,0.08);border:1px solid rgba(34,196,122,0.2);padding:0.8rem;border-radius:8px;margin-bottom:0.8rem}
+        .q-answer-box strong{color:#22c47a}
+        .q-answer-box div{color:#a0a8b8;margin-top:0.3rem}
+        .q-actions{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center}
+        .q-actions button,.q-actions select{padding:6px 12px;border-radius:50px;border:none;cursor:pointer;font-size:0.78rem;font-weight:600}
+        .btn-answer{background:#1a6b4a;color:white}
+        .btn-delete{background:#7f1d1d;color:white}
+        .btn-ban{background:#78350f;color:white}
+        .btn-logout{background:transparent;border:1px solid rgba(201,160,61,0.3);color:#c9a03d;padding:8px 18px;border-radius:50px;cursor:pointer;font-size:0.85rem}
+        .status-select{background:#0a0f1e;color:#f0ece4;border:1px solid rgba(201,160,61,0.2)}
+        textarea{width:100%;padding:10px;background:#0a0f1e;border:1px solid rgba(201,160,61,0.2);border-radius:8px;color:#f0ece4;font-family:inherit;resize:vertical;margin-bottom:0.5rem}
+        textarea:focus{outline:none;border-color:#c9a03d}
+        .badge{display:inline-block;padding:3px 10px;border-radius:50px;font-size:0.7rem;font-weight:600;margin-left:0.5rem}
+        .badge-green{background:rgba(34,196,122,0.15);color:#22c47a}
+        .badge-orange{background:rgba(251,146,60,0.15);color:#fb923c}
+        .badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
+        .stats-row{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .stat-box{flex:1;min-width:120px;background:#111827;border:1px solid rgba(201,160,61,0.1);border-radius:12px;padding:1rem;text-align:center}
+        .stat-box .num{font-size:2rem;font-weight:700;color:#c9a03d}
+        .stat-box .label{color:#6b7280;font-size:0.8rem;margin-top:0.3rem}
+        .empty{text-align:center;padding:3rem;color:#6b7280}
+        .home-link{display:inline-block;margin-top:1.2rem;color:#6b7280;font-size:0.8rem;text-decoration:none}
+        .home-link:hover{color:#c9a03d}
+    </style>
+</head>
+<body>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>Secure Moderation Login</h1>
+            <p>Sign in with your portal password. Username is optional and will default to this portal role.</p>
+            <input type="text" id="usernameInput" placeholder="Username (optional)" autocomplete="username" autofocus>
+            <input type="password" id="passwordInput" placeholder="Password" autocomplete="current-password">
+            <button onclick="login()">Sign In</button>
+            <div class="error" id="loginError">Invalid credentials. Please try again.</div>
+            <div class="server-note" id="serverNote"></div>
+            <a class="home-link" href="/index.html"><i class="fas fa-arrow-left"></i> Back to campaign site</a>
+        </div>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h1>Campaign Moderation Dashboard <span class="role-chip" id="roleChip"></span></h1>
+            <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+        <div class="stats-row" id="statsRow"></div>
+        <div class="tabs">
+            <button class="tab active" data-filter="all">All</button>
+            <button class="tab" data-filter="pending">Pending</button>
+            <button class="tab" data-filter="approved">Approved</button>
+            <button class="tab" data-filter="answered">Answered</button>
+            <button class="tab" data-filter="flagged">Flagged</button>
+        </div>
+        <div id="questions"></div>
+    </div>
+
+    <script src="/config.js"></script>
+    <script>
+    // API base is resolved from config.js so this portal works no matter where the
+    // HTML is served from: KickHost (static) -> production API, localhost -> local API,
+    // or the Node backend itself (same origin).
+    const cfg = window.CAMPAIGN_CONFIG || {};
+    const API = cfg.API_URL || (window.location.origin + '/api');
+    const roleParam = new URLSearchParams(window.location.search).get('role');
+    const REQUIRED_ROLE = roleParam === 'candidate' ? 'candidate' : 'admin';
+    const tokenKey = REQUIRED_ROLE === 'candidate' ? 'campaignCandidateAuthToken' : 'campaignAdminAuthToken';
+    const roleKey = REQUIRED_ROLE === 'candidate' ? 'campaignCandidateAuthRole' : 'campaignAdminAuthRole';
+    let authToken = localStorage.getItem(tokenKey) || '';
+    let authRole = localStorage.getItem(roleKey) || '';
+    let filter = 'all';
+    let questionsCache = [];
+
+    const dashboardTitle = document.querySelector('.admin-header h1');
+    if (dashboardTitle) {
+        dashboardTitle.innerHTML = REQUIRED_ROLE === 'candidate'
+            ? 'Maureen Moderation Portal <span class="role-chip" id="roleChip"></span>'
+            : 'Campaign Moderation Dashboard <span class="role-chip" id="roleChip"></span>';
+    }
+
+    function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+    async function login(){
+        const typedUsername = document.getElementById('usernameInput').value.trim();
+        const username = typedUsername || REQUIRED_ROLE;
+        const password = document.getElementById('passwordInput').value;
+        const errEl = document.getElementById('loginError');
+        const noteEl = document.getElementById('serverNote');
+        if(!password){
+            errEl.textContent = 'Password is required.';
+            errEl.style.display = 'block';
+            return;
+        }
+        try{
+            const r = await fetch(API + '/auth/login', {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({ username, password })
+            });
+            const d = await r.json();
+            if(!r.ok){throw new Error(d.error || 'Login failed');}
+            if(d.role !== REQUIRED_ROLE){
+                throw new Error('Unauthorized for this portal.');
+            }
+            authToken = d.token;
+            authRole = d.role;
+            localStorage.setItem(tokenKey, authToken);
+            localStorage.setItem(roleKey, authRole);
+            showAdmin();
+        }catch(e){
+            errEl.textContent = e.message || 'Login failed';
+            errEl.style.display = 'block';
+            if(e instanceof TypeError){
+                errEl.textContent = 'Cannot reach the moderation server.';
+                noteEl.textContent = 'Trying to reach: ' + API + '. Make sure the Q&A server is running.';
+                noteEl.style.display = 'block';
+            }
+        }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keypress',e=>{if(e.key==='Enter')login();});
+    document.getElementById('usernameInput').addEventListener('keypress',e=>{if(e.key==='Enter')login();});
+
+    function authHeaders(extra){
+        return Object.assign({
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+        }, extra || {});
+    }
+
+    function logout(){
+        localStorage.removeItem(tokenKey);
+        localStorage.removeItem(roleKey);
+        authToken = '';
+        authRole = '';
+        document.getElementById('adminPanel').style.display='none';
+        document.getElementById('loginScreen').style.display='flex';
+    }
+
+    function showAdmin(){
+        if(authRole !== REQUIRED_ROLE){
+            logout();
+            document.getElementById('loginError').textContent = 'Unauthorized for this portal.';
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
+        document.getElementById('loginScreen').style.display='none';
+        document.getElementById('adminPanel').style.display='block';
+        document.getElementById('roleChip').textContent = authRole || 'viewer';
+        loadQuestions();
+    }
+
+    function statusBadge(status){
+        if(status==='approved') return '<span class="badge badge-green">Approved</span>';
+        if(status==='flagged') return '<span class="badge badge-red">Flagged</span>';
+        return '<span class="badge badge-orange">Pending</span>';
+    }
+
+    async function loadQuestions(){
+        try{
+            const r = await fetch(API + '/moderation/questions', { headers: authHeaders() });
+            if(r.status===401 || r.status===403){ logout(); return; }
+            const d = await r.json();
+            questionsCache = d.questions;
+            const answered = d.questions.filter(q=>q.answered).length;
+            const pending = d.questions.filter(q=>q.status==='pending').length;
+            const flagged = d.questions.filter(q=>q.status==='flagged').length;
+            const approved = d.questions.filter(q=>q.status==='approved').length;
+            document.getElementById('statsRow').innerHTML = `
+                <div class="stat-box"><div class="num">${d.total}</div><div class="label">Total</div></div>
+                <div class="stat-box"><div class="num">${pending}</div><div class="label">Pending</div></div>
+                <div class="stat-box"><div class="num">${approved}</div><div class="label">Approved</div></div>
+                <div class="stat-box"><div class="num">${answered}</div><div class="label">Answered</div></div>
+                <div class="stat-box"><div class="num">${flagged}</div><div class="label">Flagged</div></div>`;
+
+            let qs = d.questions;
+            if(filter==='pending') qs = qs.filter(q=>q.status==='pending');
+            if(filter==='approved') qs = qs.filter(q=>q.status==='approved');
+            if(filter==='answered') qs = qs.filter(q=>q.answered);
+            if(filter==='flagged') qs = qs.filter(q=>q.status==='flagged');
+
+            const c = document.getElementById('questions');
+            if(!qs.length){c.innerHTML='<div class="empty">No questions in this view</div>';return;}
+            c.innerHTML = qs.map(q=>{
+                const canDelete = authRole === 'admin';
+                const canBan = authRole === 'admin';
+                return `
+                <div class="q-card ${q.answered?'answered':''} ${q.status||'pending'}">
+                    <div class="q-meta">
+                        <span><span class="q-name">${esc(q.name)}</span>${statusBadge(q.status||'pending')}${q.answered?'<span class="badge badge-green">Answered</span>':''}</span>
+                        <span class="q-time">${new Date(q.timestamp).toLocaleString()} · 👍 ${q.votes||0}</span>
+                    </div>
+                    <div class="q-text">${esc(q.question)}</div>
+                    ${q.answered?`<div class="q-answer-box"><strong>Response</strong><div>${esc(q.answer)}</div></div>`:`<textarea id="ans-${q.id}" rows="3" placeholder="Type response..."></textarea>`}
+                    <div class="q-actions">
+                        ${!q.answered?`<button class="btn-answer" onclick="answer(${q.id})">Answer</button>`:''}
+                        <button class="btn-answer" onclick="editQ(${q.id})">Edit</button>
+                        <select class="status-select" onchange="setStatus(${q.id}, this.value)">
+                            <option value="pending" ${(q.status||'pending')==='pending'?'selected':''}>Pending</option>
+                            <option value="approved" ${(q.status||'pending')==='approved'?'selected':''}>Approved</option>
+                            <option value="flagged" ${(q.status||'pending')==='flagged'?'selected':''}>Flagged</option>
+                        </select>
+                        ${canBan?`<button class="btn-ban" onclick="toggleBan('${q.participantId||''}')">Ban/Unban User</button>`:''}
+                        ${canDelete?`<button class="btn-delete" onclick="deleteQ(${q.id})">Delete</button>`:''}
+                    </div>
+                </div>`;
+            }).join('');
+        }catch(e){
+            document.getElementById('questions').innerHTML='<div class="empty">Cannot connect to server ('+esc(API)+')</div>';
+        }
+    }
+
+    async function answer(id){
+        const a = document.getElementById('ans-' + id);
+        if(!a || !a.value.trim()) return;
+        await fetch(API + '/questions/' + id + '/answer', {
+            method:'POST',
+            headers:authHeaders(),
+            body:JSON.stringify({ answer:a.value.trim() })
+        });
+        loadQuestions();
+    }
+
+    async function editQ(id){
+        const q = questionsCache.find(x=>x.id===id);
+        if(!q) return;
+
+        const nextQuestion = prompt('Edit question text:', q.question || '');
+        if(nextQuestion === null) return;
+
+        const existingAnswer = q.answer || '';
+        const nextAnswer = prompt('Edit answer text:', existingAnswer);
+        if(nextAnswer === null) return;
+
+        const payload = {
+            question: nextQuestion.trim(),
+            status: q.status || 'pending'
+        };
+
+        if(nextAnswer.trim()){
+            payload.answer = nextAnswer.trim();
+        }
+
+        await fetch(API + '/questions/' + id, {
+            method:'PATCH',
+            headers:authHeaders(),
+            body:JSON.stringify(payload)
+        });
+        loadQuestions();
+    }
+
+    async function setStatus(id, status){
+        await fetch(API + '/questions/' + id + '/status', {
+            method:'PATCH',
+            headers:authHeaders(),
+            body:JSON.stringify({ status })
+        });
+        loadQuestions();
+    }
+
+    async function deleteQ(id){
+        if(!confirm('Delete this question permanently?')) return;
+        await fetch(API + '/questions/' + id, {
+            method:'DELETE',
+            headers:{ 'Authorization': 'Bearer ' + authToken }
+        });
+        loadQuestions();
+    }
+
+    async function toggleBan(participantId){
+        if(!participantId) return;
+        const status = prompt('Set user status: active or banned', 'banned');
+        if(!status) return;
+        await fetch(API + '/users/' + participantId + '/status', {
+            method:'PATCH',
+            headers:authHeaders(),
+            body:JSON.stringify({ status: status.toLowerCase() })
+        });
+        loadQuestions();
+    }
+
+    document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        filter = t.dataset.filter;
+        loadQuestions();
+    }));
+
+    if(authToken && authRole){ showAdmin(); }
+    setInterval(()=>{ if(authToken) loadQuestions(); }, 8000);
+    </script>
+</body>
+</html>

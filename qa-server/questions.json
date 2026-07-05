@@ -1,35 +1,11 @@
 {
   "questions": [
     {
-      "id": 4,
+      "id": 5,
       "name": "Karen Resident",
       "participantId": "1c5ddda23c45b77e0fda",
-      "question": "What is your 90 day plan?",
-      "timestamp": "2026-06-08T09:43:24.487Z",
-      "votes": 0,
-      "answered": false,
-      "answer": null,
-      "answerTimestamp": null,
-      "status": "pending"
-    },
-    {
-      "id": 3,
-      "name": "Karen Resident",
-      "participantId": "1c5ddda23c45b77e0fda",
-      "question": "What is your 90 day plan?",
-      "timestamp": "2026-06-08T09:40:50.382Z",
-      "votes": 0,
-      "answered": false,
-      "answer": null,
-      "answerTimestamp": null,
-      "status": "pending"
-    },
-    {
-      "id": 2,
-      "name": "Karen Resident",
-      "participantId": "1c5ddda23c45b77e0fda",
-      "question": "What is your 90 day plan?",
-      "timestamp": "2026-06-08T09:40:26.927Z",
+      "question": "What motivated you to run for office?",
+      "timestamp": "2026-06-15T15:45:30.576Z",
       "votes": 0,
       "answered": false,
       "answer": null,
@@ -44,7 +20,8 @@
       "votes": 0,
       "answered": true,
       "answer": "Our offices are based in the Hub Karen.",
-      "answerTimestamp": "2026-04-01T12:55:36.043Z"
+      "answerTimestamp": "2026-04-01T12:55:36.043Z",
+      "status": "approved"
     }
   ],
   "participants": {
@@ -53,9 +30,9 @@
       "displayName": "Karen Resident",
       "status": "active",
       "createdAt": "2026-06-08T09:40:26.926Z",
-      "updatedAt": "2026-06-08T09:43:24.487Z"
+      "updatedAt": "2026-06-15T15:45:30.576Z"
     }
   },
-  "nextQuestionId": 5,
-  "lastSaved": "2026-06-08T09:47:52.950Z"
+  "nextQuestionId": 6,
+  "lastSaved": "2026-06-15T15:45:30.576Z"
 }

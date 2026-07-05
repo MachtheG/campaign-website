@@ -1,0 +1,31 @@
+127.0.0.1 - - [06/Jul/2026 00:48:05] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:48:05] "GET /admin.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:48:05] "GET /maureen.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:48:05] "GET /pages/raison-detre.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:32] "GET /pages/raison-detre.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:32] "GET /assets/images/Maureen%20pic%201.jpeg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:32] "GET /css/campaign.css HTTP/1.1" 304 -
+127.0.0.1 - - [06/Jul/2026 00:52:32] "GET /js/navigation.js HTTP/1.1" 304 -
+127.0.0.1 - - [06/Jul/2026 00:52:34] code 404, message File not found
+127.0.0.1 - - [06/Jul/2026 00:52:34] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [06/Jul/2026 00:52:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:46] "GET /css/campaign.css HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:46] "GET /assets/images/Nairobi%20sky.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:46] "GET /assets/images/Maureen%20pic%201.jpeg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:46] "GET /assets/images/Green%20Karen.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:47] "GET /assets/images/Town%20Hall.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:47] "GET /config.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:47] "GET /js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:47] "GET /js/chatbot.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:47] "GET /assets/images/Youth%20Day.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:47] code 404, message File not found
+127.0.0.1 - - [06/Jul/2026 00:52:47] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /assets/images/Nairobi%20sky.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /assets/images/Green%20Karen.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /assets/images/Town%20Hall.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /config.js HTTP/1.1" 304 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /js/chatbot.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /assets/images/Youth%20Day.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 00:54:20] "GET /admin.html HTTP/1.1" 200 -

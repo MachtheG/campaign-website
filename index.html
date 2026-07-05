@@ -41,11 +41,12 @@
         .cta-section h2::after { background:linear-gradient(90deg,transparent,var(--primary),transparent); left:50%; transform:translateX(-50%); }
         .cta-section p { color:rgba(255,255,255,0.8); margin-bottom:2rem; font-size:1.1rem; }
 
-        .hero-bg-img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:brightness(0.35) saturate(1.2); animation:heroZoom 30s ease-in-out infinite alternate; }
+        .hero-bg-img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:brightness(0.35) saturate(1.2); animation:heroZoom 30s ease-in-out infinite alternate; pointer-events:none; }
         @keyframes heroZoom { 0%{transform:scale(1)} 100%{transform:scale(1.08)} }
-        .hero-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; background:linear-gradient(135deg,rgba(10,15,30,0.75),rgba(26,42,58,0.6),rgba(10,15,30,0.8)); }
-        .hero-particles { position:absolute; top:0; left:0; width:100%; height:100%; z-index:2; }
+        .hero-overlay { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; background:linear-gradient(135deg,rgba(10,15,30,0.75),rgba(26,42,58,0.6),rgba(10,15,30,0.8)); pointer-events:none; }
+        .hero-particles { position:absolute; top:0; left:0; width:100%; height:100%; z-index:2; pointer-events:none; }
         .particle { position:absolute; background:var(--primary); border-radius:50%; opacity:0.5; animation:particleFloat 6s ease-in-out infinite; box-shadow:0 0 8px rgba(201,160,61,0.4); }
+        .hero .hero-content { z-index:3; }
         @keyframes particleFloat { 0%,100%{transform:translateY(0) translateX(0);opacity:0.3} 25%{transform:translateY(-40px) translateX(20px);opacity:0.7} 50%{transform:translateY(-20px) translateX(-15px);opacity:0.5} 75%{transform:translateY(-50px) translateX(10px);opacity:0.6} }
         .hero-img { animation:floatImg 4s ease-in-out infinite, heroPulse 3s ease-in-out infinite alternate !important; }
         @keyframes heroPulse { 0%{box-shadow:0 0 0 8px rgba(201,160,61,0.15),0 20px 60px rgba(0,0,0,0.4)} 100%{box-shadow:0 0 0 12px rgba(201,160,61,0.3),0 20px 80px rgba(201,160,61,0.2)} }
@@ -85,7 +86,7 @@
             <p class="tagline">Your Voice for Karen Ward | Langata Constituency</p>
             <p class="hero-text">Wanawake Tunaweza | Ubuntu: "I am because we are"</p>
             <div class="hero-buttons">
-                <a href="#community-forum" class="prestige-btn"><i class="fas fa-comments"></i> Join the Conversation</a>
+                <a href="/pages/forum.html" class="prestige-btn"><i class="fas fa-comments"></i> Join the Conversation</a>
                 <a href="/pages/get-involved.html#volunteer-signup" class="prestige-btn-outline"><i class="fas fa-hand-peace"></i> Volunteer</a>
                 <a href="/pages/manifesto.html" class="prestige-btn" style="background:linear-gradient(135deg,#1a6b4a,#22c47a);box-shadow:0 4px 20px rgba(34,196,122,0.3)"><i class="fas fa-file-alt"></i> View Manifesto</a>
             </div>
@@ -218,6 +219,7 @@
         <p><small>Wanawake Tunaweza | Ubuntu: I am because we are</small></p>
     </footer>
 
+    <script src="/config.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/chatbot.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -235,14 +237,17 @@
         document.querySelectorAll('.stat-number').forEach(el=>statsObs.observe(el));
 
         // Load contribution count
-        fetch('http://localhost:3001/api/contributions').then(r=>r.json()).then(d=>{
+        const cfg = window.CAMPAIGN_CONFIG || { API_URL: 'http://localhost:3001/api', WS_URL: 'ws://localhost:3001' };
+        fetch(cfg.API_URL + '/contributions').then(r=>r.json()).then(d=>{
             const el=document.getElementById('contribCounter');
             if(el)animateCounter(el,d.count||0,2000);
         }).catch(()=>{});
     });
 
     // Q&A System
-    const WS_URL='ws://localhost:3001', API_URL='http://localhost:3001/api';
+    const RUNTIME_CFG = window.CAMPAIGN_CONFIG || { API_URL: 'http://localhost:3001/api', WS_URL: 'ws://localhost:3001' };
+    const WS_URL = RUNTIME_CFG.WS_URL;
+    const API_URL = RUNTIME_CFG.API_URL;
     let socket=null;
     function connectWebSocket(){
         try{socket=new WebSocket(WS_URL);

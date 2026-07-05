@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 const app = express();
+app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
 

@@ -95,9 +95,12 @@
         <p>&copy; 2026 Maureen Ndungu for MCA - Karen Ward. All rights reserved.</p>
     </footer>
 
+    <script src="/config.js"></script>
     <script src="/js/main.js"></script>
     <script>
-    const API_URL='http://localhost:3001/api',WS_URL='ws://localhost:3001';
+    const RUNTIME_CFG = window.CAMPAIGN_CONFIG || { API_URL: 'http://localhost:3001/api', WS_URL: 'ws://localhost:3001' };
+    const API_URL = RUNTIME_CFG.API_URL;
+    const WS_URL = RUNTIME_CFG.WS_URL;
     let socket=null,currentPage=1,perPage=10,allQuestions=[];
 
     function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}

@@ -1,6 +1,19 @@
 (function () {
   const blogs = [
     {
+      id: "raison-detre",
+      title: "Raison d'être",
+      category: "personal",
+      author: "Maureen Nyaguthii Ndung'u",
+      publishedAt: "2026-07-06",
+      imageUrl: "/assets/images/Maureen pic 1.jpeg",
+      url: "/pages/raison-detre.html",
+      excerpt: "“Reason for being.” A personal reflection on why I am running for MCA, Karen Ward in the 2027 general elections — and why now.",
+      content: [
+        { type: "p", text: "Reason for being. A personal reflection on why I am running for MCA, Karen Ward in the 2027 general elections, and why now." }
+      ]
+    },
+    {
       id: "blog-1",
       title: "The Wellness Equation: Why True Health is More Than Just the Absence of Illness",
       category: "wellness",
@@ -213,7 +226,8 @@
       community: "Community",
       care: "Care",
       awareness: "Awareness",
-      resilience: "Resilience"
+      resilience: "Resilience",
+      personal: "Personal"
     };
     return map[cat] || cat || "General";
   }
@@ -291,13 +305,15 @@
           '<div class="article-source"><i class="fas fa-user-edit"></i> ' + esc(blog.author) + "</div>" +
           '<h3 class="article-title">' + esc(blog.title) + "</h3>" +
           '<p class="article-excerpt">' + esc(blog.excerpt) + "</p>" +
-          '<a href="#" class="read-more" data-id="' + esc(blog.id) + '">Read More <i class="fas fa-book-open"></i></a>' +
+          (blog.url
+            ? '<a href="' + esc(blog.url) + '" class="read-more">Read More <i class="fas fa-book-open"></i></a>'
+            : '<a href="#" class="read-more" data-id="' + esc(blog.id) + '">Read More <i class="fas fa-book-open"></i></a>') +
           "</div></article>"
         );
       })
       .join("");
 
-    grid.querySelectorAll(".read-more").forEach(function (btn) {
+    grid.querySelectorAll(".read-more[data-id]").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         previewBlog(btn.dataset.id);
@@ -328,7 +344,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     const statusEl = document.getElementById("cmsStatus");
     if (statusEl) {
-      statusEl.textContent = "10 hardcoded mental wellness blogs loaded.";
+      statusEl.textContent = blogs.length + " blog posts loaded.";
     }
 
     ensureCategoryButtons(blogs);
