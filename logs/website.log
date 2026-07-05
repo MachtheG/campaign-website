@@ -29,3 +29,15 @@
 127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /js/main.js HTTP/1.1" 200 -
 127.0.0.1 - - [06/Jul/2026 00:52:58] "GET /assets/images/Youth%20Day.png HTTP/1.1" 200 -
 127.0.0.1 - - [06/Jul/2026 00:54:20] "GET /admin.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:08] "GET /pages/forum.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /pages/articles.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /js/blogs.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/HumanC.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/RadicalKindness.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/TrueHealth.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/8pillars.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/Storm.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/voices.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/Tribe.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:09] "GET /assets/images/proactive.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jul/2026 01:19:38] "GET /pages/raison-detre.html HTTP/1.1" 304 -
